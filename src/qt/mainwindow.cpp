@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setFixedSize(width(), height());
-    tcpserver = new QTcpServer();
+    //tcpserver = new QTcpServer();
 }
 
 MainWindow::~MainWindow()
@@ -29,19 +29,35 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
+    qDebug() << Q_FUNC_INFO;
     qDebug() << ui->lineEdit->text();
+    QString ip = ui->ip2->text();
+    quint16 port = 0000;
+    port = ui->port2->text().toUShort();
+    qDebug() << port;
     tcpsocket = new QTcpSocket();
-    QHostAddress hostadd("192.168.0.102");
-    tcpsocket->connectToHost(hostadd, 8333);
+    QHostAddress hostadd("95.71.66.118");
+    tcpsocket->connectToHost(hostadd, port);
+
+    qDebug() << tcpsocket->state();
     QByteArray data = "DEBUG";//ui->lineEdit->text();
-    qDebug() << data;
+    //qDebug() << data;
     tcpsocket->write(data);
+    qDebug() << tcpsocket->state();
+
 }
 
 void MainWindow::on_listen_clicked()
 {
+    qDebug() << Q_FUNC_INFO;
+    tcpserver = new QTcpServer;
 
-    QString ip = ui->ip->text();
+    tcpserver->listen(QHostAddress::Any);
+    qDebug() << tcpserver->serverPort();
+    qDebug() << tcpserver->serverAddress().toString();
+    QObject::connect(tcpserver, SIGNAL(newConnection()),
+                     this, SLOT(on_newTcpConnection()));
+    /*QString ip = ui->ip->text();
     quint16 port = 0000;
     port = ui->port->text().toUShort();
     qDebug() << "ip:" << ip;
@@ -54,11 +70,34 @@ void MainWindow::on_listen_clicked()
        return;
     }
     mTcpSocket = new QTcpSocket();//mTcpServer->nextPendingConnection();
-    mTcpSocket->connectToHost(hostadd, port);
+    mTcpSocket->connectToHost(hostadd, port);*/
     //tcpserver->connect(mTcpSocket, &QTcpSocket::readyRead, this, &MainWindow::slotServerRead);
 }
 
 void MainWindow::slotServerRead()
 {
+    qDebug() << Q_FUNC_INFO;
     qDebug() << "slotRead";
+}
+
+void MainWindow::on_newTcpConnection()
+{
+    qDebug() << Q_FUNC_INFO;
+    m_tcpSocket = tcpserver->nextPendingConnection();
+    connect(m_tcpSocket, SIGNAL(readyRead()),
+            this, SLOT(on_tcpReadyRead()));
+//    connect(m_tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
+//            this, SLOT(displayError(QAbstractSocket::SocketError)));
+
+//    serverStatusLabel->setText(tr("Accepted connection"));
+    //m_tcpServer->close();
+    qDebug() << "Sending: Testing new TCP Connection!";
+    m_tcpSocket->write("Testing new TCP Connection!");
+    //m_state = CONNECTED_TCP_SOCKET;
+}
+
+void MainWindow::on_tcpReadyRead()
+{
+    qDebug() << Q_FUNC_INFO;
+    qDebug() << "\t" << qPrintable(m_tcpSocket->readAll());
 }

@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT       += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = UnicornCoin
@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         qt\main.cpp \
-        qt\mainwindow.cpp
+        qt\mainwindow.cpp \
+    qt/Server.cpp
 
 HEADERS += \
-        qt\mainwindow.h
+        qt\mainwindow.h \
+    qt/Server.h
 
 FORMS += \
         qt\forms\mainwindow.ui

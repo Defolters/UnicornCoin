@@ -127,3 +127,38 @@ void MainWindow::on_pushButton_4_clicked()
 
     qDebug() << tcpsocket->state();
 }
+
+void MainWindow::on_actionwallet_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_actionsend_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_actionrecieve_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_actionhistory_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_actiondatabase_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+}
+
+void MainWindow::on_actionaddressbook_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::on_actionminer_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(6);
+}

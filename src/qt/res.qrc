@@ -1,5 +1,17 @@
 <RCC>
     <qresource prefix="/icons">
         <file>res/icons/error.png</file>
+        <file>res/icons/addressbook.png</file>
+        <file>res/icons/database.png</file>
+        <file>res/icons/history.png</file>
+        <file>res/icons/home.png</file>
+        <file>res/icons/left.png</file>
+        <file>res/icons/miner.png</file>
+        <file>res/icons/recieve.png</file>
+        <file>res/icons/send.png</file>
+        <file>res/icons/settings.png</file>
+        <file>res/icons/success.png</file>
+        <file>res/icons/UnicornCoin.png</file>
+        <file>res/icons/wallet.png</file>
     </qresource>
 </RCC>

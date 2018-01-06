@@ -30,6 +30,20 @@ public slots:
 private slots:
     void on_pushButton_4_clicked();
 
+    void on_actionwallet_triggered();
+
+    void on_actionminer_triggered();
+
+    void on_actionsend_triggered();
+
+    void on_actionrecieve_triggered();
+
+    void on_actionhistory_triggered();
+
+    void on_actiondatabase_triggered();
+
+    void on_actionaddressbook_triggered();
+
 private:
     Ui::MainWindow *ui;
     QTcpServer *tcpserver;

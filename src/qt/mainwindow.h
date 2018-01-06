@@ -26,6 +26,7 @@ public slots:
     void slotServerRead();
     void on_newTcpConnection();
     void on_tcpReadyRead();
+    void change_data(QString array, QString label);
 private slots:
     void on_pushButton_4_clicked();
 
@@ -35,7 +36,7 @@ private:
     QTcpSocket *tcpsocket;
     QTcpSocket *mTcpSocket;
     QTcpSocket *m_tcpSocket;
-    server server;
+    Server *server;
 };
 
 #endif // MAINWINDOW_H

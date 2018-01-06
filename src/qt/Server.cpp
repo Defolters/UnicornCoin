@@ -1,6 +1,6 @@
 #include "Server.h"
-
-server::server(QObject *parent) : QTcpServer(parent) {
+#include "mainwindow.h"
+Server::Server(QObject *parent) : QTcpServer(parent) {
     connect( &server_socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(tcpError(QAbstractSocket::SocketError)) );
     connect( &server_socket, SIGNAL(readyRead()),
@@ -8,25 +8,37 @@ server::server(QObject *parent) : QTcpServer(parent) {
     server_socket.setSocketOption(QAbstractSocket::KeepAliveOption, true );
 }
 
-server::~server() {
+Server::~Server() {
     server_socket.disconnectFromHost();
     server_socket.waitForDisconnected();
 }
 
-void server::tcpReady() {
+void Server::addUI(MainWindow *mw)
+{
+    qDebug() << Q_FUNC_INFO;
+    this->mw = mw;
+}
+
+void Server::tcpReady() {
     qDebug() << Q_FUNC_INFO;
 
     QByteArray array = server_socket.read(server_socket.bytesAvailable());
-    qDebug() << array;
+    qDebug() <<"serverarray " <<array;
+    QString str;
+    str = QString::fromUtf8(array);
+    //str = "str";
+    mw->change_data(str, "label_3");
+    /**/
+
 }
 
-void server::tcpError(QAbstractSocket::SocketError error) {
+void Server::tcpError(QAbstractSocket::SocketError error) {
     qDebug() << Q_FUNC_INFO;
 
     QMessageBox::warning( (QWidget *)this->parent(), tr("Error"),tr("TCP error: %1").arg( server_socket.errorString() ) );
 }
 
-bool server::start_listen(int port_no) {
+bool Server::start_listen(int port_no) {
     qDebug() << Q_FUNC_INFO;
 
     if( !this->listen( QHostAddress::Any, port_no ) ) {
@@ -40,7 +52,7 @@ bool server::start_listen(int port_no) {
     }
 }
 
-void server::incomingConnection(int descriptor) {
+void Server::incomingConnection(int descriptor) {
     qDebug() << Q_FUNC_INFO;
 
     if( !server_socket.setSocketDescriptor( descriptor ) ) {
@@ -49,8 +61,14 @@ void server::incomingConnection(int descriptor) {
     }
     QByteArray data = "DEBUG";
     server_socket.write(data);
+    qDebug() << server_socket.peerAddress();
+    qDebug() << server_socket.peerPort();
+    mw->change_data(server_socket.peerAddress().toString(), "ip_con");
+    mw->change_data(QString::number(server_socket.peerPort()), "port_con");
+
+
 }
-void server::new_Connection()
+void Server::new_Connection()
 {
     qDebug() << Q_FUNC_INFO;
 

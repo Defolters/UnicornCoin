@@ -11,3 +11,4 @@ sfml-*
 *.vs
 /GUI/x64/Release
 build
+build-release

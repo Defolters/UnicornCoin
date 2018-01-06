@@ -3,12 +3,15 @@
 #include <QtNetwork>
 #include <QMessageBox>
 
-class server : public QTcpServer {
+class MainWindow;
+
+class Server : public QTcpServer {
     Q_OBJECT
 public:
-    explicit server(QObject *parent = 0);
-    ~server();
+    explicit Server(QObject *parent = 0);
+    ~Server();
     QTcpSocket server_socket;
+    void addUI(MainWindow *mw);
 public slots:
     void tcpReady();
     void tcpError( QAbstractSocket::SocketError error );
@@ -16,6 +19,8 @@ public slots:
     void new_Connection();
 protected:
     void incomingConnection( int descriptor );
+private:
+    MainWindow* mw;
 
 
 };

@@ -9,11 +9,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow), server(new Server)
 {
     ui->setupUi(this);
     setFixedSize(width(), height());
     //tcpserver = new QTcpServer();
+    server->addUI(this);
+    ui->label_3->setText("123");
 }
 
 MainWindow::~MainWindow()
@@ -40,14 +42,14 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_listen_clicked()
 {
     qDebug() << Q_FUNC_INFO;
-    tcpserver = new QTcpServer;
+    /*tcpserver = new QTcpServer;
 
     tcpserver->listen(QHostAddress::Any);
     qDebug() << tcpserver->serverPort();
     qDebug() << tcpserver->serverAddress().toString();
     QObject::connect(tcpserver, SIGNAL(newConnection()),
-                     this, SLOT(on_newTcpConnection()));
-    server.start_listen(8333);
+                     this, SLOT(on_newTcpConnection()));*/
+    server->start_listen(8333);
     /*QString ip = ui->ip->text();
     quint16 port = 0000;
     port = ui->port->text().toUShort();
@@ -93,14 +95,34 @@ void MainWindow::on_tcpReadyRead()
     qDebug() << "\t" << qPrintable(m_tcpSocket->readAll());
 }
 
+void MainWindow::change_data(QString str, QString label)
+{
+    qDebug() << Q_FUNC_INFO;
+
+    qDebug() << str;
+    if (label == "label_3")
+    {
+        ui->label_3->setText(str);
+    }
+    else if(label == "ip_con")
+    {
+        ui->ip_con->setText(str);
+    }
+    else if(label == "port_con")
+    {
+        ui->port_con->setText(str);
+    }
+
+}
+
 void MainWindow::on_pushButton_4_clicked()
 {
     QString ip = ui->ip2->text();
-    quint16 port = 0000;
-    port = ui->port2->text().toUShort();
-    qDebug() << port, ip;
+    quint16 port = 8333;
+    //port = ui->port2->text().toUShort();
+    qDebug() << port << " " <<ip;
     tcpsocket = new QTcpSocket();
-    QHostAddress hostadd("95.71.66.118");//"127.0.0.1");
+    QHostAddress hostadd(ip);//"127.0.0.1");("95.71.66.118")
     tcpsocket->connectToHost(hostadd, port);
 
     qDebug() << tcpsocket->state();

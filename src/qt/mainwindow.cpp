@@ -57,6 +57,7 @@ void MainWindow::on_listen_clicked()
     qDebug() << tcpserver->serverAddress().toString();
     QObject::connect(tcpserver, SIGNAL(newConnection()),
                      this, SLOT(on_newTcpConnection()));
+    server.start_listen(1);
     /*QString ip = ui->ip->text();
     quint16 port = 0000;
     port = ui->port->text().toUShort();

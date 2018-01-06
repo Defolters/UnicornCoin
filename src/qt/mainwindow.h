@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTcpServer>
 #include "Server.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -31,7 +32,7 @@ private:
     QTcpSocket *tcpsocket;
     QTcpSocket *mTcpSocket;
     QTcpSocket *m_tcpSocket;
-    Server server;
+    server server;
 };
 
 #endif // MAINWINDOW_H

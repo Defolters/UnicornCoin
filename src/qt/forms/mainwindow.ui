@@ -37,22 +37,22 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="walletPage">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="walletLabel">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>20</y>
-        <width>101</width>
+        <x>360</x>
+        <y>10</y>
+        <width>61</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <family>FF DIN Pro</family>
-        <pointsize>14</pointsize>
+        <family>Calibri Light</family>
+        <pointsize>16</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -66,6 +66,44 @@
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
       </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>70</y>
+        <width>108</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <family>Calibri Light</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Balance:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="sendPage">
@@ -350,6 +388,34 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QLabel" name="statusBarIconNetwork">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>420</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>15</horstretch>
+      <verstretch>15</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri Light</family>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -359,6 +425,12 @@
      <width>800</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Calibri Light</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -386,6 +458,12 @@
    </property>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="font">
+    <font>
+     <family>Calibri Light</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>

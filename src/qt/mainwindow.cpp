@@ -16,6 +16,13 @@ MainWindow::MainWindow(QWidget *parent) :
     //tcpserver = new QTcpServer();
     server->addUI(this);
     ui->label_3->setText("123");
+    ui->statusBar->showMessage("Out of syns");
+    QPixmap pixmap(QPixmap(":/res/icons/error.png").scaledToHeight(ui->statusBar->height()/2));
+
+    ui->statusBarIconNetwork->setPixmap(pixmap);
+    ui->statusBarIconNetwork->setToolTip(tr("net1"));
+    ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
+//    ui->statusBar->addPermanentWidget(ui->horizontalSlider_2);
 }
 
 MainWindow::~MainWindow()

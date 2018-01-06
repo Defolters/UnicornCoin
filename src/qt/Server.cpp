@@ -14,26 +14,55 @@ server::~server() {
 }
 
 void server::tcpReady() {
-    QByteArray array = server_socket.read(erver_socket.bytesAvailable());
+    qDebug() << Q_FUNC_INFO;
+
+    QByteArray array = server_socket.read(server_socket.bytesAvailable());
+    qDebug() << array;
 }
 
 void server::tcpError(QAbstractSocket::SocketError error) {
+    qDebug() << Q_FUNC_INFO;
+
     QMessageBox::warning( (QWidget *)this->parent(), tr("Error"),tr("TCP error: %1").arg( server_socket.errorString() ) );
 }
 
 bool server::start_listen(int port_no) {
+    qDebug() << Q_FUNC_INFO;
+
     if( !this->listen( QHostAddress::Any, port_no ) ) {
         QMessageBox::warning( (QWidget *)this->parent(), tr("Error!"), tr("Cannot listen to port %1").arg(port_no) );
     }
     else
+    {
+        //connect(this, SIGNAL(newConnection()), this, SLOT(new_Connection()));
+        qDebug() << "Success!";
         return true;
+    }
 }
 
 void server::incomingConnection(int descriptor) {
+    qDebug() << Q_FUNC_INFO;
+
     if( !server_socket.setSocketDescriptor( descriptor ) ) {
         QMessageBox::warning( (QWidget *)this->parent(), tr("Error!"), tr("Socket error!") );
         return;
     }
+    QByteArray data = "DEBUG";
+    server_socket.write(data);
+}
+void server::new_Connection()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    // need to grab the socket
+    QTcpSocket *socket = nextPendingConnection();
+
+    socket->write("Hello client\r\n");
+    socket->flush();
+
+    socket->waitForBytesWritten(3000);
+
+    socket->close();
 }
 /*#include <QDebug>
 #include <QCoreApplication>

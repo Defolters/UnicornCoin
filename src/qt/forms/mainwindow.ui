@@ -50,8 +50,8 @@
    <widget class="QStackedWidget" name="verticalStackedWidget">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>10</y>
+      <x>0</x>
+      <y>0</y>
       <width>171</width>
       <height>121</height>
      </rect>
@@ -95,8 +95,8 @@
    <widget class="QPushButton" name="listen">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>180</y>
+      <x>80</x>
+      <y>290</y>
       <width>80</width>
       <height>21</height>
      </rect>
@@ -105,11 +105,11 @@
      <string>Listen</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>150</y>
+      <x>10</x>
+      <y>260</y>
       <width>224</width>
       <height>24</height>
      </rect>
@@ -118,7 +118,7 @@
      <item>
       <widget class="QLineEdit" name="ip">
        <property name="text">
-        <string>192.168.0.102</string>
+        <string>127.0.0.1</string>
        </property>
       </widget>
      </item>
@@ -131,34 +131,16 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>160</y>
+      <y>240</y>
       <width>226</width>
       <height>87</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QLineEdit" name="ip2">
-         <property name="text">
-          <string>192.168.0.102</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="port2">
-         <property name="text">
-          <string>8333</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -204,6 +186,45 @@
         </layout>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>170</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connect</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>140</y>
+      <width>224</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QLineEdit" name="ip2">
+       <property name="text">
+        <string>127.0.0.1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="port2">
+       <property name="text">
+        <string>8333</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

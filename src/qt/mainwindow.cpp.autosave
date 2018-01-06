@@ -98,7 +98,7 @@ void MainWindow::on_pushButton_4_clicked()
     QString ip = ui->ip2->text();
     quint16 port = 0000;
     port = ui->port2->text().toUShort();
-    qDebug() << port, ip;
+    qDebug() << port << " " <<ip;
     tcpsocket = new QTcpSocket();
     QHostAddress hostadd("95.71.66.118");//"127.0.0.1");
     tcpsocket->connectToHost(hostadd, port);

@@ -13,8 +13,11 @@ public slots:
     void tcpReady();
     void tcpError( QAbstractSocket::SocketError error );
     bool start_listen(int port_no);
+    void new_Connection();
 protected:
     void incomingConnection( int descriptor );
+
+
 };
 #endif // SERVER_H
 /*

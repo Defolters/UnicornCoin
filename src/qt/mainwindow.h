@@ -26,6 +26,9 @@ public slots:
     void slotServerRead();
     void on_newTcpConnection();
     void on_tcpReadyRead();
+private slots:
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTcpServer *tcpserver;

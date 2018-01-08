@@ -26,14 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         qt\main.cpp \
         qt\mainwindow.cpp \
-    qt/Server.cpp
+        network/Server.cpp
 
 HEADERS += \
         qt\mainwindow.h \
-    qt/Server.h
+        network/Server.h
 
 FORMS += \
         qt\forms\mainwindow.ui
 
 RESOURCES += \
-    qt\res.qrc
+        qt\res.qrc

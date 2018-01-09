@@ -6,6 +6,8 @@ class Transaction
 {
 public:
     Transaction();
+private:
+    //fields
 };
 
 #endif // TRANSACTION_H

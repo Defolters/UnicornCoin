@@ -1,5 +1,5 @@
-#include "Server.h"
-#include "mainwindow.h"
+#include "server.h"
+#include "qt/mainwindow.h"
 Server::Server(QObject *parent) : QTcpServer(parent) {
     connect( &server_socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(tcpError(QAbstractSocket::SocketError)) );

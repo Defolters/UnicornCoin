@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QTcpServer>
-#include "Server.h"
+#include "network/server.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,7 +20,7 @@ public:
 public slots:
     void on_pushButton_clicked();
 
-    void on_pushButton_3_clicked();
+    //void on_pushButton_3_clicked();
 
     void on_listen_clicked();
     void slotServerRead();
@@ -43,6 +43,20 @@ private slots:
     void on_actiondatabase_triggered();
 
     void on_actionaddressbook_triggered();
+
+    void on_pushButton_2_clicked();
+
+    //void on_pushButton_5_clicked();
+
+    void on_pushButton_send_clicked();
+
+    void on_send_money_clicked();
+
+    void on_createPrivateKey_clicked();
+
+    void on_createPublicKey_clicked();
+
+    void on_createAddress_clicked();
 
 private:
     Ui::MainWindow *ui;

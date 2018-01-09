@@ -24,16 +24,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        qt\main.cpp \
-        qt\mainwindow.cpp \
-        network/Server.cpp
+    qt/main.cpp \
+    qt/mainwindow.cpp \
+    datastructure/transaction.cpp \
+    network/server.cpp \
+    datastructure/block.cpp \
+    datastructure/blockchain.cpp
 
 HEADERS += \
-        qt\mainwindow.h \
-        network/Server.h
+    qt\mainwindow.h \
+    datastructure/transaction.h \
+    network/server.h \
+    datastructure/block.h \
+    datastructure/blockchain.h
 
 FORMS += \
-        qt\forms\mainwindow.ui
+    qt/forms/mainwindow.ui
 
 RESOURCES += \
-        qt\res.qrc
+    qt/res.qrc
+
+VERSION = 0.0.0.1
+QMAKE_TARGET_COMPANY = Defolter
+QMAKE_TARGET_PRODUCT = product
+QMAKE_TARGET_DESCRIPTION = UnicornCoin
+QMAKE_TARGET_COPYRIGHT = MIT

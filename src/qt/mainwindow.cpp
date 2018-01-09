@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     server->addUI(this);
     ui->label_3->setText("123");
     ui->statusBar->showMessage("Out of syns");
+    setFont(QFont ("Calibri Light", 9));
     QPixmap pixmap(QPixmap(":/res/icons/error.png").scaledToHeight(ui->statusBar->height()/2));
 
     ui->statusBarIconNetwork->setPixmap(pixmap);
@@ -36,13 +37,13 @@ void MainWindow::on_pushButton_clicked()
     ui->statusBar->showMessage("text");
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_send_clicked()
 {
     qDebug() << Q_FUNC_INFO;
     //qDebug() << ui->lineEdit->text();
     //qDebug() << tcpsocket->state();
 
-    QByteArray data = ui->lineEdit->text().toUtf8();//ui->lineEdit->text();
+    QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
     tcpsocket->write(data);
 }
 
@@ -113,18 +114,18 @@ void MainWindow::change_data(QString str, QString label)
     }
     else if(label == "ip_con")
     {
-        ui->ip_con->setText(str);
+        ui->ipCon->setText(str);
     }
     else if(label == "port_con")
     {
-        ui->port_con->setText(str);
+        ui->portCon->setText(str);
     }
 
 }
 
 void MainWindow::on_pushButton_4_clicked()
 {
-    QString ip = ui->ip2->text();
+    QString ip = ui->ip2_2->text();
     quint16 port = 8333;
     //port = ui->port2->text().toUShort();
     qDebug() << port << " " <<ip;
@@ -155,17 +156,42 @@ void MainWindow::on_actionhistory_triggered()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
-void MainWindow::on_actiondatabase_triggered()
+void MainWindow::on_actionaddressbook_triggered()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_actionaddressbook_triggered()
+void MainWindow::on_actionminer_triggered()
 {
     ui->stackedWidget->setCurrentIndex(5);
 }
 
-void MainWindow::on_actionminer_triggered()
+void MainWindow::on_actiondatabase_triggered()
 {
     ui->stackedWidget->setCurrentIndex(6);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->balanceAmountWP->setText(QString::number(ui->balanceAmountWP->text().toDouble()+100 + ui->balanceAmountWP->text().toDouble()*0.00001));
+}
+
+void MainWindow::on_send_money_clicked()
+{
+
+}
+
+void MainWindow::on_createPrivateKey_clicked()
+{
+    ui->createPrivateKeyLabel->setText("private key");
+}
+
+void MainWindow::on_createPublicKey_clicked()
+{
+    ui->createPublicKeyLabel->setText("public key");
+}
+
+void MainWindow::on_createAddress_clicked()
+{
+    ui->createAddressLabel->setText("address");
 }

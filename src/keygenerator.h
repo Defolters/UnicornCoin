@@ -8,7 +8,7 @@ public:
     KeyGenerator();
     void SetPrivateKey();
     QString generatePrivateKey();
-    QString generatePrivateKeyFromWords(string words);
+    QString generatePrivateKeyFromWords(QString words);
     QString generatePublicKey();
     QString generateAddress();
 

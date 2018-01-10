@@ -173,7 +173,7 @@ void MainWindow::on_actiondatabase_triggered()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    ui->balanceAmountWP->setText(QString::number(ui->balanceAmountWP->text().toDouble()+100 + ui->balanceAmountWP->text().toDouble()*0.00001));
+    ui->balanceAmountWP->setText(QString::number(21000000));
 }
 
 void MainWindow::on_send_money_clicked()
@@ -183,15 +183,18 @@ void MainWindow::on_send_money_clicked()
 
 void MainWindow::on_createPrivateKey_clicked()
 {
-    ui->createPrivateKeyLabel->setText("private key");
+    KeyGenerator kg;
+    ui->createPrivateKeyLabel->setText(kg.generatePrivateKey());
 }
 
 void MainWindow::on_createPublicKey_clicked()
 {
-    ui->createPublicKeyLabel->setText("public key");
+    KeyGenerator kg;
+    ui->createPublicKeyLabel->setText(kg.generatePublicKey());
 }
 
 void MainWindow::on_createAddress_clicked()
 {
-    ui->createAddressLabel->setText("address");
+    KeyGenerator kg;
+    ui->createAddressLabel->setText(kg.generateAddress());
 }

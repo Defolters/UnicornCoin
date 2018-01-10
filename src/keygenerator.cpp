@@ -16,7 +16,7 @@ QString KeyGenerator::generatePrivateKey()
     return QString("32132FSFDFDF");
 }
 
-QString KeyGenerator::generatePrivateKeyFromWords(string words)
+QString KeyGenerator::generatePrivateKeyFromWords(QString words)
 {
     return QString("32132FSFDFDF");
 }

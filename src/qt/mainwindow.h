@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTcpServer>
 #include "network/server.h"
+#include "keygenerator.h"
 
 namespace Ui {
 class MainWindow;

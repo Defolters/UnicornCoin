@@ -29,14 +29,16 @@ SOURCES += \
     datastructure/transaction.cpp \
     network/server.cpp \
     datastructure/block.cpp \
-    datastructure/blockchain.cpp
+    datastructure/blockchain.cpp \
+    keygenerator.cpp
 
 HEADERS += \
     qt\mainwindow.h \
     datastructure/transaction.h \
     network/server.h \
     datastructure/block.h \
-    datastructure/blockchain.h
+    datastructure/blockchain.h \
+    keygenerator.h
 
 FORMS += \
     qt/forms/mainwindow.ui

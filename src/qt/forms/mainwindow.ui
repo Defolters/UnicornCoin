@@ -14,7 +14,7 @@
    <string>UnicornCoin</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../res.qrc">
     <normaloff>:/icons/res/icons/UnicornCoin.png</normaloff>:/icons/res/icons/UnicornCoin.png</iconset>
   </property>
   <property name="autoFillBackground">
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -83,7 +83,7 @@
        <string>PushButton</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -97,6 +97,12 @@
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QLabel" name="balanceWP">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="font">
             <font>
              <family>FF DIN Pro</family>
@@ -110,6 +116,12 @@
          </item>
          <item>
           <widget class="QLabel" name="unconfirmedWP">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="font">
             <font>
              <family>FF DIN Pro</family>
@@ -234,7 +246,7 @@
        <string>create transaction</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -353,7 +365,7 @@
        </rect>
       </property>
       <property name="icon">
-       <iconset>
+       <iconset resource="../res.qrc">
         <normaloff>:/icons/res/icons/error.png</normaloff>:/icons/res/icons/error.png</iconset>
       </property>
       <property name="iconSize">
@@ -534,7 +546,7 @@
        <string>Listen</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>570</x>
@@ -594,7 +606,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -909,7 +921,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionwallet">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/wallet.png</normaloff>:/icons/res/icons/wallet.png</iconset>
    </property>
    <property name="text">
@@ -918,7 +930,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionsend">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/send.png</normaloff>:/icons/res/icons/send.png</iconset>
    </property>
    <property name="text">
@@ -930,7 +942,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionrecieve">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/recieve.png</normaloff>:/icons/res/icons/recieve.png</iconset>
    </property>
    <property name="text">
@@ -942,7 +954,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionhistory">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/history.png</normaloff>:/icons/res/icons/history.png</iconset>
    </property>
    <property name="text">
@@ -954,7 +966,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actiondatabase">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/database.png</normaloff>:/icons/res/icons/database.png</iconset>
    </property>
    <property name="text">
@@ -966,7 +978,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionaddressbook">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/addressbook.png</normaloff>:/icons/res/icons/addressbook.png</iconset>
    </property>
    <property name="text">
@@ -978,7 +990,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionminer">
    <property name="icon">
-    <iconset>
+    <iconset resource="../res.qrc">
      <normaloff>:/icons/res/icons/miner.png</normaloff>:/icons/res/icons/miner.png</iconset>
    </property>
    <property name="text">
@@ -990,6 +1002,8 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../res.qrc"/>
+ </resources>
  <connections/>
 </ui>

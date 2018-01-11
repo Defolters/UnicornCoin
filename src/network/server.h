@@ -15,7 +15,7 @@ public:
 public slots:
     void tcpReady();
     void tcpError( QAbstractSocket::SocketError error );
-    bool start_listen(int port_no);
+    bool start_listen(QString ip_address, int port_no);
     void new_Connection();
 protected:
     void incomingConnection( int descriptor );
@@ -25,6 +25,7 @@ private:
 
 };
 #endif // SERVER_H
+//C:\Users\Defolter>netstat -an |find /i "8333"
 /*
 
 #include <QObject>

@@ -9,7 +9,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), server(new Server)
+    ui(new Ui::MainWindow), server(new Server), tcpsocket(nullptr)
 {
     ui->setupUi(this);
     setFixedSize(width(), height());
@@ -44,7 +44,8 @@ void MainWindow::on_pushButton_send_clicked()
     //qDebug() << tcpsocket->state();
 
     QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
-    tcpsocket->write(data);
+    if (tcpsocket != nullptr) tcpsocket->write(data);
+    else qDebug() << "tcpsocket == nullptr";
 }
 
 void MainWindow::on_listen_clicked()
@@ -57,7 +58,11 @@ void MainWindow::on_listen_clicked()
     qDebug() << tcpserver->serverAddress().toString();
     QObject::connect(tcpserver, SIGNAL(newConnection()),
                      this, SLOT(on_newTcpConnection()));*/
-    server->start_listen(8333);
+    quint16 port = 8333;
+    port = ui->port_2->text().toUShort();
+    QString ip = ui->ip_2->text();
+    qDebug() << port << " " << ip;
+    server->start_listen(ip, port);
     /*QString ip = ui->ip->text();
     quint16 port = 0000;
     port = ui->port->text().toUShort();
@@ -125,6 +130,7 @@ void MainWindow::change_data(QString str, QString label)
 
 void MainWindow::on_pushButton_4_clicked()
 {
+    qDebug() << Q_FUNC_INFO;
     QString ip = ui->ip2_2->text();
     quint16 port = 8333;
     //port = ui->port2->text().toUShort();
@@ -173,7 +179,7 @@ void MainWindow::on_actiondatabase_triggered()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    ui->balanceAmountWP->setText(QString::number(21000000));
+    ui->balanceAmountWP->setText("21000000 UCN");
 }
 
 void MainWindow::on_send_money_clicked()

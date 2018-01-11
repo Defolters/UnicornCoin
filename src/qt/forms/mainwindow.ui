@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -83,12 +83,12 @@
        <string>PushButton</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>90</y>
-        <width>197</width>
+        <x>312</x>
+        <y>72</y>
+        <width>279</width>
         <height>60</height>
        </rect>
       </property>
@@ -98,7 +98,7 @@
          <item>
           <widget class="QLabel" name="balanceWP">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -117,7 +117,7 @@
          <item>
           <widget class="QLabel" name="unconfirmedWP">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -136,24 +136,11 @@
         </layout>
        </item>
        <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>18</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="balanceAmountWP">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -167,14 +154,14 @@
             </font>
            </property>
            <property name="text">
-            <string>0.0</string>
+            <string>0.0 UCN</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="unconfirmedAmountrWP">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -188,37 +175,7 @@
             </font>
            </property>
            <property name="text">
-            <string>0.0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QLabel" name="balanceUCN">
-           <property name="font">
-            <font>
-             <family>FF DIN Pro</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>UCN</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="balanceUCN_2">
-           <property name="font">
-            <font>
-             <family>FF DIN Pro</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>UCN</string>
+            <string>0.0 UCN</string>
            </property>
           </widget>
          </item>

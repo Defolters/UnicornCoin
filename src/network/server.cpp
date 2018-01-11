@@ -38,10 +38,11 @@ void Server::tcpError(QAbstractSocket::SocketError error) {
     QMessageBox::warning( (QWidget *)this->parent(), tr("Error"),tr("TCP error: %1").arg( server_socket.errorString() ) );
 }
 
-bool Server::start_listen(int port_no) {
+bool Server::start_listen(QString ip_address, int port_no) {
     qDebug() << Q_FUNC_INFO;
 
-    if( !this->listen( QHostAddress::Any, port_no ) ) {
+    //if( !this->listen( QHostAddress::Any, port_no ) ) {
+    if( !this->listen( QHostAddress(ip_address), port_no ) ) {
         QMessageBox::warning( (QWidget *)this->parent(), tr("Error!"), tr("Cannot listen to port %1").arg(port_no) );
     }
     else

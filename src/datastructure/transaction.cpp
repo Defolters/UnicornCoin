@@ -4,3 +4,13 @@ Transaction::Transaction()
 {
 
 }
+
+bool Transaction::makeRawdata()
+{
+
+}
+
+Transaction::~Transaction()
+{
+
+}

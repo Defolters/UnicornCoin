@@ -177,6 +177,10 @@ void MainWindow::on_actiondatabase_triggered()
     ui->stackedWidget->setCurrentIndex(6);
 }
 
+void MainWindow::on_actionnetwork_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(7);
+}
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->balanceAmountWP->setText("21000000 UCN");
@@ -204,3 +208,5 @@ void MainWindow::on_createAddress_clicked()
     KeyGenerator kg;
     ui->createAddressLabel->setText(kg.generateAddress());
 }
+
+

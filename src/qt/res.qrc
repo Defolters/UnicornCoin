@@ -12,5 +12,6 @@
         <file>res/icons/success.png</file>
         <file>res/icons/UnicornCoin.png</file>
         <file>res/icons/wallet.png</file>
+        <file>res/icons/network.png</file>
     </qresource>
 </RCC>

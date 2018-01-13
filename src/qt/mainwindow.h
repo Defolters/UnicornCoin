@@ -59,6 +59,8 @@ private slots:
 
     void on_createAddress_clicked();
 
+    void on_actionnetwork_triggered();
+
 private:
     Ui::MainWindow *ui;
     QTcpServer *tcpserver;

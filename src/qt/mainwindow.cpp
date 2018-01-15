@@ -189,7 +189,7 @@ void MainWindow::on_send_money_clicked()
 void MainWindow::on_createPrivateKey_clicked()
 {
     KeyGenerator kg;
-    ui->createPrivateKeyLabel->setText(kg.generatePrivateKey());
+    ui->createPrivateKeyLabel->setText(kg.generatePrivateKey("1"));
 }
 
 void MainWindow::on_createPublicKey_clicked()

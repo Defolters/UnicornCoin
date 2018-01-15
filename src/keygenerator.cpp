@@ -1,5 +1,5 @@
 #include "keygenerator.h"
-
+#include <QDebug>
 KeyGenerator::KeyGenerator()
 {
 
@@ -18,6 +18,11 @@ QString KeyGenerator::generatePrivateKey(QString words)
  * truePrivateAndChecksum = truePrivateKey + checksum
  * privateKey = base58(truePrivateAndChecksum)
 */
+    QString s = "hello world";
+    /*QByteArray hash = QCryptographicHash::hash(s.toLocal8Bit(), QCryptographicHash::Sha256);
+    qDebug() << QString::fromUtf8(hash);*/
+    qDebug() << Q_FUNC_INFO;
+    qDebug() << QString(QCryptographicHash::hash(s.toUtf8(),QCryptographicHash::Sha256).toHex());
     return QString("5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss");
 }
 

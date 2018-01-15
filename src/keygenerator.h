@@ -1,7 +1,7 @@
 #ifndef KEYGENERATOR_H
 #define KEYGENERATOR_H
 #include <QString>
-
+#include <QCryptographicHash>
 class KeyGenerator
 {
 public:

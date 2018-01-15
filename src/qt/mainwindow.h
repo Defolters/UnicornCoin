@@ -43,8 +43,6 @@ private slots:
 
     void on_actiondatabase_triggered();
 
-    void on_actionaddressbook_triggered();
-
     void on_pushButton_2_clicked();
 
     //void on_pushButton_5_clicked();

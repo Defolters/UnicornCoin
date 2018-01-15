@@ -162,24 +162,19 @@ void MainWindow::on_actionhistory_triggered()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
-void MainWindow::on_actionaddressbook_triggered()
+void MainWindow::on_actionminer_triggered()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_actionminer_triggered()
+void MainWindow::on_actiondatabase_triggered()
 {
     ui->stackedWidget->setCurrentIndex(5);
 }
 
-void MainWindow::on_actiondatabase_triggered()
-{
-    ui->stackedWidget->setCurrentIndex(6);
-}
-
 void MainWindow::on_actionnetwork_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(7);
+    ui->stackedWidget->setCurrentIndex(6);
 }
 void MainWindow::on_pushButton_2_clicked()
 {
@@ -200,13 +195,13 @@ void MainWindow::on_createPrivateKey_clicked()
 void MainWindow::on_createPublicKey_clicked()
 {
     KeyGenerator kg;
-    ui->createPublicKeyLabel->setText(kg.generatePublicKey());
+    ui->createPublicKeyLabel->setText(kg.generatePublicKey("1"));
 }
 
 void MainWindow::on_createAddress_clicked()
 {
     KeyGenerator kg;
-    ui->createAddressLabel->setText(kg.generateAddress());
+    ui->createAddressLabel->setText(kg.generateAddress("1"));
 }
 
 

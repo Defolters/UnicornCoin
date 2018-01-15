@@ -1,13 +1,16 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 #include <QString>
-
+#include "data.h"
 class Block
-        : Data
+        : public Data
 {
 public:
     Block();
     ~Block();
+    virtual bool sendToNetwork()override;
+    virtual bool makeRawData() override;
+
 private:
     QString prevBlock; //or store hash like QString?
     QString merkleRoot;

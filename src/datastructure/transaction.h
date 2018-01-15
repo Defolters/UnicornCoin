@@ -2,6 +2,7 @@
 #define TRANSACTION_H
 #include <vector>
 #include <QString>
+#include "data.h"
 struct Input
 {
     QString hashOfTransaction;
@@ -10,21 +11,21 @@ struct Input
     QString script;
 };
 
-struct Input
+struct Output
 {
     double value;
     int scriptLen;
     QString scriptPubKey;
 };
 
-class Transaction
-        : Data
+class Transaction : public Data
 {
 public:
     Transaction();
     ~Transaction();
-    virtual bool makeRawdata() override;
-    bool addOutput;
+    virtual bool makeRawData() override;
+    virtual bool sendToNetwork() override;
+    bool addOutput();
 
 private:
     //fields

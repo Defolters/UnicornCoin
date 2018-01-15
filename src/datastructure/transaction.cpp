@@ -5,12 +5,18 @@ Transaction::Transaction()
 
 }
 
-bool Transaction::makeRawdata()
+
+Transaction::~Transaction()
 {
 
 }
 
-Transaction::~Transaction()
+bool Transaction::makeRawData()
+{
+
+}
+
+bool Transaction::sendToNetwork()
 {
 
 }

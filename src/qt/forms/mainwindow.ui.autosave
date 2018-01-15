@@ -433,6 +433,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2) create&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;all of this addresses is using in wallet and sending&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;all should be displayed like table/list&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FOR THE BEGINNING I CAN CREATE AND MANAGE ONE KEY/ADDRESS!!&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
@@ -1052,7 +1053,6 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionsend"/>
    <addaction name="actionrecieve"/>
    <addaction name="actionhistory"/>
-   <addaction name="actionaddressbook"/>
    <addaction name="actionminer"/>
    <addaction name="actiondatabase"/>
    <addaction name="actionnetwork"/>
@@ -1117,18 +1117,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>database</string>
-   </property>
-  </action>
-  <action name="actionaddressbook">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/icons/res/icons/addressbook.png</normaloff>:/icons/res/icons/addressbook.png</iconset>
-   </property>
-   <property name="text">
-    <string>addressbook</string>
-   </property>
-   <property name="toolTip">
-    <string>addressbook</string>
    </property>
   </action>
   <action name="actionminer">

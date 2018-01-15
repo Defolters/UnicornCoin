@@ -6,16 +6,16 @@ class KeyGenerator
 {
 public:
     KeyGenerator();
-    void SetPrivateKey();
+
     QString generatePrivateKey();
-    QString generatePrivateKeyFromWords(QString words);
-    QString generatePublicKey();
-    QString generateAddress();
+    QString generatePrivateKey(QString words);
+    QString generatePublicKey(QString privateKey);
+    QString generateAddress(QString publicKey);
 
 private:
-    QString privateKey;
+    /*QString privateKey;
     QString publicKey;
-    QString address;
+    QString address;*/
 };
 
 #endif // KEYGENERATOR_H

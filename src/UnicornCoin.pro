@@ -31,7 +31,7 @@ SOURCES += \
     datastructure/block.cpp \
     datastructure/blockchain.cpp \
     keygenerator.cpp \
-    datastructure/data.cpp
+    utils/wallet.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -40,7 +40,8 @@ HEADERS += \
     datastructure/block.h \
     datastructure/blockchain.h \
     keygenerator.h \
-    datastructure/data.h
+    datastructure/data.h \
+    utils/wallet.h
 
 FORMS += \
     qt/forms/mainwindow.ui

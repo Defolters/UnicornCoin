@@ -61,6 +61,8 @@ private slots:
 
     void on_generateNewAddress_clicked();
 
+    void on_createTransaction_clicked();
+
 private:
     Ui::MainWindow *ui;
 //    QTcpServer *tcpserver;

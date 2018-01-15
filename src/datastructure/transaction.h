@@ -3,6 +3,10 @@
 #include <vector>
 #include <QString>
 #include "data.h"
+#include "utils/json.hpp"
+using json = nlohmann::json;
+//https://github.com/nlohmann/json
+//http://leveldb.org/
 struct Input
 {
     QString hashOfTransaction;
@@ -22,13 +26,13 @@ class Transaction : public Data
 {
 public:
     Transaction();
+    Transaction(QString address, double amount, double fee);
     ~Transaction();
     virtual bool makeRawData() override;
     virtual bool sendToNetwork() override;
     bool addOutput();
 
 private:
-    //fields
     double fee;
     QString payTo;
     double value;
@@ -36,6 +40,7 @@ private:
     std::vector<Input*> inputs;
     int numberOfOutputs;
     std::vector<Output*> outputs;
+    json exportFile;
 };
 
 #endif // TRANSACTION_H

@@ -6,6 +6,7 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 #include <QMessageBox>
+#include "datastructure/transaction.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -209,4 +210,13 @@ void MainWindow::on_generateNewAddress_clicked()
     QMessageBox::warning(this, "IMPORTANT", "You should save it! Without this information you cannot use your money.\nYour private key: 5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss\nYour address: 1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN");
 //    KeyGenerator kg;
 //    updateNewAddress(kg.generateAddress("public key"));
+}
+
+void MainWindow::on_createTransaction_clicked()
+{
+    Transaction tx(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value());
+    /*bool valid = tx.verify(); // and add inputs
+    if valid == true
+    tx.sign();
+    tx.sendToNetwork();*/
 }

@@ -205,3 +205,10 @@ void MainWindow::on_createAddress_clicked()
 }
 
 
+
+void MainWindow::on_generateNewAddress_clicked()
+{
+    QMessageBox::warning(this, "IMPORTANT", "You should save it! Without this information you cannot use your money.\nYour private key: 5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss\nYour address: 1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN");
+//    KeyGenerator kg;
+//    updateNewAddress(kg.generateAddress("public key"));
+}

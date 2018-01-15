@@ -515,6 +515,19 @@ p, li { white-space: pre-wrap; }
        <string>createAddress</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="generateNewAddress">
+      <property name="geometry">
+       <rect>
+        <x>669</x>
+        <y>380</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>generate new address</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="historyPage">
      <widget class="QTextBrowser" name="textBrowser_5">

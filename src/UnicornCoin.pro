@@ -41,7 +41,8 @@ HEADERS += \
     datastructure/blockchain.h \
     keygenerator.h \
     datastructure/data.h \
-    utils/wallet.h
+    utils/wallet.h \
+    utils/json.hpp
 
 FORMS += \
     qt/forms/mainwindow.ui

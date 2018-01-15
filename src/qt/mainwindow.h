@@ -59,12 +59,14 @@ private slots:
 
     void on_actionnetwork_triggered();
 
+    void on_generateNewAddress_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QTcpServer *tcpserver;
+//    QTcpServer *tcpserver;
     QTcpSocket *tcpsocket;
-    QTcpSocket *mTcpSocket;
-    QTcpSocket *m_tcpSocket;
+//    QTcpSocket *mTcpSocket;
+//    QTcpSocket *m_tcpSocket;
     Server *server;
 };
 

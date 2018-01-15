@@ -88,7 +88,7 @@ void MainWindow::slotServerRead()
 
 void MainWindow::on_newTcpConnection()
 {
-    qDebug() << Q_FUNC_INFO;
+    /*qDebug() << Q_FUNC_INFO;
     m_tcpSocket = tcpserver->nextPendingConnection();
     connect(m_tcpSocket, SIGNAL(readyRead()),
             this, SLOT(on_tcpReadyRead()));
@@ -99,13 +99,13 @@ void MainWindow::on_newTcpConnection()
     //m_tcpServer->close();
     qDebug() << "Sending: Testing new TCP Connection!";
     m_tcpSocket->write("Testing new TCP Connection!");
-    //m_state = CONNECTED_TCP_SOCKET;
+    //m_state = CONNECTED_TCP_SOCKET;*/
 }
 
 void MainWindow::on_tcpReadyRead()
 {
-    qDebug() << Q_FUNC_INFO;
-    qDebug() << "\t" << qPrintable(m_tcpSocket->readAll());
+    /*qDebug() << Q_FUNC_INFO;
+    qDebug() << "\t" << qPrintable(m_tcpSocket->readAll());*/
 }
 
 void MainWindow::change_data(QString str, QString label)
@@ -203,8 +203,6 @@ void MainWindow::on_createAddress_clicked()
     KeyGenerator kg;
     ui->createAddressLabel->setText(kg.generateAddress("1"));
 }
-
-
 
 void MainWindow::on_generateNewAddress_clicked()
 {

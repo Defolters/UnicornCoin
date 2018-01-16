@@ -10,7 +10,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), server(new Server), tcpsocket(nullptr)
+    ui(new Ui::MainWindow), server(new Server), tcpsocket(nullptr),
+    wallet(new Wallet("wallet.dat"))
 {
     ui->setupUi(this);
     setFixedSize(width(), height());
@@ -126,6 +127,10 @@ void MainWindow::change_data(QString str, QString label)
     {
         ui->portCon->setText(str);
     }
+    else if(label == "addressRP")
+    {
+        ui->addressRP->setText(str);
+    }
 
 }
 
@@ -187,29 +192,26 @@ void MainWindow::on_send_money_clicked()
 
 }
 
-void MainWindow::on_createPrivateKey_clicked()
+void MainWindow::on_generateNewAddressRP_clicked()
 {
-    KeyGenerator kg;
-    ui->createPrivateKeyLabel->setText(kg.generatePrivateKey("1"));
-}
 
-void MainWindow::on_createPublicKey_clicked()
-{
-    KeyGenerator kg;
-    ui->createPublicKeyLabel->setText(kg.generatePublicKey("1"));
-}
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "IMPORTANT", "If you already generated address, you can lose him!\n Continue?",
+                                                              QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes)
+    {
 
-void MainWindow::on_createAddress_clicked()
-{
-    KeyGenerator kg;
-    ui->createAddressLabel->setText(kg.generateAddress("1"));
-}
-
-void MainWindow::on_generateNewAddress_clicked()
-{
-    QMessageBox::warning(this, "IMPORTANT", "You should save it! Without this information you cannot use your money.\nYour private key: 5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss\nYour address: 1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN");
-//    KeyGenerator kg;
-//    updateNewAddress(kg.generateAddress("public key"));
+//        generate pair of keys
+        KeyGenerator kg;
+        QString priv = kg.generatePrivateKey();
+        QString pub = kg.generatePublicKey("1");
+        QString addr = kg.generateAddress("1");
+//        display keys
+        QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
+                                                "Your private key: %1\n"
+                                                "Your address: %2").arg(priv, addr));
+        // update information
+        wallet->update(this, priv, pub, addr);
+    }
 }
 
 void MainWindow::on_createTransaction_clicked()
@@ -219,4 +221,13 @@ void MainWindow::on_createTransaction_clicked()
     if valid == true
     tx.sign();
     tx.sendToNetwork();*/
+}
+
+void MainWindow::on_addExistingAddressRP_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "IMPORTANT", "If you already generated address, you can lose him!\n Continue?",
+                                                              QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes)
+    {}
+//    show window, where user add address and private key, then save, update
 }

@@ -5,6 +5,7 @@
 #include <QTcpServer>
 #include "network/server.h"
 #include "keygenerator.h"
+#include "utils/wallet.h"
 
 namespace Ui {
 class MainWindow;
@@ -51,17 +52,13 @@ private slots:
 
     void on_send_money_clicked();
 
-    void on_createPrivateKey_clicked();
-
-    void on_createPublicKey_clicked();
-
-    void on_createAddress_clicked();
-
     void on_actionnetwork_triggered();
 
-    void on_generateNewAddress_clicked();
+    void on_generateNewAddressRP_clicked();
 
     void on_createTransaction_clicked();
+
+    void on_addExistingAddressRP_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -70,6 +67,7 @@ private:
 //    QTcpSocket *mTcpSocket;
 //    QTcpSocket *m_tcpSocket;
     Server *server;
+    Wallet* wallet;
 };
 
 #endif // MAINWINDOW_H

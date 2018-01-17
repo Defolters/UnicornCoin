@@ -25,7 +25,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBarIconNetwork->setPixmap(pixmap);
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
+    wallet->load(this);
 //    ui->statusBar->addPermanentWidget(ui->horizontalSlider_2);
+    /*
+    load wallet
+    load information from wallet
+    update wallet, recieve and history from the wallet
+    connect to peers and check new blocks
+    start miner
+
+    */
 }
 
 MainWindow::~MainWindow()
@@ -131,7 +140,14 @@ void MainWindow::change_data(QString str, QString label)
     {
         ui->addressRP->setText(str);
     }
-
+    else if(label == "balanceAmountWP")
+    {
+        ui->balanceAmountWP->setText(str + " UCN");
+    }
+    else if(label == "unconfirmedAmountrWP")
+    {
+        ui->unconfirmedAmountrWP->setText(str + " UCN");
+    }
 }
 
 void MainWindow::on_pushButton_4_clicked()
@@ -210,7 +226,7 @@ void MainWindow::on_generateNewAddressRP_clicked()
                                                 "Your private key: %1\n"
                                                 "Your address: %2").arg(priv, addr));
         // update information
-        wallet->update(this, priv, pub, addr);
+        wallet->updateNewKeys(this, priv, pub, addr);
     }
 }
 

@@ -42,7 +42,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -477,11 +477,16 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="addressRP">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>270</x>
         <y>80</y>
-        <width>301</width>
+        <width>261</width>
         <height>16</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
       </property>
       <property name="text">
        <string/>
@@ -503,14 +508,14 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="addressAboutRP">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>260</x>
         <y>120</y>
         <width>301</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>There is your address, show it to people in order to get money</string>
+       <string>There is your address, people can send money to it</string>
       </property>
      </widget>
     </widget>

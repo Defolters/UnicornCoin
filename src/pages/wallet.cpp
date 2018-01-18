@@ -16,7 +16,7 @@ void Wallet::load(MainWindow *mw)
 
 }
 
-void Wallet::update(MainWindow *mw, QString &priv, QString &pub, QString &addr, double &amount, QString &history)
+void Wallet::update(MainWindow *mw, QString &priv, QString &pub, QString &addr, double amount, QString &history)
 {
     qDebug() << Q_FUNC_INFO;
 //    ui->addressRP->setText(addr);
@@ -28,13 +28,14 @@ void Wallet::update(MainWindow *mw, QString &priv, QString &pub, QString &addr, 
 
 void Wallet::updateNewKeys(MainWindow *mw, QString &priv, QString &pub, QString &addr)
 {
-    update(mw, priv, pub, adddr, 0.0, "");
+    QString history("");
+    update(mw, priv, pub, addr, 0.0, history);
     //        save keys in wallet.dat
     updateFile(priv, pub, addr, 0.0);
 }
 
 
-bool Wallet::updateFile(QString &priv, QString &pub, QString &addr, double &amount)
+bool Wallet::updateFile(QString &priv, QString &pub, QString &addr, double amount)
 {
     //create file
     //write to file: private, public, address, amount
@@ -49,6 +50,6 @@ bool Wallet::setAmount(double &amount)
 
 bool Wallet::updateWallet(double amount, double unconfirmed)
 {
-    mw->changeData(amount, "balanceAmountrWP");
-    mw->changeData(unconfirmed, "unconfirmedAmountrWP");
+//    mw->changeData(amount, "balanceAmountrWP");
+//    mw->changeData(unconfirmed, "unconfirmedAmountrWP");
 }

@@ -30,8 +30,9 @@ SOURCES += \
     network/server.cpp \
     datastructure/block.cpp \
     datastructure/blockchain.cpp \
-    keygenerator.cpp \
-    utils/wallet.cpp
+    utils/keygenerator.cpp \
+    pages/wallet.cpp \
+    pages/history.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -39,10 +40,11 @@ HEADERS += \
     network/server.h \
     datastructure/block.h \
     datastructure/blockchain.h \
-    keygenerator.h \
+    utils/keygenerator.h \
     datastructure/data.h \
-    utils/wallet.h \
-    utils/json.hpp
+    pages/wallet.h \
+    utils/json.hpp \
+    pages/history.h
 
 FORMS += \
     qt/forms/mainwindow.ui

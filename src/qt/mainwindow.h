@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTcpServer>
 #include "network/server.h"
-#include "keygenerator.h"
+#include "utils/keygenerator.h"
 #include "pages/wallet.h"
 
 namespace Ui {

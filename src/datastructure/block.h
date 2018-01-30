@@ -12,6 +12,7 @@ public:
     virtual bool makeRawData() override;
 
 private:
+    QString hash;
     QString prevBlock; //or store hash like QString?
     QString merkleRoot;
     int timestamp;

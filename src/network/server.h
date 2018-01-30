@@ -14,13 +14,14 @@ public:
     void addUI(MainWindow *mw);
 public slots:
     void tcpReady();
-    void tcpError( QAbstractSocket::SocketError error );
+    void tcpError(QAbstractSocket::SocketError error );
     bool start_listen(QString ip_address, int port_no);
     void new_Connection();
 protected:
-    void incomingConnection( int descriptor );
+    void incomingConnection( qintptr descriptor );
 private:
     MainWindow* mw;
+    std::list<QTcpSocket*> listOfSockets;
 
 
 };

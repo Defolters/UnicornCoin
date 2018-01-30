@@ -18,7 +18,7 @@ Transaction::Transaction(QString address, double amount, double fee)
     // write prettified JSON to another file
 //    std::ofstream o("pretty.json");
     //o <<   std::setw(4) << exportFile << std::endl;
-    std::cout << exportFile.dump(4) << std::endl;
+    qDebug() << QString::fromStdString(exportFile.dump(4));
 //    qDebug() << QString(exportFile.dump());
 }
 
@@ -30,10 +30,10 @@ Transaction::~Transaction()
 
 bool Transaction::makeRawData()
 {
-
+    return false;
 }
 
 bool Transaction::sendToNetwork()
 {
-
+    return false;
 }

@@ -32,7 +32,9 @@ SOURCES += \
     datastructure/blockchain.cpp \
     utils/keygenerator.cpp \
     pages/wallet.cpp \
-    pages/history.cpp
+    pages/history.cpp \
+    utils/blockobserver.cpp \
+    utils/verifier.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -44,7 +46,9 @@ HEADERS += \
     datastructure/data.h \
     pages/wallet.h \
     utils/json.hpp \
-    pages/history.h
+    pages/history.h \
+    utils/blockobserver.h \
+    utils/verifier.h
 
 FORMS += \
     qt/forms/mainwindow.ui

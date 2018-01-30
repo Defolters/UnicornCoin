@@ -27,9 +27,9 @@ class MainWindow;
 class Wallet
 {
 public:
-    Wallet(QString path);
+    Wallet(MainWindow* parent);
     //! load information from file
-    void load(MainWindow* mw);
+    void load();
     //! update wallet page, recieve page, and history
     void update(MainWindow* mw, QString& priv, QString& pub, QString& addr, double amount, QString& history);
     //! update file and @ref update()
@@ -48,6 +48,8 @@ private:
     double amount;
     double unconfirmed;
     json exportFile;
+    json history;
+    MainWindow* parent;
 };
 
 #endif // WALLET_H

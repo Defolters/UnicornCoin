@@ -53,7 +53,7 @@ bool Server::start_listen(QString ip_address, int port_no) {
     }
 }
 
-void Server::incomingConnection(int descriptor) {
+void Server::incomingConnection(qintptr descriptor) {
     qDebug() << Q_FUNC_INFO;
 
     if( !server_socket.setSocketDescriptor( descriptor ) ) {

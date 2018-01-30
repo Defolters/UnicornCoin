@@ -11,7 +11,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), server(new Server), tcpsocket(nullptr),
-    wallet(new Wallet("wallet.dat"))
+    wallet(new Wallet(this))
 {
     ui->setupUi(this);
     setFixedSize(width(), height());
@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBarIconNetwork->setPixmap(pixmap);
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
-    wallet->load(this);
+    wallet->load();
 //    ui->statusBar->addPermanentWidget(ui->horizontalSlider_2);
     /*
     load wallet

@@ -53,7 +53,15 @@ void MainWindow::on_pushButton_send_clicked()
     qDebug() << Q_FUNC_INFO;
     //qDebug() << ui->lineEdit->text();
     //qDebug() << tcpsocket->state();
-
+    //exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};
+    try
+    {
+        json::parse("dsfsd");
+    }
+    catch(json::exception& ex)
+    {
+        qDebug() << ex.what();
+    }
     QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
     if (tcpsocket != nullptr) tcpsocket->write(data);
     else qDebug() << "tcpsocket == nullptr";

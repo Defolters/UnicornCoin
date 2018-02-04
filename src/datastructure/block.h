@@ -1,7 +1,9 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 #include <QString>
+
 #include "data.h"
+
 class Block
         : public Data
 {

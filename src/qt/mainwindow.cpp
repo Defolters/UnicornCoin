@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setFixedSize(width(), height());
     //tcpserver = new QTcpServer();
-    server->addUI(this);
+    //server->addUI(this);
     ui->label_3->setText("123");
     ui->statusBar->showMessage("Out of syns");
     setFont(QFont ("Calibri Light", 9));
@@ -81,7 +81,7 @@ void MainWindow::on_listen_clicked()
     port = ui->port_2->text().toUShort();
     QString ip = ui->ip_2->text();
     qDebug() << port << " " << ip;
-    server->start_listen(ip, port);
+    //server->start_listen(ip, port);
     /*QString ip = ui->ip->text();
     quint16 port = 0000;
     port = ui->port->text().toUShort();

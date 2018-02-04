@@ -1,6 +1,29 @@
+#include <QtNetwork>
+
+#include "connection.h"
 #include "server.h"
 #include "qt/mainwindow.h"
-Server::Server(QObject *parent) : QTcpServer(parent) {
+
+Server::Server(QObject *parent)
+    : QTcpServer(parent)
+{
+    //listen anyone who connects to 9229 port
+    listen(QHostAddress::Any, 9229);
+    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
+             qDebug() << address.toString();
+    }
+}
+
+void Server::incomingConnection(qintptr socketDescriptor)
+{
+    qDebug() << Q_FUNC_INFO;
+    Connection *connection = new Connection(this);
+    connection->setSocketDescriptor(socketDescriptor);
+    emit newConnection(connection);
+}
+
+/*Server::Server(QObject *parent) : QTcpServer(parent) {
     connect( &server_socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(tcpError(QAbstractSocket::SocketError)) );
     connect( &server_socket, SIGNAL(readyRead()),
@@ -30,7 +53,7 @@ void Server::tcpReady() {
     mw->change_data(str, "label_3");
     /**/
 
-}
+/*}
 
 void Server::tcpError(QAbstractSocket::SocketError error) {
     qDebug() << Q_FUNC_INFO;
@@ -82,7 +105,7 @@ void Server::new_Connection()
     socket->waitForBytesWritten(3000);
 
     socket->close();
-}
+}*/
 /*#include <QDebug>
 #include <QCoreApplication>
 

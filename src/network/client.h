@@ -23,7 +23,12 @@ public:
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;  //!< checks that connection is already in multihash
 
 signals:
-    /*void newMessage(const QString &from, const QString &message);
+    // сигналы для каждой части программы?
+    /*
+    void newData(const DataType type, const QString &data);  //!< when socket sends new data
+    void getData(Connection* connection, const DataType type, const QString &data);  //!< when socket asking for some data
+
+    void newMessage(const QString &from, const QString &message);
     void newParticipant(const QString &nick);
     void participantLeft(const QString &nick);*/
 

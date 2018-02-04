@@ -7,8 +7,11 @@
 #include <QTime>
 #include <QTimer>
 
-static const int MaxBufferSize = 1024000;
+//static const int MaxBufferSize = 1024000;  //!<
 
+/**
+ * @brief The Client class
+ */
 class Connection : public QTcpSocket
 {
     Q_OBJECT
@@ -34,7 +37,8 @@ public:
     bool sendMessage(const QString &message);*/
 
 signals:
-    void readyForUse();  //!< signal which emitted, when socket is available
+    void readyForUse();  //!< signal is emitted, when socket is ready for use
+    //void newData(const DataType type, const QString &data);  //!< signal is emitted, when new data is read
     /*
     void newMessage(const QString &from, const QString &message);*/
 

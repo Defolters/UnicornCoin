@@ -9,7 +9,7 @@ Client::Client()
                      this, SLOT(newConnection(Connection*)));
 }
 /*
-void Client::sendMessage(const QString &message)
+void Client::sendData(const QString &data)
 {
     qDebug() << Q_FUNC_INFO;
     if (message.isEmpty())
@@ -17,7 +17,7 @@ void Client::sendMessage(const QString &message)
 
     QList<Connection *> connections = peers.values();
     foreach (Connection *connection, connections)
-        connection->sendMessage(message);
+        connection->sendData(data);
 }
 
 QString Client::nickName() const

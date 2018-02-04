@@ -52,7 +52,8 @@ HEADERS += \
     utils/blockobserver.h \
     utils/verifier.h \
     network/client.h \
-    network/connection.h
+    network/connection.h \
+    utils/messagetype.h
 
 FORMS += \
     qt/forms/mainwindow.ui

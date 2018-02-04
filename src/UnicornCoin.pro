@@ -34,7 +34,9 @@ SOURCES += \
     pages/wallet.cpp \
     pages/history.cpp \
     utils/blockobserver.cpp \
-    utils/verifier.cpp
+    utils/verifier.cpp \
+    network/client.cpp \
+    network/connection.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -48,7 +50,9 @@ HEADERS += \
     utils/json.hpp \
     pages/history.h \
     utils/blockobserver.h \
-    utils/verifier.h
+    utils/verifier.h \
+    network/client.h \
+    network/connection.h
 
 FORMS += \
     qt/forms/mainwindow.ui

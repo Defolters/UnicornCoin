@@ -41,6 +41,8 @@ private slots:
     void readyForUse();
 
 private:
+    //! Method process new data and emit neccessary signal
+    //void processData();
     //! Method removes connection from peers and deletes connection
     void removeConnection(Connection *connection);
     //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;

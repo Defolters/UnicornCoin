@@ -21,7 +21,8 @@ enum class MessageType {
     GETMEMPOOL,
     UTXO,
     GETUTXO,
-    REJECT
+    REJECT,
+    UNDEFINED
 
 };
 

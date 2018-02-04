@@ -17,9 +17,10 @@ class Client : public QObject
 public:
     Client();
 
+    //sendMessage();
     /*void sendMessage(const QString &message);
-    QString nickName() const;
-    bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;*/
+    QString nickName() const;*/
+    bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;  //!< checks that connection is already in multihash
 
 signals:
     /*void newMessage(const QString &from, const QString &message);
@@ -27,17 +28,17 @@ signals:
     void participantLeft(const QString &nick);*/
 
 private slots:
-    /*void newConnection(Connection *connection);
-    void connectionError(QAbstractSocket::SocketError socketError);
-    void disconnected();
-    void readyForUse();*/
+    void newConnection(Connection *connection);  //!< Slot is called when server gets new connection
+    void connectionError(QAbstractSocket::SocketError socketError);  //!< Slot is called when occured error while writing in socket
+    void disconnected();  //!< Slot is called when socket is disconnected
+    void readyForUse();  //!< Slot is called when socket is available, so we can add it to multihash
 
 private:
-    /*void removeConnection(Connection *connection);
+    Server server;  //!< Server for client which listen for new connections
+    void removeConnection(Connection *connection);  //!< Method removes connection from peers and deletes connection
 
-    PeerManager *peerManager;
-    Server server;
-    QMultiHash<QHostAddress, Connection *> peers;*/
+    Server server;  //!< Server
+    QMultiHash<QHostAddress, Connection *> peers;  //!< MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection
 };
 
 

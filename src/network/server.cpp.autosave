@@ -13,7 +13,6 @@ Server::Server(QObject *parent)
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
              qDebug() << address.toString();
     }
-    qDebug() << QHostInfo::localHostName();
 }
 
 void Server::incomingConnection(qintptr socketDescriptor)

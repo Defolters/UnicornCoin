@@ -5,8 +5,8 @@
 
 Client::Client()
 {
-//    QObject::connect(&server, SIGNAL(newConnection(Connection*)),
-//                     this, SLOT(newConnection(Connection*)));
+    QObject::connect(&server, SIGNAL(newConnection(Connection*)),
+                     this, SLOT(newConnection(Connection*)));
 }
 /*
 void Client::sendMessage(const QString &message)
@@ -22,15 +22,14 @@ void Client::sendMessage(const QString &message)
 
 QString Client::nickName() const
 {
+    qDebug() << QHostInfo::localHostName();
     qDebug() << Q_FUNC_INFO;
     return QString("Defolter") + '@' + QHostInfo::localHostName()
            + ':' + QString::number(server.serverPort());
 }
-
+*/
 bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
 {
-    qDebug() << Q_FUNC_INFO;
-
     if (senderPort == -1)
         return peers.contains(senderIp);
 
@@ -49,7 +48,6 @@ bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
 void Client::newConnection(Connection *connection)
 {
     qDebug() << Q_FUNC_INFO;
-    connection->setGreetingMessage("Defolter");//peerManager->userName());
 
     connect(connection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectionError(QAbstractSocket::SocketError)));
@@ -60,23 +58,25 @@ void Client::newConnection(Connection *connection)
 void Client::readyForUse()
 {
     qDebug() << Q_FUNC_INFO;
+
     Connection *connection = qobject_cast<Connection *>(sender());
     if (!connection || hasConnection(connection->peerAddress(),
                                      connection->peerPort()))
         return;
-
-    connect(connection, SIGNAL(newMessage(QString,QString)),
-            this, SIGNAL(newMessage(QString,QString)));
+    //when new messages is come
+    /*connect(connection, SIGNAL(newMessage(QString,QString)),
+            this, SIGNAL(newMessage(QString,QString)));*/
 
     peers.insert(connection->peerAddress(), connection);
-    QString nick = connection->name();
+    /*QString nick = connection->name();
     if (!nick.isEmpty())
-        emit newParticipant(nick);
+        emit newParticipant(nick);*/
 }
 
 void Client::disconnected()
 {
     qDebug() << Q_FUNC_INFO;
+
     if (Connection *connection = qobject_cast<Connection *>(sender()))
         removeConnection(connection);
 }
@@ -84,6 +84,7 @@ void Client::disconnected()
 void Client::connectionError(QAbstractSocket::SocketError)
 {
     qDebug() << Q_FUNC_INFO;
+
     if (Connection *connection = qobject_cast<Connection *>(sender()))
         removeConnection(connection);
 }
@@ -91,11 +92,12 @@ void Client::connectionError(QAbstractSocket::SocketError)
 void Client::removeConnection(Connection *connection)
 {
     qDebug() << Q_FUNC_INFO;
+
     if (peers.contains(connection->peerAddress())) {
         peers.remove(connection->peerAddress());
-        QString nick = connection->name();
+        /*QString nick = connection->name();
         if (!nick.isEmpty())
-            emit participantLeft(nick);
+            emit participantLeft(nick);*/
     }
     connection->deleteLater();
-}*/
+}

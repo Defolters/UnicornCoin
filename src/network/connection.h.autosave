@@ -34,7 +34,7 @@ public:
     bool sendMessage(const QString &message);*/
 
 signals:
-    void readyForUse();  //!< signal which emitted, when socket is available
+    void readyForUse();  //!< signal is emitted, when socket is ready for use
     /*
     void newMessage(const QString &from, const QString &message);*/
 

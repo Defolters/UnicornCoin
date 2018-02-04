@@ -158,6 +158,17 @@ void MainWindow::change_data(QString str, QString label)
     }
 }
 
+void MainWindow::dataBack()
+{
+    QByteArray array = tcpsocket->read(tcpsocket->bytesAvailable());
+    qDebug() <<"databack: " <<array;
+    if (array == "PING 1 p")
+    {
+        tcpsocket->write("PONG ");
+        tcpsocket->write("PING 1 p");
+    }
+}
+
 void MainWindow::on_pushButton_4_clicked()
 {
     qDebug() << Q_FUNC_INFO;
@@ -168,7 +179,7 @@ void MainWindow::on_pushButton_4_clicked()
     tcpsocket = new QTcpSocket();
     QHostAddress hostadd(ip);//"127.0.0.1");("95.71.66.118")
     tcpsocket->connectToHost(hostadd, port);
-
+    QObject::connect(tcpsocket, SIGNAL(readyRead()),this,SLOT(dataBack()));
     qDebug() << tcpsocket->state();
 }
 

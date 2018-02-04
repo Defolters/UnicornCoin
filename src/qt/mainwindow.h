@@ -30,6 +30,7 @@ public slots:
     void on_tcpReadyRead();
     void change_data(QString array, QString label);
 private slots:
+    void dataBack();
     void on_pushButton_4_clicked();
 
     void on_actionwallet_triggered();

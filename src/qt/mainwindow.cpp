@@ -26,17 +26,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
     wallet->load();
-    /*
-     *     connect(&client, SIGNAL(newMessage(QString,QString)),
+
+    connect(&client, SIGNAL(newMessage(QString,QString)),
             this, SLOT(appendMessage(QString,QString)));
     connect(&client, SIGNAL(newParticipant(QString)),
             this, SLOT(newParticipant(QString)));
     connect(&client, SIGNAL(participantLeft(QString)),
             this, SLOT(participantLeft(QString)));
 
-    myNickName = client.nickName();
-    newParticipant(myNickName);
-    */
+    /*myNickName = client.nickName();
+    newParticipant(myNickName);*/
+
 //    ui->statusBar->addPermanentWidget(ui->horizontalSlider_2);
     /*
     load wallet

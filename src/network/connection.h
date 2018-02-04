@@ -7,6 +7,8 @@
 #include <QTime>
 #include <QTimer>
 
+#include "utils/messagetype.h"
+
 //static const int MaxBufferSize = 1024000;  //!<
 
 /**
@@ -21,8 +23,8 @@ public:
         WaitingForGreeting,
         ReadingGreeting,
         ReadyForUse
-    };
-    enum DataType {
+    };*/
+    /*enum DataType {
         PlainText,
         Ping,
         Pong,
@@ -33,14 +35,14 @@ public:
     Connection(QObject *parent = 0);
 
     /*QString name() const;
-    void setGreetingMessage(const QString &message);
-    bool sendMessage(const QString &message);*/
+    void setGreetingMessage(const QString &message);*/
+    bool sendMessage(const QString &data);  //!< Sends data
 
 signals:
-    void readyForUse();  //!< signal is emitted, when socket is ready for use
-    //void newData(const DataType type, const QString &data);  //!< signal is emitted, when new data is read
-    /*
-    void newMessage(const QString &from, const QString &message);*/
+    //!< signal is emitted, when socket is ready for use
+    void readyForUse();
+    //! signal is emitted, when new message is recieved
+    void newMessage(const DataType type, const QString &data);
 
 protected:
     //void timerEvent(QTimerEvent *timerEvent) override;
@@ -67,6 +69,7 @@ private:
     int numBytesForCurrentDataType;
     int transferTimerId;
     bool isGreetingMessageSent;*/
+    MessageType currentMessageType;
 };
 
 #endif // CONNECTION_H

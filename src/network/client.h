@@ -5,10 +5,12 @@
 #include <QHash>
 #include <QHostAddress>
 
+#include "utils/messagetype.h"
 #include "server.h"
 
 /**
- * @brief The Client class
+ * @brief The Client class.
+ * Works with Connections. Sends data.
  */
 class Client : public QObject
 {
@@ -17,33 +19,33 @@ class Client : public QObject
 public:
     Client();
 
-    //sendMessage();
-    /*void sendMessage(const QString &message);
-    QString nickName() const;*/
-    bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;  //!< checks that connection is already in multihash
+    //! Send message to all Connections, which is established
+    void sendMessage(const MessageType type, const QString &message);
+    //! checks that connection is already established (in multihash)
+    bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
 
 signals:
-    // сигналы для каждой части программы?
-    /*
-    void newData(const DataType type, const QString &data);  //!< when socket sends new data
-    void getData(Connection* connection, const DataType type, const QString &data);  //!< when socket asking for some data
-
-    void newMessage(const QString &from, const QString &message);
-    void newParticipant(const QString &nick);
-    void participantLeft(const QString &nick);*/
+    //! Signal is emitted, when some socket sends new data
+    void newData(const MessageType type, const QString &data);
+    //! Signal is emitted, when some socket sends requst for data
+    void newRequest(const MessageType type, const QString &data, Connection* connection);
 
 private slots:
-    void newConnection(Connection *connection);  //!< Slot is called when server gets new connection
-    void connectionError(QAbstractSocket::SocketError socketError);  //!< Slot is called when occured error while writing in socket
-    void disconnected();  //!< Slot is called when socket is disconnected
-    void readyForUse();  //!< Slot is called when socket is available, so we can add it to multihash
+    //! Slot is called when server gets new connection
+    void newConnection(Connection *connection);
+    //! Slot is called when error has occured while writing in socket
+    void connectionError(QAbstractSocket::SocketError socketError);
+    //! Slot is called when socket is disconnected
+    void disconnected();
+    //! Slot is called when connection established, so we can add it to multihash;
+    void readyForUse();
 
 private:
+    //! Method removes connection from peers and deletes connection
+    void removeConnection(Connection *connection);
+    //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
+    QMultiHash<QHostAddress, Connection *> peers;
     Server server;  //!< Server for client which listen for new connections
-    void removeConnection(Connection *connection);  //!< Method removes connection from peers and deletes connection
-
-    Server server;  //!< Server
-    QMultiHash<QHostAddress, Connection *> peers;  //!< MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection
 };
 
 

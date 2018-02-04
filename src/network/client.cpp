@@ -8,23 +8,24 @@ Client::Client()
     QObject::connect(&server, SIGNAL(newConnection(Connection*)),
                      this, SLOT(newConnection(Connection*)));
 }
-/*
-void Client::sendMessage(const QString &message)
+
+void Client::sendMessage(const MessageType type, const QString &message)
 {
     qDebug() << Q_FUNC_INFO;
+
     if (message.isEmpty())
         return;
 
     QList<Connection *> connections = peers.values();
     foreach (Connection *connection, connections)
-        connection->sendMessage(message);
+        //connection->sendData(data);
 }
 
-QString Client::nickName() const
+/*
+QString Client::about() const
 {
     qDebug() << QHostInfo::localHostName();
-    qDebug() << Q_FUNC_INFO;
-    return QString("Defolter") + '@' + QHostInfo::localHostName()
+    qDebug() << QString("Defolter") + '@' + QHostInfo::localHostName()
            + ':' + QString::number(server.serverPort());
 }
 */
@@ -64,13 +65,11 @@ void Client::readyForUse()
                                      connection->peerPort()))
         return;
     //when new messages is come we resend it up
+    //check type and then resent to up (I SHLOUD ADD METHOD FOR CHECKING TYPE)
     /*connect(connection, SIGNAL(newMessage(QString,QString)),
             this, SIGNAL(newMessage(QString,QString)));*/
 
     peers.insert(connection->peerAddress(), connection);
-    /*QString nick = connection->name();
-    if (!nick.isEmpty())
-        emit newParticipant(nick);*/
 }
 
 void Client::disconnected()
@@ -95,9 +94,6 @@ void Client::removeConnection(Connection *connection)
 
     if (peers.contains(connection->peerAddress())) {
         peers.remove(connection->peerAddress());
-        /*QString nick = connection->name();
-        if (!nick.isEmpty())
-            emit participantLeft(nick);*/
     }
     connection->deleteLater();
 }

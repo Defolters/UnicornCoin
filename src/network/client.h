@@ -49,7 +49,7 @@ private:
     //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
     QMultiHash<QHostAddress, Connection *> peers;
     Server server;  //!< Server for client which listen for new connections
-    //PeerManager peerManager;  //!< manager which makes new connections
+    PeerManager peerManager;  //!< manager which makes new connections
 };
 
 

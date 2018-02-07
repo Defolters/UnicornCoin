@@ -1,0 +1,68 @@
+#ifndef PEERMANAGER_H
+#define PEERMANAGER_H
+
+#include <QTcpSocket>
+/**
+ * @brief The PeerManager class.
+ * Asks clients for new addresses and makes new connections
+ * Makes new connections with other @class clientts
+ */
+class PeerManager : public QObject
+{
+    Q_OBJECT
+
+public:
+    PeerManager();
+
+signals:
+    //! when 
+    void newConnection(Connection *connection);
+    
+private slots:
+
+private:
+};
+
+#endif // PEERMANAGER_H
+/*
+
+#include <QByteArray>
+#include <QList>
+#include <QObject>
+#include <QTimer>
+#include <QUdpSocket>
+
+class Client;
+class Connection;
+
+class PeerManager : public QObject
+{
+    Q_OBJECT
+
+public:
+    PeerManager(Client *client);
+
+    void setServerPort(int port);
+    QByteArray userName() const;
+    void startBroadcasting();
+    bool isLocalHostAddress(const QHostAddress &address);
+
+signals:
+    void newConnection(Connection *connection);
+
+private slots:
+    void sendBroadcastDatagram();
+    void readBroadcastDatagram();
+
+private:
+    void updateAddresses();
+
+    Client *client;
+    QList<QHostAddress> broadcastAddresses;
+    QList<QHostAddress> ipAddresses;
+    QUdpSocket broadcastSocket;
+    QTimer broadcastTimer;
+    QByteArray username;
+    int serverPort;
+};
+*/

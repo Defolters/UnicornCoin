@@ -3,9 +3,12 @@
 
 #include <QMainWindow>
 #include <QTcpServer>
-#include "network/server.h"
-#include "utils/keygenerator.h"
+
 #include "pages/wallet.h"
+#include "utils/keygenerator.h"
+#include "utils/messagetype.h"
+#include "network/client.h"
+#include "network/server.h"
 
 namespace Ui {
 class MainWindow;
@@ -68,6 +71,7 @@ private:
 //    QTcpSocket *mTcpSocket;
 //    QTcpSocket *m_tcpSocket;
     Server *server;
+    Client client;  //!< Network client
     Wallet* wallet;
 };
 

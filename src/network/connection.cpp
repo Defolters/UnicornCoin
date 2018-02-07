@@ -2,28 +2,29 @@
 
 #include <QtNetwork>
 
-/*static const int TransferTimeout = 30 * 1000;
-static const int PongTimeout = 60 * 1000;
-static const int PingInterval = 5 * 1000;
+/*static const int TransferTimeout = 30 * 1000;*/
+static const int PongTimeout = 60 * 1000;  //!< If we not gets answer in pongtimeout close connection 60s
+static const int PingInterval = 5 * 1000;  //!< Ping interval 5s
+/*
 static const char SeparatorToken = ' ';*/
 
 Connection::Connection(QObject *parent)
     : QTcpSocket(parent)
 {
+    state = ConnectionState::WAITING;
+    currentMessageType = MessageType::UNDEFINED;
     /*greetingMessage = tr("undefined");
     username = tr("unknown");
-    state = WaitingForGreeting;
-    currentDataType = Undefined;
+
     numBytesForCurrentDataType = -1;
     transferTimerId = 0;
-    isGreetingMessageSent = false;
+    isGreetingMessageSent = false;*/
     pingTimer.setInterval(PingInterval);
 
-    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processReadyRead()));
-    //QObject::connect(this, SIGNAL(disconnected()), &pingTimer, SLOT(stop()));
+    //QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processReadyRead()));
+    QObject::connect(this, SIGNAL(disconnected()), &pingTimer, SLOT(stop()));
     QObject::connect(&pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()));
-    QObject::connect(this, SIGNAL(connected()),
-                     this, SLOT(sendGreetingMessage()));*/
+    QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVerack()));
 }
 /*
 QString Connection::name() const
@@ -35,7 +36,7 @@ void Connection::setGreetingMessage(const QString &message)
 {
     greetingMessage = message;
 }
-
+*/
 bool Connection::sendMessage(const QString &message)
 {
     qDebug() << Q_FUNC_INFO;
@@ -46,7 +47,7 @@ bool Connection::sendMessage(const QString &message)
     QByteArray data = "MESSAGE " + QByteArray::number(msg.size()) + ' ' + msg;
     return write(data) == data.size();
 }
-
+/*
 void Connection::timerEvent(QTimerEvent *timerEvent)
 {
     qDebug() << Q_FUNC_INFO;
@@ -114,19 +115,28 @@ void Connection::processReadyRead()
         processData();
     } while (bytesAvailable() > 0);
 }
-
+*/
 void Connection::sendPing()
 {
     qDebug() << Q_FUNC_INFO;
 
+    // Check that connection is answering to us, else abort
     if (pongTime.elapsed() > PongTimeout) {
         abort();
         return;
     }
 
-    write("PING 1 p");
+    //write("PING 1 p");
+    //write("#D#");
 }
 
+void Connection::sendVerack()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    //send verack
+}
+/*
 void Connection::sendGreetingMessage()
 {
     qDebug() << Q_FUNC_INFO;

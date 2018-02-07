@@ -175,8 +175,8 @@ void MainWindow::dataBack()
     qDebug() <<"databack: " <<array;
     if (array == "PING 1 p")
     {
-        tcpsocket->write("PONG ");
-        tcpsocket->write("PING 1 p");
+        tcpsocket->write("PONG 1 p");
+        //tcpsocket->write("PING 1 p");
     }
 }
 

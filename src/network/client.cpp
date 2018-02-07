@@ -7,6 +7,8 @@ Client::Client()
 {
     QObject::connect(&server, SIGNAL(newConnection(Connection*)),
                      this, SLOT(newConnection(Connection*)));
+    QObject::connect(&peerManager, SIGNAL(newConnection(Connection*)),
+                     this, SLOT(newConnection(Connection*)));
 }
 
 void Client::sendMessage(const MessageType type, const QString &message)
@@ -18,7 +20,7 @@ void Client::sendMessage(const MessageType type, const QString &message)
 
     QList<Connection *> connections = peers.values();
     foreach (Connection *connection, connections)
-        //connection->sendData(data);
+        connection->sendMessage(message);
 }
 
 /*

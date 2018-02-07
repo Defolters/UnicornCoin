@@ -1,28 +1,28 @@
 #ifndef MESSAGETYPE_H
 #define MESSAGETYPE_H
 
-//! An enum.
-/*! More detailed enum description. */
+//! An enum MessageType.
+/*! Contains message types for client communication. */
 enum class MessageType {
-    VERSION, /*!< Enum value TVal1. */
-    VERACK,
-    PING,
-    PONG,
-    TX,
-    GETTX,
-    BLOCK,
-    GETBLOCK,
-    ADDR,
-    GETADDR,
-    BCHAINSTATE,
-    GETBCHAINSTATE,
-    NOTFOUND,
-    MEMPOOL,
-    GETMEMPOOL,
-    UTXO,
-    GETUTXO,
-    REJECT,
-    UNDEFINED
+    VERSION,  /*!< Data */
+    VERACK,  /*!< */
+    PING,  /*!< */
+    PONG,  /*!< */
+    TX,  /*!< Data */
+    GETTX,  /*!< Request */
+    BLOCK,  /*!< Data */
+    GETBLOCK,  /*!< Request */
+    ADDR,  /*!< Data */
+    GETADDR,  /*!< Request */
+    BCHAINSTATE,  /*!< Data */
+    GETBCHAINSTATE,  /*!< Request */
+    NOTFOUND,  /*!< Data */
+    MEMPOOL,  /*!< Data */
+    GETMEMPOOL,  /*!< Request */
+    UTXO,  /*!< Data */
+    GETUTXO,  /*!< Request */
+    REJECT,  /*!< Data */
+    UNDEFINED  /*!< */
 
 };
 

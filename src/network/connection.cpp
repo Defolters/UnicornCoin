@@ -26,6 +26,19 @@ Connection::Connection(QObject *parent)
     QObject::connect(&pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()));
     QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVerack()));
 }
+
+bool Connection::sendMessage(const MessageType &type, const QString &data)
+{
+    qDebug() << Q_FUNC_INFO;
+    /*if (message.isEmpty())
+        return false;*/
+    // TYPE#SIZEOFDATA#DATA#SHAOFDATA
+    QByteArray raw = messageTypeStr(type);
+//    QByteArray msg = message.toUtf8();
+//    QByteArray data = "MESSAGE " + QByteArray::number(msg.size()) + ' ' + msg;
+//    return write(data) == data.size();
+    return false;
+}
 /*
 QString Connection::name() const
 {
@@ -37,16 +50,7 @@ void Connection::setGreetingMessage(const QString &message)
     greetingMessage = message;
 }
 */
-bool Connection::sendMessage(const QString &message)
-{
-    qDebug() << Q_FUNC_INFO;
-    if (message.isEmpty())
-        return false;
 
-    QByteArray msg = message.toUtf8();
-    QByteArray data = "MESSAGE " + QByteArray::number(msg.size()) + ' ' + msg;
-    return write(data) == data.size();
-}
 /*
 void Connection::timerEvent(QTimerEvent *timerEvent)
 {

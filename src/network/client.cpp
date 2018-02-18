@@ -29,16 +29,16 @@ Client::Client()
     addrTimer.start();
 }
 
-void Client::sendMessage(const MessageType type, const QString &message)
+void Client::sendMessage(const MessageType &type, const QString &message)
 {
     qDebug() << Q_FUNC_INFO;
 
-    if (message.isEmpty())
-        return;
+    /*if (message.isEmpty())
+        return;*/
 
     QList<Connection *> connections = peers.values();
     foreach (Connection *connection, connections)
-        connection->sendMessage(message);
+        connection->sendMessage(type, message);
 }
 
 /*
@@ -106,7 +106,7 @@ void Client::getAddr()
     // change page with network in mainwindow
 }
 
-void Client::processData(const MessageType type, const QString &data)
+void Client::processData(const MessageType &type, const QString &data)
 {
     typedef MessageType MT;
 

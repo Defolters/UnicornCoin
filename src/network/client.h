@@ -21,15 +21,15 @@ public:
     Client();
 
     //! Sends message to all Connections, which is alive
-    void sendMessage(const MessageType type, const QString &message);
+    void sendMessage(const MessageType &type, const QString &message);
     //! Checks that connection is already established (in multihash)
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
 
 signals:
     //! Signal is emitted, when some socket sends new data
-    void newData(const MessageType type, const QString &data);
+    void newData(const MessageType &type, const QString &data);
     //! Signal is emitted, when some socket sends requst for data
-    void newRequest(const MessageType type, const QString &data, Connection* connection);
+    void newRequest(const MessageType &type, const QString &data, Connection *connection);
 
 private slots:
     //! Slot is called when server gets new connection
@@ -44,7 +44,7 @@ private slots:
     //! Slot is called when it is time to save state of @class Connections and request Connections for new
     void getAddr();
     //! Slot is called when when we get new data from @class Connection. It emit appropriate signal
-    void processData(const MessageType type, const QString &data);
+    void processData(const MessageType &type, const QString &data);
 
 private:
     //! Method establishes connections with addresses from the string

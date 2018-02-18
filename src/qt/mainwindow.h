@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+
     ~MainWindow();
 
 public slots:
@@ -32,6 +33,7 @@ public slots:
     void on_newTcpConnection();
     void on_tcpReadyRead();
     void change_data(QString array, QString label);
+
 private slots:
     void dataBack();
     void on_pushButton_4_clicked();

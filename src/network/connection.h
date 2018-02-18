@@ -30,13 +30,14 @@ public:
 
     /*QString name() const;
     void setGreetingMessage(const QString &message);*/
-    bool sendMessage(const QString &data);  //!< Sends data
+    //!< Sends data
+    bool sendMessage(const MessageType &type, const QString &data);
 
 signals:
     //! signal is emitted, when socket is ready for use
     void readyForUse();
     //! signal is emitted, when new message is recieved
-    void newMessage(const MessageType type, const QString &data);
+    void newMessage(const MessageType &type, const QString &data);
 
 protected:
     //! I don't know the purpose of it

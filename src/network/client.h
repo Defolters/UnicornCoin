@@ -4,6 +4,7 @@
 #include <QAbstractSocket>
 #include <QHash>
 #include <QHostAddress>
+#include <QTimer>
 
 #include "utils/messagetype.h"
 #include "server.h"
@@ -40,16 +41,21 @@ private slots:
     void disconnected();
     //! Slot is called when connection established, so we can add it to multihash;
     void readyForUse();
+    //! sends reqest for new addresses and saves current state of connections
+    void getAddr();
 
 private:
+    //! Method establishes connections with addresses from the string
+    void connectTo(QString addresses);
     //! Method process new data and emit neccessary signal
     //void processData();
     //! Method removes connection from peers and deletes connection
     void removeConnection(Connection *connection);
     //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
     QMultiHash<QHostAddress, Connection *> peers;
+    QTimer addrTimer;  //! Timer for getAddr()
     Server server;  //!< Server for client which listen for new connections
-    PeerManager peerManager;  //!< manager which makes new connections
+//    PeerManager peerManager;  //!< manager which makes new connections
 };
 
 

@@ -59,9 +59,9 @@ private:
     void processData();
 
     QString greetingMessage;
-    QString username;
+    QString username;*/
     QTimer pingTimer;
-    QTime pongTime;
+    QTime pongTime;/*
     QByteArray buffer;
     ConnectionState state;
     int numBytesForCurrentDataType;

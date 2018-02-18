@@ -8,6 +8,8 @@
  * and makes new connections with ip addresses from this list
  * Makes new connections with other @class clientts
  */
+//class Connection;
+/*
 class PeerManager : public QObject
 {
     Q_OBJECT
@@ -17,18 +19,19 @@ public:
 
 signals:
     //! when found new connection
-    void newConnection(Connection *connection);
+//    void newConnection(Connection *connection);
 
 private slots:
 
 private:
+    /*
     void makeNewConnections(); //! makes connections with addresses
     void readAddressesFromFile();  //!read addresses from file
     void writeAddressesIntoFile();  //!write addresses into file
     void getAddresses();  //! for client request
     void askAddresses(); //! asks for new addresses and makes connections
-};
 
+};*/
 #endif // PEERMANAGER_H
 /*
 

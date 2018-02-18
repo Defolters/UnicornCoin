@@ -3,12 +3,30 @@
 #include "client.h"
 #include "connection.h"
 
+static const int AddrInterval = 5 * 1000;  //!< getAddr interval 5s
+
 Client::Client()
 {
     QObject::connect(&server, SIGNAL(newConnection(Connection*)),
                      this, SLOT(newConnection(Connection*)));
-    QObject::connect(&peerManager, SIGNAL(newConnection(Connection*)),
-                     this, SLOT(newConnection(Connection*)));
+    /*QObject::connect(&peerManager, SIGNAL(newConnection(Connection*)),
+                     this, SLOT(newConnection(Connection*)));*/
+
+    // read addresses and establish initial connections
+    QFile file("addresses.dat");
+    if(file.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "addresses opened";
+        QTextStream addresses(&file);
+        qDebug() << file.size() << addresses.readAll();
+        //прочитать текст и отправить в функцию
+        connectTo(addresses.readAll());
+    }
+
+    addrTimer.setInterval(AddrInterval);
+    // set timer for a method, which sends request for new addresses and saves addresses
+    // через время запрашивать новые адреса и пытаться подключиться, затем текущие соединения сохранить в файл
+    QObject::connect(&addrTimer, SIGNAL(timeout()), this, SLOT(getAddr()));
 }
 
 void Client::sendMessage(const MessageType type, const QString &message)
@@ -72,6 +90,21 @@ void Client::readyForUse()
             this, SIGNAL(newMessage(QString,QString)));*/
 
     peers.insert(connection->peerAddress(), connection);
+}
+
+void Client::getAddr()
+{
+    qDebug() << Q_FUNC_INFO;
+    // save into file
+    // send getaddr to connection()
+}
+
+void Client::connectTo(QString addresses)
+{
+    qDebug() << Q_FUNC_INFO;
+    qDebug() << addresses;
+    // token get addresses
+    //
 }
 
 void Client::disconnected()

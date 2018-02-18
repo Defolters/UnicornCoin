@@ -102,6 +102,8 @@ void Client::getAddr()
 
     // send getaddr to connections
     //sendMessage(MessageType::GETADDR, "");
+
+    // change page with network in mainwindow
 }
 
 void Client::processData(const MessageType type, const QString &data)
@@ -110,13 +112,27 @@ void Client::processData(const MessageType type, const QString &data)
 
     QList<MT> dataType;
     QList<MT> requestType;
-    dataType << MT::VERSION << MT::;
+
+    dataType << MT::VERSION << MT::VERACK << MT::TX <<
+                MT::BLOCK << MT::ADDR << MT::BCHAINSTATE <<
+                MT::NOTFOUND << MT::MEMPOOL << MT::UTXO << MT::REJECT;
+
+    requestType << MT::GETTX << MT::GETBLOCK << MT::GETADDR <<
+                   MT::GETBCHAINSTATE << MT::GETMEMPOOL << MT::GETUTXO;
+
+    if (dataType.contains(type))
+    {
+        emit newData(type, data);
+    }
+    else if(requestType.contains(type))
+    {
+        if(Connection *connection = qobject_cast<Connection *>(sender()))
+            emit newRequest(type, data, connection);
+    }
+
     switch (type)
     {
-        case MT::VERSION:
-        case MT::ADDR:
-            break;
-    case MT::
+        case MT::REJECT: "nooo, what should I do now?";
     }
     //определить тип, что-то выполнить, остальное выслать наверх
     // if type == addr
@@ -128,8 +144,6 @@ void Client::connectTo(QString addresses)
     //qDebug() << addresses;
 
     //пройтись с помощью токенов по адресам и попытаться подключиться, если таковых у нас нет
-    //QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
-
     //QRegExp rx("(\\n)");
     //QRegularExpression rx();
     QStringList addrList = addresses.split("\n");

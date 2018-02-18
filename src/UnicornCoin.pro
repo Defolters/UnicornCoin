@@ -36,8 +36,7 @@ SOURCES += \
     utils/blockobserver.cpp \
     utils/verifier.cpp \
     network/client.cpp \
-    network/connection.cpp \
-    network/peermanager.cpp
+    network/connection.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -54,8 +53,7 @@ HEADERS += \
     utils/verifier.h \
     network/client.h \
     network/connection.h \
-    utils/messagetype.h \
-    network/peermanager.h
+    utils/messagetype.h
 
 FORMS += \
     qt/forms/mainwindow.ui

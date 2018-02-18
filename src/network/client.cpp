@@ -105,6 +105,13 @@ void Client::connectTo(QString addresses)
 {
     qDebug() << Q_FUNC_INFO;
     qDebug() << addresses;
+    quint16 port = 8333;
+    QHostAddress host("127.0.0.1");
+    /*
+    Connection* con = new Connection;
+    con->connectToHost(host, port);
+    newConnection(con);
+    */
     // token get addresses
     //
 }

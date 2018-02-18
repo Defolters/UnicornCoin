@@ -59,7 +59,9 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
 }
 */
 void Connection::processNewData()
-{/*
+{
+    //split new data to type and Qstring data
+    /*
     qDebug() << Q_FUNC_INFO;
     //QByteArray array = read(bytesAvailable());
     //qDebug() <<"serverarray " <<array;

@@ -106,11 +106,27 @@ void Client::getAddr()
 
 void Client::processData(const MessageType type, const QString &data)
 {
+    Connection *connection = qobject_cast<Connection *>(sender());            
     typedef MessageType MT;
 
     QList<MT> dataType;
     QList<MT> requestType;
-    dataType << MT::VERSION << MT::;
+    
+    dataType << MT::VERSION << MT::VERACK << MT::TX << 
+                MT::BLOCK << MT::ADDR << MT::BCHAINSTATE << 
+                MT::NOTFOUND << MT::MEMPOOL << MT::UTXO << MT::REJECT;
+    
+    requestType << MT::GETTX << MT::GETBLOCK << MT::GETADDR << 
+                   MT::GETBCHAINSTATE << MT::GETMEMPOOL << MT::GETUTXO;
+    
+    if (dataType.contains(type))
+    {
+        emit newData(type, data);
+    }
+    else if(requestType.contains(type))
+    {
+        emit newRequest(type, data, connection);
+    }
     switch (type)
     {
         case MT::VERSION:

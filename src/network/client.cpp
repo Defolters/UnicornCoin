@@ -3,7 +3,7 @@
 #include "client.h"
 #include "connection.h"
 
-static const int AddrInterval = 5 * 1000;  //!< getAddr interval 5s
+static const int AddrInterval = 30 * 1000;  //!< getAddr interval 30s
 
 Client::Client()
 {
@@ -49,6 +49,7 @@ QString Client::about() const
            + ':' + QString::number(server.serverPort());
 }
 */
+
 bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
 {
     if (senderPort == -1)
@@ -97,35 +98,39 @@ void Client::getAddr()
 {
     qDebug() << Q_FUNC_INFO;
     // save into file
-    // send getaddr to connection()
+    // send getaddr to connections
 }
 
 void Client::processData(const MessageType type, const QString &data)
 {
     //определить тип, что-то выполнить, остальное выслать наверх
+    // if type == addr
 }
 
 void Client::connectTo(QString addresses)
 {
     qDebug() << Q_FUNC_INFO;
-    qDebug() << addresses;
+    //qDebug() << addresses;
 
     //пройтись с помощью токенов по адресам и попытаться подключиться, если таковых у нас нет
     //QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
 
-    QRegExp rx("(\\n)");
-    QStringList addrList = addresses.split(rx);
+    //QRegExp rx("(\\n)");
+    //QRegularExpression rx();
+    QStringList addrList = addresses.split("\n");
     QStringListIterator addrListIter(addrList);
     while (addrListIter.hasNext())
     {
-        qDebug() << addrListIter.next().split(" ") << endl;
+
+        QString address = addrListIter.next();
+        qDebug() << address << endl;
         //считать порт
+        //QHostAddress host(address.split(" ").at(0));
         //считать адрес
-        /*quint16 port = 8333;
-        QHostAddress host("127.0.0.1");
-        Connection* con = new Connection();
-        con->connectToHost(host, port);
-        newConnection(con);*/
+        //quint16 port = address.split(" ").at(1).toUInt();
+//        Connection* con = new Connection();
+//        con->connectToHost(host, port);
+//        newConnection(con);
     }
 }
 

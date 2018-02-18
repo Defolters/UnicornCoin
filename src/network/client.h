@@ -6,13 +6,12 @@
 #include <QHostAddress>
 #include <QTimer>
 
-#include "utils/messagetype.h"
 #include "server.h"
-#include "peermanager.h"
+#include "utils/messagetype.h"
 
 /**
  * @brief The Client class.
- * Works with Connections. Sends data.
+ * Works with @class Connections. Sends and process data.
  */
 class Client : public QObject
 {
@@ -23,7 +22,7 @@ public:
 
     //! Send message to all Connections, which is established
     void sendMessage(const MessageType type, const QString &message);
-    //! checks that connection is already established (in multihash)
+    //! Checks that connection is already established (in multihash)
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
 
 signals:
@@ -34,6 +33,7 @@ signals:
 
 private slots:
     //! Slot is called when server gets new connection
+    //!
     void newConnection(Connection *connection);
     //! Slot is called when error has occured while writing in socket
     void connectionError(QAbstractSocket::SocketError socketError);
@@ -43,20 +43,20 @@ private slots:
     void readyForUse();
     //! Sends reqest for new addresses and saves current state of connections
     void getAddr();
+    //! Slot process new data from @class Connect and emit appropriate signal
+    void processData(const MessageType type, const QString &data);
 
 private:
     //! Method establishes connections with addresses from the string
     void connectTo(QString addresses);
-    //! Method process new data and emit neccessary signal
-    //void processData();
     //! Method removes connection from peers and deletes connection
     void removeConnection(Connection *connection);
     //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
     QMultiHash<QHostAddress, Connection *> peers;
-    QTimer addrTimer;  //! Timer for getAddr()
-    Server server;  //!< Server for client which listen for new connections
-//    PeerManager peerManager;  //!< manager which makes new connections
+    //! Timer for getAddr()
+    QTimer addrTimer;
+    //! Server for client which listen for new connections
+    Server server;
 };
-
 
 #endif // CLIENT_H

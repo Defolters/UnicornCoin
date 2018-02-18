@@ -9,8 +9,6 @@ Client::Client()
 {
     QObject::connect(&server, SIGNAL(newConnection(Connection*)),
                      this, SLOT(newConnection(Connection*)));
-    /*QObject::connect(&peerManager, SIGNAL(newConnection(Connection*)),
-                     this, SLOT(newConnection(Connection*)));*/
 
     // read addresses and establish initial connections
     qDebug() << QDir::currentPath();
@@ -90,7 +88,8 @@ void Client::readyForUse()
     //check type and then resent to up (I SHLOUD ADD METHOD FOR CHECKING TYPE)
     /*connect(connection, SIGNAL(newMessage(QString,QString)),
             this, SIGNAL(newMessage(QString,QString)));*/
-
+    connect(connection, SIGNAL(newMessage(MessageType,QString)),
+            this, SLOT(processData(MessageType,QString)));
     peers.insert(connection->peerAddress(), connection);
 }
 
@@ -101,19 +100,33 @@ void Client::getAddr()
     // send getaddr to connection()
 }
 
+void Client::processData(const MessageType type, const QString &data)
+{
+    //определить тип, что-то выполнить, остальное выслать наверх
+}
+
 void Client::connectTo(QString addresses)
 {
     qDebug() << Q_FUNC_INFO;
     qDebug() << addresses;
-    quint16 port = 8333;
-    QHostAddress host("127.0.0.1");
-    /*
-    Connection* con = new Connection;
-    con->connectToHost(host, port);
-    newConnection(con);
-    */
-    // token get addresses
-    //
+
+    //пройтись с помощью токенов по адресам и попытаться подключиться, если таковых у нас нет
+    //QRegExp rx("(\\ |\\,|\\.|\\:|\\t)"); //RegEx for ' ' or ',' or '.' or ':' or '\t'
+
+    QRegExp rx("(\\n)");
+    QStringList addrList = addresses.split(rx);
+    QStringListIterator addrListIter(addrList);
+    while (addrListIter.hasNext())
+    {
+        qDebug() << addrListIter.next().split(" ") << endl;
+        //считать порт
+        //считать адрес
+        /*quint16 port = 8333;
+        QHostAddress host("127.0.0.1");
+        Connection* con = new Connection();
+        con->connectToHost(host, port);
+        newConnection(con);*/
+    }
 }
 
 void Client::disconnected()

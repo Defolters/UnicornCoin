@@ -43,8 +43,8 @@ protected:
     //void timerEvent(QTimerEvent *timerEvent) override;
 
 private slots:
-    /*void processReadyRead();
-    */
+    //! Method handles new data from socket
+    void processNewData();
     //! Method which sends ping to check that connection is alive
     void sendPing();
     //! Method sends confirmation, that connection is established

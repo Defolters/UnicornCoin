@@ -21,7 +21,7 @@ Connection::Connection(QObject *parent)
     isGreetingMessageSent = false;*/
     pingTimer.setInterval(PingInterval);
 
-    //QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processReadyRead()));
+    //QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processNewData()));
     QObject::connect(this, SIGNAL(disconnected()), &pingTimer, SLOT(stop()));
     QObject::connect(&pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()));
     QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVerack()));
@@ -57,9 +57,9 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
         transferTimerId = 0;
     }
 }
-
-void Connection::processReadyRead()
-{
+*/
+void Connection::processNewData()
+{/*
     qDebug() << Q_FUNC_INFO;
     //QByteArray array = read(bytesAvailable());
     //qDebug() <<"serverarray " <<array;
@@ -113,9 +113,9 @@ void Connection::processReadyRead()
         if (!hasEnoughData())
             return;
         processData();
-    } while (bytesAvailable() > 0);
+    } while (bytesAvailable() > 0);*/
 }
-*/
+
 void Connection::sendPing()
 {
     qDebug() << Q_FUNC_INFO;

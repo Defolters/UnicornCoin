@@ -4,13 +4,13 @@
 #include <QDebug>
 #include <QHostAddress>
 #include <QTcpSocket>
-#include <QTcpServer>
 #include <QMessageBox>
 #include "datastructure/transaction.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), server(new Server), tcpsocket(nullptr),
+    ui(new Ui::MainWindow),
+    tcpsocket(nullptr),
     wallet(new Wallet(this))
 {
     ui->setupUi(this);

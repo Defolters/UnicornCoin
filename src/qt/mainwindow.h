@@ -70,7 +70,7 @@ private:
     QTcpSocket *tcpsocket;
 //    QTcpSocket *mTcpSocket;
 //    QTcpSocket *m_tcpSocket;
-    Server *server;
+//    Server *server;
     Client client;  //!< Network client
     Wallet* wallet;
 };

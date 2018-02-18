@@ -41,7 +41,7 @@ private slots:
     void disconnected();
     //! Slot is called when connection established, so we can add it to multihash;
     void readyForUse();
-    //! sends reqest for new addresses and saves current state of connections
+    //! Sends reqest for new addresses and saves current state of connections
     void getAddr();
 
 private:

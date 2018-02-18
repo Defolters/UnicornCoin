@@ -13,6 +13,7 @@ Client::Client()
                      this, SLOT(newConnection(Connection*)));*/
 
     // read addresses and establish initial connections
+    qDebug() << QDir::currentPath();
     QFile file("addresses.dat");
     if(file.open(QFile::ReadOnly | QFile::Text))
     {
@@ -27,6 +28,7 @@ Client::Client()
     // set timer for a method, which sends request for new addresses and saves addresses
     // через время запрашивать новые адреса и пытаться подключиться, затем текущие соединения сохранить в файл
     QObject::connect(&addrTimer, SIGNAL(timeout()), this, SLOT(getAddr()));
+    addrTimer.start();
 }
 
 void Client::sendMessage(const MessageType type, const QString &message)

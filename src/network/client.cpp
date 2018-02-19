@@ -74,6 +74,7 @@ void Client::connectTo(QString &addresses)
 
     QStringList addrList = addresses.split("\n");
     QStringListIterator addrListIter(addrList);
+
     while (addrListIter.hasNext())
     {
 
@@ -85,6 +86,13 @@ void Client::connectTo(QString &addresses)
 
         QHostAddress host(address.split(" ").at(0));
         quint16 port = address.split(" ").at(1).toUInt();
+        if (hasConnection(host, port))
+            continue;
+
+        Connection* connection = new Connection();
+        connection->connectToHost(host, port);
+        newConnection(connection);
+        connection->sendMessage(MessageType::VERSION, QHostInfo::localHostName() + " " +QString::number(server.serverPort()));
 //        Connection* con = new Connection();
 //        con->connectToHost(host, port);
 //        newConnection(con);
@@ -168,11 +176,36 @@ void Client::getAddr()
 {
     qDebug() << Q_FUNC_INFO;
 
-    // save into file
+    QString addresses;
+    QList<QHostAddress> list=peers.keys();
+    if (peers.empty())
+    {
+        qDebug() << "empty";
+        return;
+    }
+    //there is can be an error, i didn't check it yet
     // iterate through multihash and create string with ip and port
-    //then save
+    for (auto host : list)
+    {
+        QList<Connection *> values = peers.values(host);
+        for (int i = 0; i < values.size(); ++i)
+        {
+            //"::ffff:192.168.0.102" 54823
+            addresses.append(host.toString().split(":").at(3) + " ");
+            addresses.append(QString::number(values.at(i)->localPort()) + "\n");
+            qDebug() << addresses << endl;
+        }
+    }
+
+    // save into file
+    QFile file("addresses.dat");
+    if(file.open(QFile::WriteOnly | QFile::Text))
+    {
+        qDebug() << "addresses opened";
+        file.write(addresses.toUtf8());
+    }
     // send getaddr to connections
-    //sendMessage(MessageType::GETADDR, "");
+    sendMessage(MessageType::GETADDR, "");
 
     // change page with network in mainwindow with current state of network
     //emit ..

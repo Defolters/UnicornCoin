@@ -192,6 +192,7 @@ void MainWindow::on_pushButton_4_clicked()
     tcpsocket->connectToHost(hostadd, port);
     QObject::connect(tcpsocket, SIGNAL(readyRead()),this,SLOT(dataBack()));
     qDebug() << tcpsocket->state();
+    //client.connectTo();
 }
 
 void MainWindow::on_actionwallet_triggered()

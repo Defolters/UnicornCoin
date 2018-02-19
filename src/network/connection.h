@@ -28,16 +28,14 @@ public:
 
     Connection(QObject *parent = 0);
 
-    /*QString name() const;
-    void setGreetingMessage(const QString &message);*/
     //!< Sends data
-    bool sendMessage(const MessageType &type, const QString &data);
+    bool sendMessage(const MessageType type, const QString &data);
 
 signals:
     //! signal is emitted, when socket is ready for use
     void readyForUse();
     //! signal is emitted, when new message is recieved
-    void newMessage(const MessageType &type, const QString &data);
+    void newMessage(const MessageType type, const QString &data);
 
 protected:
     //! I don't know the purpose of it

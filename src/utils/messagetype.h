@@ -4,7 +4,7 @@
 //! An enum MessageType.
 /*! Contains message types for client communication. */
 enum class MessageType {
-    VERSION,  /*!< Data */
+    VERSION = 0,  /*!< Data */
     VERACK,  /*!< */
     PING,  /*!< */
     PONG,  /*!< */
@@ -26,5 +26,11 @@ enum class MessageType {
 
 };
 
-static const QList<QString> messageTypeStr{"VERSION", "VERACK", "PING", "PONG", "TX", "GETTX", "BLOCK", "GETBLOCK", "ADDR", "GETADDR", "BCHAINSTATE", "GETBCHAINSTATE", "NOTFOUND", "MEMPOOL", "GETMEMPOOL", "UTXO", "GETUTXO", "REJECT", "UNDEFINED"};
+static const QList<QString> messageTypeStr{"VERSION", "VERACK", "PING",
+                                           "PONG", "TX", "GETTX", "BLOCK",
+                                           "GETBLOCK", "ADDR", "GETADDR",
+                                           "BCHAINSTATE", "GETBCHAINSTATE",
+                                           "NOTFOUND", "MEMPOOL", "GETMEMPOOL",
+                                           "UTXO", "GETUTXO", "REJECT",
+                                           "UNDEFINED"};
 #endif // MESSAGETYPE_H

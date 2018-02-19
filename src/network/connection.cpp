@@ -1,6 +1,7 @@
 #include "connection.h"
 
 #include <QtNetwork>
+#include <QCryptographicHash>
 
 /*static const int TransferTimeout = 30 * 1000;*/
 static const int PongTimeout = 60 * 1000;  //!< If we not gets answer in pongtimeout close connection 60s
@@ -27,29 +28,25 @@ Connection::Connection(QObject *parent)
     QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVerack()));
 }
 
-bool Connection::sendMessage(const MessageType &type, const QString &data)
+bool Connection::sendMessage(const MessageType type, const QString &data)
 {
     qDebug() << Q_FUNC_INFO;
     /*if (message.isEmpty())
         return false;*/
-    // TYPE#SIZEOFDATA#DATA#SHAOFDATA
-    QByteArray raw = messageTypeStr(type);
-//    QByteArray msg = message.toUtf8();
-//    QByteArray data = "MESSAGE " + QByteArray::number(msg.size()) + ' ' + msg;
-//    return write(data) == data.size();
-    return false;
-}
-/*
-QString Connection::name() const
-{
-    return username;
-}
+    // TYPE#SIZEOFDATA#DATA#HASHOFDATA
+    QByteArray dat = data.toUtf8();
+    QByteArray raw = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8()
+            + "#" +
+            QByteArray::number(dat.size())
+            + "#" +
+            QCryptographicHash::hash(dat, QCryptographicHash::Md5);
 
-void Connection::setGreetingMessage(const QString &message)
-{
-    greetingMessage = message;
+    qDebug() << raw;
+    //QByteArray msg = data.toUtf8();
+    //QByteArray data1 = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8() +"#"+ QByteArray::number(dat.size()) + ' ' + dat;
+    return write(raw) == raw.size();
+    //return false;
 }
-*/
 
 /*
 void Connection::timerEvent(QTimerEvent *timerEvent)
@@ -131,9 +128,8 @@ void Connection::sendPing()
         abort();
         return;
     }
-
+    sendMessage(MessageType::PING, "Ты еще не умер, бро?");
     //write("PING 1 p");
-    //write("#D#");
 }
 
 void Connection::sendVerack()

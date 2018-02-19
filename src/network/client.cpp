@@ -16,10 +16,11 @@ Client::Client()
     if(file.open(QFile::ReadOnly | QFile::Text))
     {
         qDebug() << "addresses opened";
-        QTextStream addresses(&file);
-        qDebug() << file.size() << addresses.readAll();
+        QTextStream addrTS(&file);
+        QString addresses = addrTS.readAll();
+        qDebug() << file.size()<< addresses ;//<< addresses.readAll();
         //прочитать текст и отправить в функцию
-        connectTo(addresses.readAll());
+        connectTo(addresses);
     }
 
     addrTimer.setInterval(AddrInterval);
@@ -67,6 +68,30 @@ bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
     return false;
 }
 
+void Client::connectTo(QString &addresses)
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QStringList addrList = addresses.split("\n");
+    QStringListIterator addrListIter(addrList);
+    while (addrListIter.hasNext())
+    {
+
+        QString address = addrListIter.next();
+        if (address.isEmpty())
+            continue;
+
+        //qDebug() << address << " " <<address.split(" ").at(0)<<""<<address.split(" ").at(1).toUInt()<<endl;
+
+        QHostAddress host(address.split(" ").at(0));
+        quint16 port = address.split(" ").at(1).toUInt();
+//        Connection* con = new Connection();
+//        con->connectToHost(host, port);
+//        newConnection(con);
+        //create new connection, slot connection and send version
+    }
+}
+
 void Client::newConnection(Connection *connection)
 {
     qDebug() << Q_FUNC_INFO;
@@ -85,25 +110,10 @@ void Client::readyForUse()
     if (!connection || hasConnection(connection->peerAddress(),
                                      connection->peerPort()))
         return;
-    //when new messages is come we resend it up
-    //check type and then resent to up (I SHLOUD ADD METHOD FOR CHECKING TYPE)
-    /*connect(connection, SIGNAL(newMessage(QString,QString)),
-            this, SIGNAL(newMessage(QString,QString)));*/
+
     connect(connection, SIGNAL(newMessage(MessageType,QString)),
             this, SLOT(processData(MessageType,QString)));
     peers.insert(connection->peerAddress(), connection);
-}
-
-void Client::getAddr()
-{
-    qDebug() << Q_FUNC_INFO;
-
-    // save into file
-
-    // send getaddr to connections
-    //sendMessage(MessageType::GETADDR, "");
-
-    // change page with network in mainwindow
 }
 
 void Client::processData(const MessageType &type, const QString &data)
@@ -138,30 +148,12 @@ void Client::processData(const MessageType &type, const QString &data)
     // if type == addr
 }
 
-void Client::connectTo(QString addresses)
+void Client::connectionError(QAbstractSocket::SocketError)
 {
     qDebug() << Q_FUNC_INFO;
-    //qDebug() << addresses;
 
-    //пройтись с помощью токенов по адресам и попытаться подключиться, если таковых у нас нет
-    //QRegExp rx("(\\n)");
-    //QRegularExpression rx();
-    QStringList addrList = addresses.split("\n");
-    QStringListIterator addrListIter(addrList);
-    while (addrListIter.hasNext())
-    {
-
-        QString address = addrListIter.next();
-        qDebug() << address << endl;
-        //считать порт
-        //QHostAddress host(address.split(" ").at(0));
-        //считать адрес
-        //quint16 port = address.split(" ").at(1).toUInt();
-//        Connection* con = new Connection();
-//        con->connectToHost(host, port);
-//        newConnection(con);
-        //send version
-    }
+    if (Connection *connection = qobject_cast<Connection *>(sender()))
+        removeConnection(connection);
 }
 
 void Client::disconnected()
@@ -172,12 +164,18 @@ void Client::disconnected()
         removeConnection(connection);
 }
 
-void Client::connectionError(QAbstractSocket::SocketError)
+void Client::getAddr()
 {
     qDebug() << Q_FUNC_INFO;
 
-    if (Connection *connection = qobject_cast<Connection *>(sender()))
-        removeConnection(connection);
+    // save into file
+    // iterate through multihash and create string with ip and port
+    //then save
+    // send getaddr to connections
+    //sendMessage(MessageType::GETADDR, "");
+
+    // change page with network in mainwindow with current state of network
+    //emit ..
 }
 
 void Client::removeConnection(Connection *connection)

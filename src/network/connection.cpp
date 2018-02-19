@@ -61,6 +61,7 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
 */
 void Connection::processNewData()
 {
+    MessageType::
     //split new data to type and Qstring data
     /*
     qDebug() << Q_FUNC_INFO;

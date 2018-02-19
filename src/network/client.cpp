@@ -42,15 +42,6 @@ void Client::sendMessage(const MessageType &type, const QString &message)
         connection->sendMessage(type, message);
 }
 
-/*
-QString Client::about() const
-{
-    qDebug() << QHostInfo::localHostName();
-    qDebug() << QString("Defolter") + '@' + QHostInfo::localHostName()
-           + ':' + QString::number(server.serverPort());
-}
-*/
-
 bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
 {
     if (senderPort == -1)
@@ -89,14 +80,11 @@ void Client::connectTo(QString &addresses)
         if (hasConnection(host, port))
             continue;
 
+        //create new connection, slot connection and send version
         Connection* connection = new Connection();
         connection->connectToHost(host, port);
         newConnection(connection);
         connection->sendMessage(MessageType::VERSION, QHostInfo::localHostName() + " " +QString::number(server.serverPort()));
-//        Connection* con = new Connection();
-//        con->connectToHost(host, port);
-//        newConnection(con);
-        //create new connection, slot connection and send version
     }
 }
 

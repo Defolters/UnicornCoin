@@ -16,9 +16,16 @@ English description is comming soon in READMEeng.md…
 ## Что используется
 ## Чему учимся
 * Любуемся markdown
-* познаем git из консоли
-* 
+* Познаем git из консоли
+* Ломаем руки с помощью C++
+* Строим велосипеды
+
 ## Установка
 ## Что нужно сделать
-- [x] Создать репозиторий
-- [ ] Начать работать
+- [x] Create repository
+- [x] Start working
+- [x] Create main window and some design for GUI 
+- [ ] Write crypto part
+- [ ] Write data part
+- [ ] Write network part
+- [ ] Write miner part

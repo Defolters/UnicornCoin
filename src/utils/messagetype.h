@@ -4,7 +4,7 @@
 //! An enum MessageType.
 /*! Contains message types for client communication. */
 enum class MessageType {
-    VERSION = 0,  /*!< Data */
+    VERSION,  /*!< Data */
     VERACK,  /*!< */
     PING,  /*!< */
     PONG,  /*!< */

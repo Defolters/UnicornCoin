@@ -14,6 +14,7 @@ Connection::Connection(QObject *parent)
 {
     state = ConnectionState::WAITING;
     currentMessageType = MessageType::UNDEFINED;
+    isVersionSend = false;
     /*greetingMessage = tr("undefined");
     username = tr("unknown");
 
@@ -62,6 +63,12 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
 void Connection::processNewData()
 {
     emit readyForUse();
+
+    if (state == ConnectionState::CONNECTED)
+    {
+        //check that we got version
+        //send verack in response
+    }
     //MessageType::
     //split new data to type and Qstring data
     /*
@@ -132,12 +139,17 @@ void Connection::sendPing()
     //write("PING 1 p");
 }
 
-void Connection::sendVersion()
+void Connection::sendVersion(MessageType type)
 {
     qDebug() << Q_FUNC_INFO;
 
     //send version
-    sendMessage(MessageType::VERSION, QHostInfo::localHostName());
+    sendMessage(type, QHostInfo::localHostName());
+    /*if(type==MessageType::VERACK)
+    {
+        state = ConnectionState::READY;
+    }*/
+    isVersionSend = true;
 }
 /*
 void Connection::sendGreetingMessage()

@@ -21,8 +21,8 @@ class Connection : public QTcpSocket
 public:
     //! An enum MessageType.
     enum class ConnectionState {
-        WAITING,  /*!< Waiting for version message to establish connection */
-        //PREPARING,
+        CONNECTED, /*!< Waiting for version message to establish connection */
+        WAITING,  /*!< Waiting for verack (answer for our version message) */
         READY  /*!< Ready to read */
     };
 
@@ -66,6 +66,7 @@ private:
     int numBytesForCurrentDataType;
     int transferTimerId;
     bool isGreetingMessageSent;*/
+    bool isVersionSend;
     ConnectionState state;  //!< state of connection
     MessageType currentMessageType;  //!< current type of message
 };

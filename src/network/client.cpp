@@ -34,8 +34,8 @@ void Client::sendMessage(const MessageType &type, const QString &message)
 {
     qDebug() << Q_FUNC_INFO;
 
-    /*if (message.isEmpty())
-        return;*/
+    if (message.isEmpty())
+        return;
 
     QList<Connection *> connections = peers.values();
     foreach (Connection *connection, connections)
@@ -84,6 +84,7 @@ void Client::connectTo(QString &addresses)
         Connection* connection = new Connection();
         connection->connectToHost(host, port);
         newConnection(connection);
+        // если подключаемся, оно само отправляет версию
         //connection->sendMessage(MessageType::VERSION, QHostInfo::localHostName() + " " +QString::number(server.serverPort()));
     }
 }
@@ -178,10 +179,13 @@ void Client::getAddr()
     // iterate through multihash and create string with ip and port
     for (auto host : list)
     {
-        QList<Connection *> values = peers.values(host);
+        qDebug() << host.toString();
+        addresses.append(host.toString().split(":").last() + " ");
+        qDebug() << addresses << endl;
+        /*QList<Connection *> values = peers.values(host);
         for (int i = 0; i < values.size(); ++i)
         {
-            //"::ffff:192.168.0.102" 54823
+            //"::ffff:192.168.0.102" 54823 127.0.0.1
             try{addresses.append(host.toString().split(":").at(3) + " ");}
             catch(const std::exception &ex)
             {
@@ -192,7 +196,7 @@ void Client::getAddr()
 //            значит, нужно сохранять просто адреса?
             //addresses.append(QString::number(values.at(i)->peerPort()) + "\n");
             qDebug() << addresses << endl;
-        }
+        }*/
     }
 
     // save into file

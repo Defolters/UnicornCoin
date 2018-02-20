@@ -4,25 +4,25 @@
 //! An enum MessageType.
 /*! Contains message types for client communication. */
 enum class MessageType {
-    VERSION,  /*!< Data */
-    VERACK,  /*!< */
-    PING,  /*!< */
-    PONG,  /*!< */
+    VERSION,  /*!< Connection */
+    VERACK,  /*!< Connection */
+    PING,  /*!< Connection */
+    PONG,  /*!< Connection */
     TX,  /*!< Data */
     GETTX,  /*!< Request */
     BLOCK,  /*!< Data */
     GETBLOCK,  /*!< Request */
-    ADDR,  /*!< Data */
-    GETADDR,  /*!< Request */
+    ADDR,  /*!< Client Data */
+    GETADDR,  /*!< Client Request */
     BCHAINSTATE,  /*!< Data */
     GETBCHAINSTATE,  /*!< Request */
-    NOTFOUND,  /*!< Data */
+    NOTFOUND,  /*!< ??? */
     MEMPOOL,  /*!< Data */
     GETMEMPOOL,  /*!< Request */
     UTXO,  /*!< Data */
     GETUTXO,  /*!< Request */
-    REJECT,  /*!< Data */
-    UNDEFINED  /*!< */
+    REJECT,  /*!< ??? */
+    UNDEFINED  /*!< ??? */
 
 };
 

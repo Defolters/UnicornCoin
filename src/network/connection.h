@@ -51,6 +51,10 @@ private slots:
     void sendGreetingMessage();*/
 
 private:
+    //! Method reads data from socket
+    void readNewData();
+    //! Method reads size of particular data
+    void readSize();
     /*int readDataIntoBuffer(int maxSize = MaxBufferSize);
     int dataLengthForCurrentDataType();
     bool readProtocolHeader();
@@ -60,8 +64,8 @@ private:
     QString greetingMessage;
     QString username;*/
     QTimer pingTimer;
-    QTime pongTime;/*
-    QByteArray buffer;
+    QTime pongTime;
+    QByteArray buffer;/*
     ConnectionState state;
     int numBytesForCurrentDataType;
     int transferTimerId;

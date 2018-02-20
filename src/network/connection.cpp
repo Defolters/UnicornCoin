@@ -64,11 +64,19 @@ void Connection::processNewData()
 {
     emit readyForUse();
 
+    try
+    {
+        readNewData();
+    }
+    catch(std::)
+
     if (state == ConnectionState::CONNECTED)
     {
         //check that we got version
         //send verack in response
     }
+    if (state == ConnectionState::WAITING)
+    {}
     //MessageType::
     //split new data to type and Qstring data
     /*
@@ -137,6 +145,46 @@ void Connection::sendPing()
     }
     sendMessage(MessageType::PING, "Ты еще не умер, бро?");
     //write("PING 1 p");
+}
+
+void Connection::readNewData()
+{
+    qDebug() << Q_FUNC_INFO;
+    int size;
+
+    size = readSize();
+    QByteArray type = read(size);
+
+    size = readSize();
+    buffer = read(size);
+
+    size = readSize();
+    QByteArray md5 = read(size);
+
+    //translate type into currentMessageType
+    // как лучше сохранять и обрабатывать?.. Мозжет, лучше enum instead of enum class?
+    int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
+
+    // check that md5 == md5(buffer)
+    //else throw error
+
+    //читаем до #, затем обрабатываем число, затем читаем решетку,
+    //    затем читаем до решетки, затем то же самое.
+}
+
+int Connection::readSize()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QByteArray size;
+
+    while (!size.endsWith("#"))
+    {
+        size.append(read(1));
+    }
+    size.remove(size.size()-1, 1);
+
+    return size.toInt();
 }
 
 void Connection::sendVersion(MessageType type)

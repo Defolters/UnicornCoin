@@ -14,6 +14,11 @@ English description is comming soon in READMEeng.md…
 ## What I've learnt
 * Look at markdown
 * Learn git from console
+- git add .
+- git commit -m ""
+- git diff --stat
+- git checkout -b new_branch
+
 * Break hands with the help of C++
 * Build bicycle
 

@@ -47,7 +47,7 @@ private slots:
     //! Method which sends ping to check that connection is alive
     void sendPing();
     //! Method sends confirmation, that connection is established
-    void sendVerack();/*
+    void sendVersion();/*
     void sendGreetingMessage();*/
 
 private:

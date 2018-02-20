@@ -184,7 +184,7 @@ void MainWindow::on_pushButton_4_clicked()
 {
     qDebug() << Q_FUNC_INFO;
     QString ip = ui->ip2_2->text();
-    quint16 port = 8333;
+    quint16 port = 9229;
     //port = ui->port2->text().toUShort();
     qDebug() << port << " " <<ip;
     tcpsocket = new QTcpSocket();

@@ -63,7 +63,7 @@ void Client::connectTo(QString &addresses)
 {
     qDebug() << Q_FUNC_INFO;
 
-    QStringList addrList = addresses.split("\n");
+    QStringList addrList = addresses.split(" ");
     QStringListIterator addrListIter(addrList);
 
     while (addrListIter.hasNext())
@@ -73,10 +73,10 @@ void Client::connectTo(QString &addresses)
         if (address.isEmpty())
             continue;
 
-        //qDebug() << address << " " <<address.split(" ").at(0)<<""<<address.split(" ").at(1).toUInt()<<endl;
+        qDebug() << address ;//<< " " <<address.split(" ").at(0)<<""<<address.split(" ").at(1).toUInt()<<endl;
 
-        QHostAddress host(address.split(" ").at(0));
-        quint16 port = address.split(" ").at(1).toUInt();
+        QHostAddress host(address);
+        quint16 port = 9229;//address.split(" ").at(1).toUInt();
         if (hasConnection(host, port))
             continue;
 
@@ -84,7 +84,7 @@ void Client::connectTo(QString &addresses)
         Connection* connection = new Connection();
         connection->connectToHost(host, port);
         newConnection(connection);
-        connection->sendMessage(MessageType::VERSION, QHostInfo::localHostName() + " " +QString::number(server.serverPort()));
+        //connection->sendMessage(MessageType::VERSION, QHostInfo::localHostName() + " " +QString::number(server.serverPort()));
     }
 }
 
@@ -114,6 +114,8 @@ void Client::readyForUse()
 
 void Client::processData(const MessageType &type, const QString &data)
 {
+    qDebug() << Q_FUNC_INFO;
+
     typedef MessageType MT;
 
     QList<MT> dataType;
@@ -166,6 +168,7 @@ void Client::getAddr()
 
     QString addresses;
     QList<QHostAddress> list=peers.keys();
+
     if (peers.empty())
     {
         qDebug() << "empty";
@@ -179,8 +182,15 @@ void Client::getAddr()
         for (int i = 0; i < values.size(); ++i)
         {
             //"::ffff:192.168.0.102" 54823
-            addresses.append(host.toString().split(":").at(3) + " ");
-            addresses.append(QString::number(values.at(i)->localPort()) + "\n");
+            try{addresses.append(host.toString().split(":").at(3) + " ");}
+            catch(const std::exception &ex)
+            {
+                qDebug() << "Exception";
+            }
+//            values.at(i)->localAddress();
+            // подключаться к порту сокета - плохая идея. Мы не слушаем этот порт,
+//            значит, нужно сохранять просто адреса?
+            //addresses.append(QString::number(values.at(i)->peerPort()) + "\n");
             qDebug() << addresses << endl;
         }
     }
@@ -193,7 +203,7 @@ void Client::getAddr()
         file.write(addresses.toUtf8());
     }
     // send getaddr to connections
-    sendMessage(MessageType::GETADDR, "");
+    sendMessage(MessageType::GETADDR, "поделись телефончиками друзяшек");
 
     // change page with network in mainwindow with current state of network
     //emit ..

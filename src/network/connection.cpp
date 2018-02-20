@@ -22,10 +22,10 @@ Connection::Connection(QObject *parent)
     isGreetingMessageSent = false;*/
     pingTimer.setInterval(PingInterval);
 
-    //QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processNewData()));
-    QObject::connect(this, SIGNAL(disconnected()), &pingTimer, SLOT(stop()));
-    QObject::connect(&pingTimer, SIGNAL(timeout()), this, SLOT(sendPing()));
-    QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVerack()));
+    QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processNewData())); // process new data, when we can
+    QObject::connect(this, SIGNAL(disconnected()), &pingTimer, SLOT(stop())); //stop timer, when we disconnected
+    QObject::connect(&pingTimer, SIGNAL(timeout()), this, SLOT(sendPing())); //from time to time send ping
+    QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVersion())); // when we connected to new server, send version message
 }
 
 bool Connection::sendMessage(const MessageType type, const QString &data)
@@ -37,15 +37,15 @@ bool Connection::sendMessage(const MessageType type, const QString &data)
     QByteArray dat = data.toUtf8();
     QByteArray raw = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8()
             + "#" +
-            QByteArray::number(dat.size())
+            QByteArray::number(dat.size()) + "#" +dat.toHex()
             + "#" +
-            QCryptographicHash::hash(dat, QCryptographicHash::Md5);
-
+            QCryptographicHash::hash(dat, QCryptographicHash::Md5).toHex();
+            //QString(QCryptographicHash::hash(s.toUtf8(),QCryptographicHash::Sha256).toHex())
     qDebug() << raw;
+//    qDebug() << QString::fromUtf8(raw.split('#').at(2)); // а если нет этого?..
     //QByteArray msg = data.toUtf8();
     //QByteArray data1 = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8() +"#"+ QByteArray::number(dat.size()) + ' ' + dat;
     return write(raw) == raw.size();
-    //return false;
 }
 
 /*
@@ -61,13 +61,12 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
 */
 void Connection::processNewData()
 {
-    MessageType::
+    emit readyForUse();
+    //MessageType::
     //split new data to type and Qstring data
     /*
     qDebug() << Q_FUNC_INFO;
-    //QByteArray array = read(bytesAvailable());
-    //qDebug() <<"serverarray " <<array;
-    //return;
+
     if (state == WaitingForGreeting) {
         if (!readProtocolHeader())
             return;
@@ -133,11 +132,12 @@ void Connection::sendPing()
     //write("PING 1 p");
 }
 
-void Connection::sendVerack()
+void Connection::sendVersion()
 {
     qDebug() << Q_FUNC_INFO;
 
-    //send verack
+    //send version
+    sendMessage(MessageType::VERSION, QHostInfo::localHostName());
 }
 /*
 void Connection::sendGreetingMessage()

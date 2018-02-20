@@ -5,23 +5,20 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 
 English description is comming soon in READMEeng.md…
 ## Содержание
-- [Что это](#%D0%A7%D1%82%D0%BE-%D1%8D%D1%82%D0%BE)
-- [Для чего](#%D0%94%D0%BB%D1%8F-%D1%87%D0%B5%D0%B3%D0%BE)
-- [Что используется](#%D0%A7%D1%82%D0%BE-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B5%D1%82%D1%81%D1%8F)
-- [Установка](#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
-- [Что нужно сделать](#%D0%A7%D1%82%D0%BE-%D0%BD%D1%83%D0%B6%D0%BD%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C)
+- [What is it](#%D0%A7%D1%82%D0%BE-%D1%8D%D1%82%D0%BE)
+- [Tools](#%D0%A7%D1%82%D0%BE-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B5%D1%82%D1%81%D1%8F)
+- [What should I do](#%D0%A7%D1%82%D0%BE-%D0%BD%D1%83%D0%B6%D0%BD%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C)
 
-## Что это
-## Для чего
-## Что используется
-## Чему учимся
-* Любуемся markdown
-* Познаем git из консоли
-* Ломаем руки с помощью C++
-* Строим велосипеды
+## What is it
+## Tools
+## What I've learnt
+* Look at markdown
+* Learn git from console
+* Break hands with the help of C++
+* Build bicycle
 
-## Установка
-## Что нужно сделать
+## Installing
+## What should I do
 - [x] Create repository
 - [x] Start working
 - [x] Create main window and some design for GUI 

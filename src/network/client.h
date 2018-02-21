@@ -32,6 +32,8 @@ signals:
     void newData(const MessageType &type, const QString &data);
     //! Signal is emitted, when some socket sends requst for data
     void newRequest(const MessageType &type, const QString &data, Connection *connection);
+    //!
+    void networkPage(int peer);
 
 private slots:
     //! Slot is called when server gets new connection

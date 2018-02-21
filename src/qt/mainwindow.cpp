@@ -33,7 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(newParticipant(QString)));
     connect(&client, SIGNAL(participantLeft(QString)),
             this, SLOT(participantLeft(QString)));
-
+    connect(&client, SIGNAL(networkPage(int)),
+            this, SLOT(networkPage(int)));
     /*myNickName = client.nickName();
     newParticipant(myNickName);*/
 
@@ -51,6 +52,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::networkPage(int peer)
+{
+    ui->lcdNumber->display(peer);
 }
 
 void MainWindow::on_pushButton_clicked()

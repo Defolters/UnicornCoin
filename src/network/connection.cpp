@@ -68,7 +68,10 @@ void Connection::processNewData()
     {
         readNewData();
     }
-    catch(std::)
+    catch(const std::exception &ex)
+    {
+        qDebug() << ex.what();
+    }
 
     if (state == ConnectionState::CONNECTED)
     {
@@ -76,7 +79,10 @@ void Connection::processNewData()
         //send verack in response
     }
     if (state == ConnectionState::WAITING)
-    {}
+    {
+        //
+    }
+
     //MessageType::
     //split new data to type and Qstring data
     /*
@@ -150,13 +156,16 @@ void Connection::sendPing()
 void Connection::readNewData()
 {
     qDebug() << Q_FUNC_INFO;
+    //7#Version#2#De#5#12345
     int size;
 
     size = readSize();
     QByteArray type = read(size);
+    read(1); //read # before size
 
     size = readSize();
     buffer = read(size);
+    read(1); //read # before size
 
     size = readSize();
     QByteArray md5 = read(size);
@@ -164,7 +173,7 @@ void Connection::readNewData()
     //translate type into currentMessageType
     // как лучше сохранять и обрабатывать?.. Мозжет, лучше enum instead of enum class?
     int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
-
+    currentMessageType = static_cast<MessageType>(indexOfType);
     // check that md5 == md5(buffer)
     //else throw error
 
@@ -177,10 +186,22 @@ int Connection::readSize()
     qDebug() << Q_FUNC_INFO;
 
     QByteArray size;
-
-    while (!size.endsWith("#"))
+    bool numberSign = false;
+    //что, если знака такого нет?, все сломается и будет ждать #
+    //bytesAvailable() 0 if nothing or size
+    while (bytesAvailable())
     {
         size.append(read(1));
+        if (size.endsWith("#"))
+        {
+            numberSign = true;
+            break;
+        }
+    }
+
+    if (!numberSign)
+    {
+        throw std::invalid_argument("Invalid data");
     }
     size.remove(size.size()-1, 1);
 

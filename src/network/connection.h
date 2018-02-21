@@ -47,14 +47,14 @@ private slots:
     //! Method which sends ping to check that connection is alive
     void sendPing();
     //! Method sends confirmation, that connection is established
-    void sendVersion();/*
+    void sendVersion(MessageType type);/*
     void sendGreetingMessage();*/
 
 private:
     //! Method reads data from socket
     void readNewData();
     //! Method reads size of particular data
-    void readSize();
+    int readSize();
     /*int readDataIntoBuffer(int maxSize = MaxBufferSize);
     int dataLengthForCurrentDataType();
     bool readProtocolHeader();

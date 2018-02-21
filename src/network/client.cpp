@@ -111,6 +111,7 @@ void Client::readyForUse()
     connect(connection, SIGNAL(newMessage(MessageType,QString)),
             this, SLOT(processData(MessageType,QString)));
     peers.insert(connection->peerAddress(), connection);
+    emit networkPage(peers.size());
 }
 
 void Client::processData(const MessageType &type, const QString &data)
@@ -211,6 +212,7 @@ void Client::getAddr()
 
     // change page with network in mainwindow with current state of network
     //emit ..
+    //emit networkPage(peers.size());
 }
 
 void Client::removeConnection(Connection *connection)

@@ -24,6 +24,7 @@ public:
     ~MainWindow();
 
 public slots:
+    void networkPage(int peer);
     void on_pushButton_clicked();
 
     //void on_pushButton_3_clicked();

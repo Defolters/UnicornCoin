@@ -32,10 +32,11 @@ signals:
     void newData(const MessageType &type, const QString &data);
     //! Signal is emitted, when some socket sends requst for data
     void newRequest(const MessageType &type, const QString &data, Connection *connection);
-    //!
+    //! Signal is emitted, when we get new connection, просит обновить количество пиров
     void networkPage(int peer);
 
-private slots:
+// change to private
+public slots:
     //! Slot is called when server gets new connection
     void newConnection(Connection *connection);
     //! Slot is called when connection established, so we can add it to multihash;

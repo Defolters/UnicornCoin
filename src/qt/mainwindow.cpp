@@ -80,7 +80,8 @@ void MainWindow::on_pushButton_send_clicked()
         qDebug() << ex.what();
     }
     QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
-    if (tcpsocket != nullptr) tcpsocket->write(data);
+    //if (tcpsocket != nullptr) tcpsocket->write(data);
+    if (con != nullptr) con->write(data);
     else qDebug() << "tcpsocket == nullptr";
 }
 
@@ -95,7 +96,7 @@ void MainWindow::on_listen_clicked()
     QObject::connect(tcpserver, SIGNAL(newConnection()),
                      this, SLOT(on_newTcpConnection()));*/
     quint16 port = 8333;
-    port = ui->port_2->text().toUShort();
+    //port = ui->port_2->text().toUShort();
     QString ip = ui->ip_2->text();
     qDebug() << port << " " << ip;
     //server->start_listen(ip, port);
@@ -198,6 +199,11 @@ void MainWindow::on_pushButton_4_clicked()
     tcpsocket->connectToHost(hostadd, port);
     QObject::connect(tcpsocket, SIGNAL(readyRead()),this,SLOT(dataBack()));
     qDebug() << tcpsocket->state();
+
+    con = new Connection();
+    con->connectToHost(hostadd, port);
+    qDebug() << con->state();
+    client.newConnection(con);
     //client.connectTo();
 }
 

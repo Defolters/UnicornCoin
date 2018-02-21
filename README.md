@@ -18,7 +18,8 @@ English description is comming soon in READMEeng.md…
 - git commit -m ""
 - git diff --stat
 - git checkout -b new_branch
-
+- git diff --numstat
+- git diff -U0
 * Break hands with the help of C++
 * Build bicycle
 

@@ -18,14 +18,13 @@ Client::Client()
         qDebug() << "addresses opened";
         QTextStream addrTS(&file);
         QString addresses = addrTS.readAll();
-        qDebug() << file.size()<< addresses ;//<< addresses.readAll();
-        //ïðî÷èòàòü òåêñò è îòïðàâèòü â ôóíêöèþ
+        qDebug() << file.size() << addresses;
+
         connectTo(addresses);
     }
 
+    // set timer for a method, which sends request for new addresses, connects and saves addresses
     addrTimer.setInterval(AddrInterval);
-    // set timer for a method, which sends request for new addresses and saves addresses
-    // ÷åðåç âðåìÿ çàïðàøèâàòü íîâûå àäðåñà è ïûòàòüñÿ ïîäêëþ÷èòüñÿ, çàòåì òåêóùèå ñîåäèíåíèÿ ñîõðàíèòü â ôàéë
     QObject::connect(&addrTimer, SIGNAL(timeout()), this, SLOT(getAddr()));
     addrTimer.start();
 }
@@ -73,7 +72,7 @@ void Client::connectTo(QString &addresses)
         if (address.isEmpty())
             continue;
 
-        qDebug() << address ;//<< " " <<address.split(" ").at(0)<<""<<address.split(" ").at(1).toUInt()<<endl;
+        qDebug() << address;
 
         QHostAddress host(address);
         quint16 port = 9229;//address.split(" ").at(1).toUInt();
@@ -111,6 +110,7 @@ void Client::readyForUse()
     connect(connection, SIGNAL(newMessage(MessageType,QString)),
             this, SLOT(processData(MessageType,QString)));
     peers.insert(connection->peerAddress(), connection);
+    // change page with network in mainwindow with current state of network
     emit networkPage(peers.size());
 }
 
@@ -123,8 +123,7 @@ void Client::processData(const MessageType &type, const QString &data)
     QList<MT> dataType;
     QList<MT> requestType;
 
-    dataType << MT::VERSION << MT::VERACK << MT::TX <<
-                MT::BLOCK << MT::ADDR << MT::BCHAINSTATE <<
+    dataType << MT::TX << MT::BLOCK << MT::ADDR << MT::BCHAINSTATE <<
                 MT::NOTFOUND << MT::MEMPOOL << MT::UTXO << MT::REJECT;
 
     requestType << MT::GETTX << MT::GETBLOCK << MT::GETADDR <<
@@ -208,11 +207,7 @@ void Client::getAddr()
         file.write(addresses.toUtf8());
     }
     // send getaddr to connections
-    sendMessage(MessageType::GETADDR, "ïîäåëèñü òåëåôîí÷èêàìè äðóçÿøåê");
-
-    // change page with network in mainwindow with current state of network
-    //emit ..
-    //emit networkPage(peers.size());
+    sendMessage(MessageType::GETADDR, "ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ ERROR ÎØÈÁÊÀ");//"ïîäåëèñü òåëåôîí÷èêàìè äðóçÿøåê");
 }
 
 void Client::removeConnection(Connection *connection)

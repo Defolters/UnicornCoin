@@ -71,7 +71,7 @@ private:
     int transferTimerId;
     bool isGreetingMessageSent;*/
     bool isVersionSend;
-    ConnectionState state;  //!< state of connection
+    ConnectionState connectionState;  //!< state of connection
     MessageType currentMessageType;  //!< current type of message
 };
 

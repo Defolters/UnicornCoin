@@ -804,13 +804,6 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QLineEdit" name="port2_2">
-         <property name="text">
-          <string>8333</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QLabel" name="label_4">
@@ -867,7 +860,7 @@ p, li { white-space: pre-wrap; }
             </font>
            </property>
            <property name="text">
-            <string>message</string>
+            <string>7#VERSION#3#hey#4#hash</string>
            </property>
           </widget>
          </item>

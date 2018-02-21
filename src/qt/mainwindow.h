@@ -9,7 +9,7 @@
 #include "utils/messagetype.h"
 #include "network/client.h"
 #include "network/server.h"
-
+#include "network/connection.h"
 namespace Ui {
 class MainWindow;
 }
@@ -76,6 +76,7 @@ private:
 //    Server *server;
     Client client;  //!< Network client
     Wallet* wallet;
+    Connection* con;
 };
 
 #endif // MAINWINDOW_H

@@ -12,7 +12,7 @@ static const char SeparatorToken = ' ';*/
 Connection::Connection(QObject *parent)
     : QTcpSocket(parent)
 {
-    state = ConnectionState::WAITING;
+    connectionState = ConnectionState::WAITING;
     currentMessageType = MessageType::UNDEFINED;
     isVersionSend = false;
     /*greetingMessage = tr("undefined");
@@ -34,18 +34,17 @@ bool Connection::sendMessage(const MessageType type, const QString &data)
     qDebug() << Q_FUNC_INFO;
     /*if (message.isEmpty())
         return false;*/
-    // TYPE#SIZEOFDATA#DATA#HASHOFDATA
+
+    // SIZE#TYPE#SIZEOFDATA#DATA#SIZEOFHASH#HASHOFDATA
+
+    QByteArray typeM = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8();
     QByteArray dat = data.toUtf8();
-    QByteArray raw = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8()
-            + "#" +
-            QByteArray::number(dat.size()) + "#" +dat.toHex()
-            + "#" +
-            QCryptographicHash::hash(dat, QCryptographicHash::Md5).toHex();
-            //QString(QCryptographicHash::hash(s.toUtf8(),QCryptographicHash::Sha256).toHex())
+    QByteArray hash = QCryptographicHash::hash(dat, QCryptographicHash::Md5).toHex();
+    QByteArray raw = QByteArray::number(typeM.size()) + "#" + typeM + "#" +
+                     QByteArray::number(dat.size()) + "#" + dat + "#" +
+                     QByteArray::number(hash.size()) + "#" + hash;
     qDebug() << raw;
-//    qDebug() << QString::fromUtf8(raw.split('#').at(2)); // à åñëè íåò ýòîãî?..
-    //QByteArray msg = data.toUtf8();
-    //QByteArray data1 = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8() +"#"+ QByteArray::number(dat.size()) + ' ' + dat;
+
     return write(raw) == raw.size();
 }
 
@@ -73,12 +72,12 @@ void Connection::processNewData()
         qDebug() << ex.what();
     }
 
-    if (state == ConnectionState::CONNECTED)
+    if (connectionState == ConnectionState::CONNECTED)
     {
         //check that we got version
         //send verack in response
     }
-    if (state == ConnectionState::WAITING)
+    if (connectionState == ConnectionState::WAITING)
     {
         //
     }
@@ -155,20 +154,26 @@ void Connection::sendPing()
 
 void Connection::readNewData()
 {
+    // ÏËÎÕÎ ×ÈÒÀÅÒ, ÅÑËÈ ÎÒÏÐÀÂËÅÍÎ ÏÎÐÖÈßÌÈ?
     qDebug() << Q_FUNC_INFO;
     //7#Version#2#De#5#12345
     int size;
 
     size = readSize();
+
     QByteArray type = read(size);
     read(1); //read # before size
+    //qDebug() << size << " " << QString::fromUtf8(type);
+    qDebug() << size << " " << type;
 
     size = readSize();
     buffer = read(size);
     read(1); //read # before size
+    qDebug() << size << " " << QString::fromUtf8(buffer);
 
     size = readSize();
     QByteArray md5 = read(size);
+    qDebug() << size << " " << QString::fromUtf8(md5);
 
     //translate type into currentMessageType
     // êàê ëó÷øå ñîõðàíÿòü è îáðàáàòûâàòü?.. Ìîçæåò, ëó÷øå enum instead of enum class?
@@ -216,7 +221,7 @@ void Connection::sendVersion(MessageType type)
     sendMessage(type, QHostInfo::localHostName());
     /*if(type==MessageType::VERACK)
     {
-        state = ConnectionState::READY;
+        connectionState = ConnectionState::READY;
     }*/
     isVersionSend = true;
 }

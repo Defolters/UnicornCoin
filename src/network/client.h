@@ -55,8 +55,8 @@ private:
     void removeConnection(Connection *connection);
     //! Method returns string with ip of connections
     QString peersToString();
-    //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
-    QMultiHash<QString, Connection *> peers;
+    //! QHash(dict) which contain all available connections, where key is address of peer and value is Connection;
+    QHash<QString, Connection *> peers;
     //! Timer for getAddr()
     QTimer addrTimer;
     //! Server for client which listen for new connections

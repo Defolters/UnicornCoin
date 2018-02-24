@@ -32,6 +32,11 @@ public slots:
     void change_data(QString array, QString label);
 
 private slots:
+    //! Slot processes new data
+    void newData(const MessageType &type, const QString &data);
+    //! Slot processes new reqest
+    void newRequest(const MessageType &type, const QString &data, Connection *connection);
+
     void dataBack();
     void on_pushButton_4_clicked();
 
@@ -65,11 +70,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-//    QTcpServer *tcpserver;
     QTcpSocket *tcpsocket;
-//    QTcpSocket *mTcpSocket;
-//    QTcpSocket *m_tcpSocket;
-//    Server *server;
     Client client;  //!< Network client
     Wallet* wallet;
     Connection* con;

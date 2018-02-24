@@ -4,6 +4,7 @@
 #include "connection.h"
 
 static const int AddrInterval = 30 * 1000;  //!< getAddr interval 30s
+static const int MAX_CONNECTIONS = 40; //!< max number of connections
 
 Client::Client()
 {
@@ -64,6 +65,7 @@ void Client::connectToNodes(const QString &addresses)
 
         QHostAddress host(address);
         quint16 port = 9229;
+
         if (hasConnection(host))
             continue;
 
@@ -71,14 +73,16 @@ void Client::connectToNodes(const QString &addresses)
         Connection* connection = new Connection();
         connection->connectToHost(host, port);
         newConnection(connection);
-        // если подключаемс€, оно само отправл€ет версию
-        //connection->sendMessage(MessageType::VERSION, QHostInfo::localHostName() + " " +QString::number(server.serverPort()));
     }
 }
 
 void Client::newConnection(Connection *connection)
 {
     qDebug() << Q_FUNC_INFO;
+    // проверить, что количество не больше максимума
+    if (peers.size() > MAX_CONNECTIONS)
+        return;
+
     qDebug() << " " << connection->peerAddress().toString();
     connect(connection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectionError(QAbstractSocket::SocketError)));
@@ -96,11 +100,9 @@ void Client::readyForUse()
 
     connect(connection, SIGNAL(newMessage(MessageType,QString)),
             this, SLOT(processData(MessageType,QString)));
-//    peers.insert(connection->peerAddress(), connection);
     peers.insert(connection->peerAddress().toString(), connection);
-    // insert in new multihash
-    // change page with network in mainwindow with current state of network
 
+    // change page with network in mainwindow with current state of network
     emit networkPage(peers.size());
 }
 
@@ -119,14 +121,13 @@ void Client::processData(const MessageType &type, const QString &data)
     requestType << MT::GETTX << MT::GETBLOCK << MT::GETBCHAINSTATE
                 << MT::GETMEMPOOL << MT::GETUTXO;
 
+    qDebug() << data;
     if (dataType.contains(type))
     {
-        qDebug() << data;
         emit newData(type, data);
     }
     else if(requestType.contains(type))
     {
-        qDebug() << data;
         if(Connection *connection = qobject_cast<Connection *>(sender()))
             emit newRequest(type, data, connection);
     }

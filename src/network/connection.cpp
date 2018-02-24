@@ -13,14 +13,10 @@ Connection::Connection(QObject *parent)
     : QTcpSocket(parent)
 {
     connectionState = ConnectionState::CONNECTED;
-    currentMessageType = MessageType::UNDEFINED;
+    currentDataType = MessageType::UNDEFINED;
     isVersionSend = false;
-    /*greetingMessage = tr("undefined");
-    username = tr("unknown");
 
-    numBytesForCurrentDataType = -1;
-    transferTimerId = 0;
-    isGreetingMessageSent = false;*/
+//    transferTimerId = 0;
     pingTimer.setInterval(PingInterval);
 
     QObject::connect(this, SIGNAL(readyRead()), this, SLOT(processNewData())); // process new data, when we can
@@ -58,13 +54,13 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
         transferTimerId = 0;
     }
 }
-
-start connection -> send version -> wait for verack -> ready
-wait for version -> send verack -> ready
 */
 
 void Connection::processNewData()
 {
+    qDebug() << Q_FUNC_INFO;
+//    start connection -> send version -> wait for verack -> ready
+//    wait for version -> send verack -> ready
     qDebug() << "My port:" << this->peerPort();
 
     try
@@ -78,13 +74,13 @@ void Connection::processNewData()
 
     if (connectionState == ConnectionState::CONNECTED)
     {
-        if (isVersionSend && (currentMessageType == VERACK))
+        if (isVersionSend && (currentDataType == VERACK))
         {
             //all is fine?
         }
-        else if (!isVersionSend && (currentMessageType == VERSION))
+        else if (!isVersionSend && (currentDataType == VERSION))
         {
-            sendVersion(MessageType::VERACK);
+            sendVersion();
         }
         else
         {
@@ -92,35 +88,30 @@ void Connection::processNewData()
             abort();
             return;
         }
-
-        connectionState = ConnectionState::WAITING;
+//        connectionState = ConnectionState::WAITING;
         connectionState = ConnectionState::READY;
-        /*pingTimer.start();
-        pongTime.start();*/
+        pingTimer.start();
+        pongTime.start();
 
         emit readyForUse();
         return;
     }
 
-    /*if (bytesAvailable()){
-        readNewData();
-    }*/
-
     switch (currentDataType) {
     case UNDEFINED:
         break;
     case PING:
-        sendMessage(PONG,"pong");
+        sendMessage(PONG,"I am alive");
         break;
     case PONG:
         pongTime.restart();
         break;
     default:
-        emit newMessage(currentMessageType, QString::fromUtf8(buffer));
+        emit newMessage(currentDataType, QString::fromUtf8(buffer));
         break;
     }
 
-    currentDataType = MessageType::UNDEFINED;
+    currentDataType = UNDEFINED;
     buffer.clear();
     /*
     qDebug() << Q_FUNC_INFO;
@@ -187,7 +178,7 @@ void Connection::sendPing()
         return;
     }
 
-    sendMessage(MessageType::PING, "Ты еще не умер, бро?");
+    sendMessage(MessageType::PING, "Are you alive?");
 }
 
 void Connection::readNewData()
@@ -201,7 +192,6 @@ void Connection::readNewData()
 
     QByteArray type = read(size);
     read(1); //read # before size
-    //qDebug() << size << " " << QString::fromUtf8(type);
     qDebug() << size << " " << type;
 
     size = readSize();
@@ -214,13 +204,12 @@ void Connection::readNewData()
     qDebug() << size << " " << md5;
 
     //translate type into currentMessageType
-    // как лучше сохранять и обрабатывать?.. Мозжет, лучше enum instead of enum class?
     int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
-    currentMessageType = static_cast<MessageType>(indexOfType);
+    currentDataType = static_cast<MessageType>(indexOfType);
     qDebug() << indexOfType;
-    readAll();
+    //readAll();
 
-    // check that md5 == md5(buffer)
+    // check that md5 of data == md5(buffer)
     if (QCryptographicHash::hash(buffer, QCryptographicHash::Md5).toHex() == md5)
     {
         qDebug() << "Hash is valid";
@@ -259,19 +248,25 @@ int Connection::readSize()
     return size.toInt();
 }
 
-void Connection::sendVersion(MessageType type)
+void Connection::sendVersion()
 {
     qDebug() << Q_FUNC_INFO;
 
+    MessageType type;
+
+    if (isVersionSend || (currentDataType == VERSION))
+    {
+        type = VERACK;
+    }
+    else
+    {
+        type = VERSION;
+        isVersionSend = true;
+    }
+
     sendMessage(type, QHostInfo::localHostName());
-
-    isVersionSend = true;
 }
 
-void Connection::sendVersion()
-{
-    sendVersion(MessageType::VERSION);
-}
 /*
 int Connection::readDataIntoBuffer(int maxSize)
 {

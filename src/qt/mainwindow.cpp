@@ -27,12 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
     wallet->load();
 
-    connect(&client, SIGNAL(newMessage(QString,QString)),
-            this, SLOT(appendMessage(QString,QString)));
-    connect(&client, SIGNAL(newParticipant(QString)),
-            this, SLOT(newParticipant(QString)));
-    connect(&client, SIGNAL(participantLeft(QString)),
-            this, SLOT(participantLeft(QString)));
+    connect(&client, SIGNAL(newData(MessageType,QString)),
+            this, SLOT(newData(MessageType,QString)));
+    connect(&client, SIGNAL(newRequest(MessageType,QString,Connection*)),
+            this, SLOT(newRequest(MessageType,QString,Connection*)));
     connect(&client, SIGNAL(networkPage(int)),
             this, SLOT(networkPage(int)));
 
@@ -108,6 +106,16 @@ void MainWindow::change_data(QString str, QString label)
     {
         ui->unconfirmedAmountrWP->setText(str + " UCN");
     }
+}
+
+void MainWindow::newData(const MessageType &type, const QString &data)
+{
+
+}
+
+void MainWindow::newRequest(const MessageType &type, const QString &data, Connection *connection)
+{
+
 }
 
 void MainWindow::dataBack()

@@ -47,7 +47,6 @@ private slots:
     //! Method which sends ping to check that connection is alive
     void sendPing();
     //! Method sends confirmation, that connection is established
-    void sendVersion(MessageType type);
     void sendVersion();
 
 private:
@@ -60,19 +59,14 @@ private:
     bool readProtocolHeader();
     bool hasEnoughData();
     void processData();
-
-    QString greetingMessage;
-    QString username;*/
+*/
     QTimer pingTimer;
     QTime pongTime;
     QByteArray buffer;/*
-    ConnectionState state;
-    int numBytesForCurrentDataType;
-    int transferTimerId;
-    bool isGreetingMessageSent;*/
+    int transferTimerId;*/
     bool isVersionSend;
     ConnectionState connectionState;  //!< state of connection
-    MessageType currentMessageType;  //!< current type of message
+    MessageType currentDataType;  //!< current type of message
 };
 
 #endif // CONNECTION_H

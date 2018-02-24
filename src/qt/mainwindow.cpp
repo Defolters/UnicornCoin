@@ -54,12 +54,6 @@ void MainWindow::networkPage(int peer)
     ui->lcdNumber->display(peer);
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    qDebug() << "text";
-    ui->statusBar->showMessage("text");
-}
-
 void MainWindow::on_pushButton_send_clicked()
 {
     qDebug() << Q_FUNC_INFO;
@@ -132,6 +126,7 @@ void MainWindow::dataBack()
 void MainWindow::on_pushButton_4_clicked()
 {
     qDebug() << Q_FUNC_INFO;
+    // ÏÐÎÂÅÐÈÒÜ ÍÀ ÏÐÀÂÈËÜÍÎÑÒÜ ÂÂÎÄÀ
     QString ip = ui->ip2_2->text();
     quint16 port = 9229;
 

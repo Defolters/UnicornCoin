@@ -25,10 +25,6 @@ public:
 
 public slots:
     void networkPage(int peer);
-    void on_pushButton_clicked();
-
-    //void on_pushButton_3_clicked();
-
     void change_data(QString array, QString label);
 
 private slots:

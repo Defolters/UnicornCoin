@@ -6,8 +6,7 @@
 /*static const int TransferTimeout = 30 * 1000;*/
 static const int PongTimeout = 60 * 1000;  //!< If we not gets answer in pongtimeout close connection 60s
 static const int PingInterval = 5 * 1000;  //!< Ping interval 5s
-/*
-static const char SeparatorToken = ' ';*/
+
 
 Connection::Connection(QObject *parent)
     : QTcpSocket(parent)
@@ -113,59 +112,6 @@ void Connection::processNewData()
 
     currentDataType = UNDEFINED;
     buffer.clear();
-    /*
-    qDebug() << Q_FUNC_INFO;
-
-    if (state == WaitingForGreeting) {
-        if (!readProtocolHeader())
-            return;
-        if (currentDataType != Greeting) {
-            abort();
-            return;
-        }
-        state = ReadingGreeting;
-    }
-
-    if (state == ReadingGreeting) {
-        if (!hasEnoughData())
-            return;
-
-        buffer = read(numBytesForCurrentDataType);
-        qDebug() <<"serverarray " << buffer;
-        if (buffer.size() != numBytesForCurrentDataType) {
-            abort();
-            return;
-        }
-
-        username = QString(buffer) + '@' + peerAddress().toString() + ':'
-                   + QString::number(peerPort());
-        currentDataType = Undefined;
-        numBytesForCurrentDataType = 0;
-        buffer.clear();
-
-        if (!isValid()) {
-            abort();
-            return;
-        }
-
-        if (!isGreetingMessageSent)
-            sendGreetingMessage();
-
-        pingTimer.start();
-        pongTime.start();
-        state = ReadyForUse;
-        emit readyForUse();
-    }
-
-    do {
-        if (currentDataType == Undefined) {
-            if (!readProtocolHeader())
-                return;
-        }
-        if (!hasEnoughData())
-            return;
-        processData();
-    } while (bytesAvailable() > 0);*/
 }
 
 void Connection::sendPing()
@@ -184,6 +130,7 @@ void Connection::sendPing()
 void Connection::readNewData()
 {
     // окнун вхрюер, еякх нропюбкемн онпжхълх?
+    // ю врн, еякх дюммшу лмнцн?
     qDebug() << Q_FUNC_INFO;
     //7#Version#2#De#5#12345
     int size;
@@ -203,7 +150,6 @@ void Connection::readNewData()
     QByteArray md5 = read(size);
     qDebug() << size << " " << md5;
 
-    //translate type into currentMessageType
     int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
     currentDataType = static_cast<MessageType>(indexOfType);
     qDebug() << indexOfType;
@@ -266,41 +212,7 @@ void Connection::sendVersion()
 
     sendMessage(type, QHostInfo::localHostName());
 }
-
 /*
-int Connection::readDataIntoBuffer(int maxSize)
-{
-    qDebug() << Q_FUNC_INFO;
-
-    if (maxSize > MaxBufferSize)
-        return 0;
-
-    int numBytesBeforeRead = buffer.size();
-    if (numBytesBeforeRead == MaxBufferSize) {
-        abort();
-        return 0;
-    }
-
-    while (bytesAvailable() > 0 && buffer.size() < maxSize) {
-        buffer.append(read(1));
-        if (buffer.endsWith(SeparatorToken))
-            break;
-    }
-    qDebug() <<"readDataIntoBuffer " << buffer;
-    return buffer.size() - numBytesBeforeRead;
-}
-
-int Connection::dataLengthForCurrentDataType()
-{
-    if (bytesAvailable() <= 0 || readDataIntoBuffer() <= 0
-            || !buffer.endsWith(SeparatorToken))
-        return 0;
-
-    buffer.chop(1);
-    int number = buffer.toInt();
-    buffer.clear();
-    return number;
-}
 
 bool Connection::readProtocolHeader()
 {
@@ -315,25 +227,6 @@ bool Connection::readProtocolHeader()
         transferTimerId = startTimer(TransferTimeout);
         return false;
     }
-
-    if (buffer == "PING ") {
-        currentDataType = Ping;
-    } else if (buffer == "PONG ") {
-        currentDataType = Pong;
-    } else if (buffer == "MESSAGE ") {
-        currentDataType = PlainText;
-    } else if (buffer == "GREETING ") {
-        currentDataType = Greeting;
-    } else {
-        currentDataType = Undefined;
-        abort();
-        return false;
-    }
-
-    buffer.clear();
-    numBytesForCurrentDataType = dataLengthForCurrentDataType();
-    return true;
-}
 
 bool Connection::hasEnoughData()
 {
@@ -354,34 +247,5 @@ bool Connection::hasEnoughData()
     }
 
     return true;
-}
-
-void Connection::processData()
-{
-    qDebug() << Q_FUNC_INFO;
-
-    buffer = read(numBytesForCurrentDataType);
-    if (buffer.size() != numBytesForCurrentDataType) {
-        abort();
-        return;
-    }
-
-    switch (currentDataType) {
-    case PlainText:
-        emit newMessage(username, QString::fromUtf8(buffer));
-        break;
-    case Ping:
-        write("PONG 1 p");
-        break;
-    case Pong:
-        pongTime.restart();
-        break;
-    default:
-        break;
-    }
-
-    currentDataType = Undefined;
-    numBytesForCurrentDataType = 0;
-    buffer.clear();
 }
 */

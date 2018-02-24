@@ -14,6 +14,7 @@ Client::Client()
     // read addresses and establish initial connections
     qDebug() << QDir::currentPath();
     QFile file("addresses.dat");
+
     if(file.open(QFile::ReadOnly | QFile::Text))
     {
         qDebug() << "addresses opened";
@@ -28,6 +29,13 @@ Client::Client()
     addrTimer.setInterval(AddrInterval);
     QObject::connect(&addrTimer, SIGNAL(timeout()), this, SLOT(getAddr()));
     addrTimer.start();
+
+    //C:\Users\Defolter>netstat -an |find /i "9229"
+    //list of my local ip, which is correct?
+    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
+             qDebug() << address.toString();
+    }
 }
 
 void Client::sendMessage(const MessageType &type, const QString &message)
@@ -69,7 +77,6 @@ void Client::connectToNodes(const QString &addresses)
         if (hasConnection(host))
             continue;
 
-        //create new connection, slot connection and send version
         Connection* connection = new Connection();
         connection->connectToHost(host, port);
         newConnection(connection);
@@ -79,11 +86,12 @@ void Client::connectToNodes(const QString &addresses)
 void Client::newConnection(Connection *connection)
 {
     qDebug() << Q_FUNC_INFO;
-    // проверить, что количество не больше максимума
+
     if (peers.size() > MAX_CONNECTIONS)
         return;
 
     qDebug() << " " << connection->peerAddress().toString();
+
     connect(connection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(connection, SIGNAL(disconnected()), this, SLOT(disconnected()));
@@ -102,7 +110,6 @@ void Client::readyForUse()
             this, SLOT(processData(MessageType,QString)));
     peers.insert(connection->peerAddress().toString(), connection);
 
-    // change page with network in mainwindow with current state of network
     emit networkPage(peers.size());
 }
 
@@ -122,6 +129,7 @@ void Client::processData(const MessageType &type, const QString &data)
                 << MT::GETMEMPOOL << MT::GETUTXO;
 
     qDebug() << data;
+
     if (dataType.contains(type))
     {
         emit newData(type, data);
@@ -167,14 +175,14 @@ void Client::getAddr()
 
     QString addresses = peersToString();
 
-    // save into file
     QFile file("addresses.dat");
+
     if(file.open(QFile::WriteOnly | QFile::Text))
     {
         qDebug() << "addresses opened";
         file.write(addresses.toUtf8());
     }
-    // send getaddr to connections
+
     sendMessage(MessageType::GETADDR, "ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА ERROR ОШИБКА");//"поделись телефончиками друзяшек");
 }
 
@@ -192,15 +200,13 @@ void Client::removeConnection(Connection *connection)
 QString Client::peersToString()
 {
     QString addresses;
-    QList<QString> list=peers.keys();
 
     // при подключении к порту другого компьютера из сервера, то у нас ::ffff:ip
     // если мы сами подключаемся, то нет этих fff
     for (auto ip : peers.keys())
     {
         qDebug() << "ip from list: "<<ip;
-        // добавляем только соединения из вне, не добавляем соединения, созданные сервером.
-        // неверный подход!!!
+
         // с двоеточиями создаются сервером, а без при подключении к кому-то, надо сохранять оба.
         addresses.append(ip.split(":").last() + " ");//(host.toString().split(":").last() + " ");
     }

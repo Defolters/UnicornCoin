@@ -22,7 +22,7 @@ public:
     //! An enum MessageType.
     enum class ConnectionState {
         CONNECTED, /*!< Waiting for version message to establish connection */
-        WAITING,  /*!< Waiting for verack (answer for our version message) */
+//        WAITING,  /*!< Waiting for verack (answer for our version message) */
         READY  /*!< Ready to read */
     };
 
@@ -32,9 +32,9 @@ public:
     bool sendMessage(const MessageType type, const QString &data);
 
 signals:
-    //! signal is emitted, when socket is ready for use
+    //! Signal is emitted, when socket is ready for use
     void readyForUse();
-    //! signal is emitted, when new message is recieved
+    //! Signal is emitted, when new message is recieved
     void newMessage(const MessageType type, const QString &data);
 
 protected:
@@ -46,7 +46,7 @@ private slots:
     void processNewData();
     //! Method which sends ping to check that connection is alive
     void sendPing();
-    //! Method sends confirmation, that connection is established
+    //! Method sends confirmation that connection is established
     void sendVersion();
 
 private:
@@ -54,19 +54,19 @@ private:
     void readNewData();
     //! Method reads size of particular data
     int readSize();
-    /*int readDataIntoBuffer(int maxSize = MaxBufferSize);
-    int dataLengthForCurrentDataType();
-    bool readProtocolHeader();
-    bool hasEnoughData();
-    void processData();
-*/
+    //! Timer for sendPing()
     QTimer pingTimer;
+    //! Counts time for answer to sendPing()
     QTime pongTime;
-    QByteArray buffer;/*
-    int transferTimerId;*/
+    //! Buffer for recieved data
+    QByteArray buffer;
+//    int transferTimerId;
+    //! ...
     bool isVersionSend;
-    ConnectionState connectionState;  //!< state of connection
-    MessageType currentDataType;  //!< current type of message
+    //! State of connection
+    ConnectionState connectionState;
+    //! Type of recieved data
+    MessageType currentDataType;
 };
 
 #endif // CONNECTION_H

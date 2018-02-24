@@ -4,7 +4,7 @@
 #include <QTcpServer>
 
 /**
- * @brief Class implements server, which listen for new connections
+ * @brief Class implements server that listen for new connections
  */
 class Connection;
 
@@ -16,7 +16,7 @@ public:
     Server(QObject *parent = 0);
 
 signals:
-    //! Signal which will call method in Client class
+    //! Signal which emitted, when we get new Connection
     void newConnection(Connection *connection);
 
 protected:
@@ -25,5 +25,3 @@ protected:
 };
 
 #endif // SERVER_H
-
-//C:\Users\Defolter>netstat -an |find /i "8333"

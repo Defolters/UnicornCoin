@@ -12,7 +12,7 @@ static const char SeparatorToken = ' ';*/
 Connection::Connection(QObject *parent)
     : QTcpSocket(parent)
 {
-    connectionState = ConnectionState::WAITING;
+    connectionState = ConnectionState::CONNECTED;
     currentMessageType = MessageType::UNDEFINED;
     isVersionSend = false;
     /*greetingMessage = tr("undefined");
@@ -58,11 +58,15 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
         transferTimerId = 0;
     }
 }
+
+start connection -> send version -> wait for verack -> ready
+wait for version -> send verack -> ready
 */
+
 void Connection::processNewData()
 {
-    emit readyForUse();
-
+//    emit readyForUse();
+    qDebug() << "My port:" << this->localPort();
     try
     {
         readNewData();
@@ -74,16 +78,50 @@ void Connection::processNewData()
 
     if (connectionState == ConnectionState::CONNECTED)
     {
-        //check that we got version
-        //send verack in response
-    }
-    if (connectionState == ConnectionState::WAITING)
-    {
-        //
+        if (isVersionSend && (currentMessageType == VERACK))
+        {
+            //all is fine?
+        }
+        else if (!isVersionSend && (currentMessageType == VERSION))
+        {
+            sendVersion(MessageType::VERACK);
+        }
+        else
+        {
+            qDebug() << "Not connected";
+            abort();
+            return;
+        }
+
+        connectionState = ConnectionState::WAITING;
+        connectionState = ConnectionState::READY;
+        /*pingTimer.start();
+        pongTime.start();*/
+
+        emit readyForUse();
+        return;
     }
 
-    //MessageType::
-    //split new data to type and Qstring data
+    /*if (bytesAvailable()){
+        readNewData();
+    }*/
+
+    //if(currentMessageType)
+    emit newMessage(currentMessageType, QString::fromUtf8(buffer));
+
+    /*if (connectionState == ConnectionState::WAITING)
+    {
+        connectionState = ConnectionState::READY;
+
+        /*pingTimer.start();
+        pongTimer.start();
+
+        emit readyForUse();
+    }*/
+    buffer.clear();
+
+    // ОБРАБАТЫВАЕМ ПРИНЯТЫЕ ДАННЫЕ
+
     /*
     qDebug() << Q_FUNC_INFO;
 
@@ -173,17 +211,24 @@ void Connection::readNewData()
 
     size = readSize();
     QByteArray md5 = read(size);
-    qDebug() << size << " " << QString::fromUtf8(md5);
+    qDebug() << size << " " << md5;
 
     //translate type into currentMessageType
     // как лучше сохранять и обрабатывать?.. Мозжет, лучше enum instead of enum class?
     int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
     currentMessageType = static_cast<MessageType>(indexOfType);
+    qDebug() << indexOfType;
+    readAll();
     // check that md5 == md5(buffer)
-    //else throw error
+    if (QCryptographicHash::hash(buffer, QCryptographicHash::Md5).toHex() == md5)
+    {
+        qDebug() << "Hash is valid";
+    }
+    else
+    {
+        throw std::invalid_argument("Hash is NOT valid");
+    }
 
-    //читаем до #, затем обрабатываем число, затем читаем решетку,
-    //    затем читаем до решетки, затем то же самое.
 }
 
 int Connection::readSize()
@@ -219,22 +264,19 @@ void Connection::sendVersion(MessageType type)
 
     //send version
     sendMessage(type, QHostInfo::localHostName());
-    /*if(type==MessageType::VERACK)
+
+    /*if(type == MessageType::VERSION)
     {
-        connectionState = ConnectionState::READY;
+        connectionState = ConnectionState::WAITING;
     }*/
     isVersionSend = true;
 }
-/*
-void Connection::sendGreetingMessage()
-{
-    qDebug() << Q_FUNC_INFO;
-    QByteArray greeting = greetingMessage.toUtf8();
-    QByteArray data = "GREETING " + QByteArray::number(greeting.size()) + ' ' + greeting;
-    if (write(data) == data.size())
-        isGreetingMessageSent = true;
-}
 
+void Connection::sendVersion()
+{
+    sendVersion(MessageType::VERSION);
+}
+/*
 int Connection::readDataIntoBuffer(int maxSize)
 {
     qDebug() << Q_FUNC_INFO;

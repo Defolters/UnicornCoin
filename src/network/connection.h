@@ -47,8 +47,8 @@ private slots:
     //! Method which sends ping to check that connection is alive
     void sendPing();
     //! Method sends confirmation, that connection is established
-    void sendVersion(MessageType type);/*
-    void sendGreetingMessage();*/
+    void sendVersion(MessageType type);
+    void sendVersion();
 
 private:
     //! Method reads data from socket

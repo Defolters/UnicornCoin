@@ -24,6 +24,7 @@ public:
     void sendMessage(const MessageType &type, const QString &message);
     //! Checks that connection is already established (in multihash)
     bool hasConnection(const QHostAddress &senderIp, int senderPort = -1) const;
+    bool hasConnection(const Connection *connection) const;
     //! Method establishes connections with addresses from the string
     void connectTo(QString &addresses);
 
@@ -56,7 +57,7 @@ private:
     void removeConnection(Connection *connection);
     //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
     QMultiHash<QHostAddress, Connection *> peers; // заменить на адрес и соединение
-    QList<QString> peerss;
+    QMultiHash<QString, Connection *> peerss;
     //! Timer for getAddr()
     QTimer addrTimer;
     //! Server for client which listen for new connections

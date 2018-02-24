@@ -3,7 +3,6 @@
 NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 
 
-English description is comming soon in READMEeng.md…
 ## Содержание
 - [What is it](#%D0%A7%D1%82%D0%BE-%D1%8D%D1%82%D0%BE)
 - [Tools](#%D0%A7%D1%82%D0%BE-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B5%D1%82%D1%81%D1%8F)
@@ -20,6 +19,7 @@ English description is comming soon in READMEeng.md…
 - git checkout -b new_branch
 - git diff --numstat
 - git diff -U0
+- git push --set-upstream origin mybranch
 * Break hands with the help of C++
 * Build bicycle
 

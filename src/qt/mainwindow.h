@@ -29,10 +29,6 @@ public slots:
 
     //void on_pushButton_3_clicked();
 
-    void on_listen_clicked();
-    void slotServerRead();
-    void on_newTcpConnection();
-    void on_tcpReadyRead();
     void change_data(QString array, QString label);
 
 private slots:

@@ -43,6 +43,10 @@ void Client::sendMessage(const MessageType &type, const QString &message)
 
 bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
 {
+    qDebug() << Q_FUNC_INFO;
+    qDebug() << senderIp.toString();
+//    qDebug() << senderIp.toIPv6Address();
+
     if (senderPort == -1)
         return peers.contains(senderIp);
 
@@ -56,6 +60,11 @@ bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
     }
 
     return false;
+}
+
+bool Client::hasConnection(const Connection *connection) const
+{
+    return peerss.contains(connection->peerAddress().toString());
 }
 
 void Client::connectTo(QString &addresses)
@@ -91,7 +100,7 @@ void Client::connectTo(QString &addresses)
 void Client::newConnection(Connection *connection)
 {
     qDebug() << Q_FUNC_INFO;
-
+    qDebug() << connection->localAddress() << " " << connection->localPort() << " " << connection->peerAddress() << " " << connection->peerName() << " " << connection->peerPort() << " ";
     connect(connection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(connection, SIGNAL(disconnected()), this, SLOT(disconnected()));
@@ -104,14 +113,17 @@ void Client::readyForUse()
 
     Connection *connection = qobject_cast<Connection *>(sender());
     if (!connection || hasConnection(connection->peerAddress(),
-                                     connection->peerPort()))
+                                     connection->peerPort()) || hasConnection(connection))
         return;
 
     connect(connection, SIGNAL(newMessage(MessageType,QString)),
             this, SLOT(processData(MessageType,QString)));
     peers.insert(connection->peerAddress(), connection);
+    peerss.insert(connection->peerAddress().toString(), connection);
+    // insert in new multihash
     // change page with network in mainwindow with current state of network
-    emit networkPage(peers.size());
+
+    emit networkPage(peerss.size());
 }
 
 void Client::processData(const MessageType &type, const QString &data)
@@ -123,28 +135,34 @@ void Client::processData(const MessageType &type, const QString &data)
     QList<MT> dataType;
     QList<MT> requestType;
 
-    dataType << MT::TX << MT::BLOCK << MT::ADDR << MT::BCHAINSTATE <<
-                MT::NOTFOUND << MT::MEMPOOL << MT::UTXO << MT::REJECT;
+    dataType << MT::TX << MT::BLOCK << MT::BCHAINSTATE << MT::NOTFOUND
+             << MT::MEMPOOL << MT::UTXO << MT::REJECT;
 
-    requestType << MT::GETTX << MT::GETBLOCK << MT::GETADDR <<
-                   MT::GETBCHAINSTATE << MT::GETMEMPOOL << MT::GETUTXO;
+    requestType << MT::GETTX << MT::GETBLOCK << MT::GETBCHAINSTATE
+                << MT::GETMEMPOOL << MT::GETUTXO;
 
     if (dataType.contains(type))
     {
+        qDebug() << data;
         emit newData(type, data);
     }
     else if(requestType.contains(type))
     {
+        qDebug() << data;
         if(Connection *connection = qobject_cast<Connection *>(sender()))
             emit newRequest(type, data, connection);
     }
-
-    switch (type)
+    else if(type == MT::ADDR)
     {
-        case MT::REJECT: "nooo, what should I do now?";
+        // save new addresses
     }
-    //определить тип, что-то выполнить, остальное выслать наверх
-    // if type == addr
+    else if(type == MT::GETADDR)
+    {
+        if(Connection *connection = qobject_cast<Connection *>(sender()))
+        {
+//            connection->sendMessage(MT::ADDR, list of peers)
+        }
+    }
 }
 
 void Client::connectionError(QAbstractSocket::SocketError)
@@ -216,6 +234,9 @@ void Client::removeConnection(Connection *connection)
 
     if (peers.contains(connection->peerAddress())) {
         peers.remove(connection->peerAddress());
+    }
+    if (peerss.contains(connection->peerAddress().toString())) {
+        peerss.remove(connection->peerAddress().toString());
     }
     connection->deleteLater();
 }

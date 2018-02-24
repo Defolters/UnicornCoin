@@ -106,22 +106,22 @@ void Connection::processNewData()
         readNewData();
     }*/
 
-    //if(currentMessageType)
-    emit newMessage(currentMessageType, QString::fromUtf8(buffer));
+    switch (currentDataType) {
+    case UNDEFINED:
+        break;
+    case PING:
+        write("PONG 1 p");
+        break;
+    case PONG:
+        pongTime.restart();
+        break;
+    default:
+        emit newMessage(currentMessageType, QString::fromUtf8(buffer));
+        break;
+    }
 
-    /*if (connectionState == ConnectionState::WAITING)
-    {
-        connectionState = ConnectionState::READY;
-
-        /*pingTimer.start();
-        pongTimer.start();
-
-        emit readyForUse();
-    }*/
+    currentDataType = MessageType::UNDEFINED;
     buffer.clear();
-
-    // Œ¡–¿¡¿“€¬¿≈Ã œ–»Õﬂ“€≈ ƒ¿ÕÕ€≈
-
     /*
     qDebug() << Q_FUNC_INFO;
 
@@ -262,13 +262,8 @@ void Connection::sendVersion(MessageType type)
 {
     qDebug() << Q_FUNC_INFO;
 
-    //send version
     sendMessage(type, QHostInfo::localHostName());
 
-    /*if(type == MessageType::VERSION)
-    {
-        connectionState = ConnectionState::WAITING;
-    }*/
     isVersionSend = true;
 }
 

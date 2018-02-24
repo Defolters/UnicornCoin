@@ -25,7 +25,7 @@ public:
     //! Checks that connection is already established (in multihash)
     bool hasConnection(const Connection *connection) const;
     //! Method establishes connections with addresses from the string
-    void connectToPeers(QString &addresses);
+    void connectToNodes(QString &addresses);
 
 signals:
     //! Signal is emitted, when some socket sends new data

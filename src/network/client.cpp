@@ -20,7 +20,7 @@ Client::Client()
         QString addresses = addrTS.readAll();
         qDebug() << file.size() << addresses;
 
-        connectTo(addresses);
+        connectToNodes(addresses);
     }
 
     // set timer for a method, which sends request for new addresses, connects and saves addresses
@@ -41,33 +41,12 @@ void Client::sendMessage(const MessageType &type, const QString &message)
         connection->sendMessage(type, message);
 }
 
-bool Client::hasConnection(const QHostAddress &senderIp, int senderPort) const
+bool Client::hasConnection(const QHostAddress *host) const
 {
-    qDebug() << Q_FUNC_INFO;
-    qDebug() << senderIp.toString();
-//    qDebug() << senderIp.toIPv6Address();
-/*
-    if (senderPort == -1)
-        return peers.contains(senderIp);
-
-    if (!peers.contains(senderIp))
-        return false;
-
-    QList<Connection *> connections = peers.values(senderIp);
-    foreach (Connection *connection, connections) {
-        if (connection->peerPort() == senderPort)
-            return true;
-    }
-*/
-    return false;
+    return peers.contains(host.toString());
 }
 
-bool Client::hasConnection(const Connection *connection) const
-{
-    return peers.contains(connection->peerAddress().toString());
-}
-
-void Client::connectTo(QString &addresses)
+void Client::connectToNodes(QString &addresses)
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -84,8 +63,8 @@ void Client::connectTo(QString &addresses)
         qDebug() << address;
 
         QHostAddress host(address);
-        quint16 port = 9229;//address.split(" ").at(1).toUInt();
-        if (hasConnection(host, port))
+        quint16 port = 9229;
+        if (hasConnection(host))
             continue;
 
         //create new connection, slot connection and send version
@@ -112,7 +91,7 @@ void Client::readyForUse()
     qDebug() << Q_FUNC_INFO;
 
     Connection *connection = qobject_cast<Connection *>(sender());
-    if (!connection || hasConnection(connection))
+    if (!connection || hasConnection(connection->peerAddress()))
         return;
 
     connect(connection, SIGNAL(newMessage(MessageType,QString)),
@@ -154,12 +133,13 @@ void Client::processData(const MessageType &type, const QString &data)
     else if(type == MT::ADDR)
     {
         // save new addresses
+        connectToNodes(data);
     }
     else if(type == MT::GETADDR)
     {
         if(Connection *connection = qobject_cast<Connection *>(sender()))
         {
-//            connection->sendMessage(MT::ADDR, list of peers)
+            connection->sendMessage(MT::ADDR, peersToString());
         }
     }
 }
@@ -204,9 +184,7 @@ void Client::removeConnection(Connection *connection)
     if (peers.contains(connection->peerAddress().toString())) {
         peers.remove(connection->peerAddress().toString());
     }
-    /*if (peerss.contains(connection->peerAddress().toString())) {
-        peerss.remove(connection->peerAddress().toString());
-    }*/
+
     connection->deleteLater();
 }
 
@@ -215,9 +193,6 @@ QString Client::peersToString()
     QString addresses;
     QList<QString> list=peers.keys();
 
-
-    //there is can be an error, i didn't check it yet
-    // iterate through multihash and create string with ip and port
     // при подключении к порту другого компьютера из сервера, то у нас ::ffff:ip
     // если мы сами подключаемся, то нет этих fff
     for (auto ip : peers.keys())
@@ -227,8 +202,7 @@ QString Client::peersToString()
         // неверный подход!!!
         // с двоеточиями создаются сервером, а без при подключении к кому-то, надо сохранять оба.
         addresses.append(ip.split(":").last() + " ");//(host.toString().split(":").last() + " ");
-
-        qDebug() << addresses << endl;
     }
+    qDebug() << addresses << endl;
     return addresses;
 }

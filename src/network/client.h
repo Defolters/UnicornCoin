@@ -55,9 +55,10 @@ public slots:
 private:
     //! Method removes Connection from peers and deletes it
     void removeConnection(Connection *connection);
+    QString peersToString();
     //! MultiHash(dict) which contain all available connections, where key is address of peer and value is Connection;
-    QMultiHash<QHostAddress, Connection *> peers; // заменить на адрес и соединение
-    QMultiHash<QString, Connection *> peerss;
+//    QMultiHash<QHostAddress, Connection *> peers; // заменить на адрес и соединение
+    QMultiHash<QString, Connection *> peers;
     //! Timer for getAddr()
     QTimer addrTimer;
     //! Server for client which listen for new connections

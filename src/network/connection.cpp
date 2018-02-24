@@ -65,8 +65,8 @@ wait for version -> send verack -> ready
 
 void Connection::processNewData()
 {
-//    emit readyForUse();
-    qDebug() << "My port:" << this->localPort();
+    qDebug() << "My port:" << this->peerPort();
+
     try
     {
         readNewData();
@@ -110,7 +110,7 @@ void Connection::processNewData()
     case UNDEFINED:
         break;
     case PING:
-        write("PONG 1 p");
+        sendMessage(PONG,"pong");
         break;
     case PONG:
         pongTime.restart();
@@ -186,8 +186,8 @@ void Connection::sendPing()
         abort();
         return;
     }
+
     sendMessage(MessageType::PING, "Ты еще не умер, бро?");
-    //write("PING 1 p");
 }
 
 void Connection::readNewData()
@@ -219,6 +219,7 @@ void Connection::readNewData()
     currentMessageType = static_cast<MessageType>(indexOfType);
     qDebug() << indexOfType;
     readAll();
+
     // check that md5 == md5(buffer)
     if (QCryptographicHash::hash(buffer, QCryptographicHash::Md5).toHex() == md5)
     {

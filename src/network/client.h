@@ -23,9 +23,9 @@ public:
     //! Sends message to all Connections, which is alive
     void sendMessage(const MessageType &type, const QString &message);
     //! Checks that connection is already established (in multihash)
-    bool hasConnection(const Connection *connection) const;
+    bool hasConnection(const QHostAddress &host) const;
     //! Method establishes connections with addresses from the string
-    void connectToPeers(QString &addresses);
+    void connectToNodes(const QString &addresses);
 
 signals:
     //! Signal is emitted, when some socket sends new data

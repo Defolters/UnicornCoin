@@ -41,12 +41,12 @@ void Client::sendMessage(const MessageType &type, const QString &message)
         connection->sendMessage(type, message);
 }
 
-bool Client::hasConnection(const QHostAddress *host) const
+bool Client::hasConnection(const QHostAddress &host) const
 {
     return peers.contains(host.toString());
 }
 
-void Client::connectToNodes(QString &addresses)
+void Client::connectToNodes(const QString &addresses)
 {
     qDebug() << Q_FUNC_INFO;
 

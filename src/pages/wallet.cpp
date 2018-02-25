@@ -2,8 +2,8 @@
 #include <QDebug>
 #include "qt/mainwindow.h"
 #include <fstream>
-Wallet::Wallet(MainWindow *parent)
-    : parent(parent)
+Wallet::Wallet(QObject *parent)
+//    : parent(parent)
 {
     //load();
     exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};

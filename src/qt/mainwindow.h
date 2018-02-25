@@ -4,12 +4,14 @@
 #include <QMainWindow>
 #include <QTcpServer>
 
+#include "unicorncoin.h"
 #include "pages/wallet.h"
 #include "utils/keygenerator.h"
 #include "utils/messagetype.h"
 #include "network/client.h"
 #include "network/server.h"
 #include "network/connection.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -33,7 +35,6 @@ private slots:
     //! Slot processes new reqest
     void newRequest(const MessageType &type, const QString &data, Connection *connection);
 
-    void dataBack();
     void on_pushButton_4_clicked();
 
     void on_actionwallet_triggered();
@@ -66,10 +67,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QTcpSocket *tcpsocket;
+    UnicornCoin uniCoin;
+
+    /*QTcpSocket *tcpsocket;
     Client client;  //!< Network client
     Wallet* wallet;
-    Connection* con;
+    Connection* con;*/
+
 };
 
 #endif // MAINWINDOW_H

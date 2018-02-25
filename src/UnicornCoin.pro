@@ -33,10 +33,10 @@ SOURCES += \
     utils/keygenerator.cpp \
     pages/wallet.cpp \
     pages/history.cpp \
-    utils/blockobserver.cpp \
     utils/verifier.cpp \
     network/client.cpp \
-    network/connection.cpp
+    network/connection.cpp \
+    unicorncoin.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -49,11 +49,11 @@ HEADERS += \
     pages/wallet.h \
     utils/json.hpp \
     pages/history.h \
-    utils/blockobserver.h \
     utils/verifier.h \
     network/client.h \
     network/connection.h \
-    utils/messagetype.h
+    utils/messagetype.h \
+    unicorncoin.h
 
 FORMS += \
     qt/forms/mainwindow.ui

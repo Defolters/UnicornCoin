@@ -175,6 +175,9 @@ void Client::getAddr()
 
     QString addresses = peersToString();
 
+    if (addresses.isEmpty())
+        return;
+
     QFile file("addresses.dat");
 
     if(file.open(QFile::WriteOnly | QFile::Text))

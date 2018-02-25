@@ -1,6 +1,7 @@
 #ifndef WALLET_H
 #define WALLET_H
 #include <QString>
+#include <QObject>
 //! Class saves private and public key, contain amount of money and history of transactions which connected to
 //! отвечает за wallet page, recieve page and history page
 /*!
@@ -27,7 +28,7 @@ class MainWindow;
 class Wallet
 {
 public:
-    Wallet(MainWindow* parent);
+    Wallet(QObject* parent);
     //! load information from file
     void load();
     //! update wallet page, recieve page, and history
@@ -49,7 +50,7 @@ private:
     double unconfirmed;
     json exportFile;
     json history;
-    MainWindow* parent;
+//    MainWindow* parent;
 };
 
 #endif // WALLET_H

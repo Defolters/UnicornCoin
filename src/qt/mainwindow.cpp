@@ -9,15 +9,12 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    tcpsocket(nullptr),
-    wallet(new Wallet(this)),
-    con(nullptr)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setFixedSize(width(), height());
 
-    ui->label_3->setText("123");
+//    ui->label_3->setText("123");
     ui->statusBar->showMessage("Out of syns");
     setFont(QFont ("Calibri Light", 9));
     //QPixmap pixmap(QPixmap(":/res/icons/error.png").scaledToHeight(ui->statusBar->height()/2));
@@ -25,14 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->statusBarIconNetwork->setPixmap(pixmap);
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
-    wallet->load();
 
-    connect(&client, SIGNAL(newData(MessageType,QString)),
-            this, SLOT(newData(MessageType,QString)));
-    connect(&client, SIGNAL(newRequest(MessageType,QString,Connection*)),
-            this, SLOT(newRequest(MessageType,QString,Connection*)));
-    connect(&client, SIGNAL(networkPage(int)),
-            this, SLOT(networkPage(int)));
+
 
     /*
     load wallet
@@ -70,13 +61,9 @@ void MainWindow::on_pushButton_send_clicked()
     }
     //QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
     QString data = ui->lineEdit_2->text();
+    uniCoin.sendMessage(data);
     //if (tcpsocket != nullptr) tcpsocket->write(data);
-    if (con != nullptr)
-    {
-//        con->write(data);
-        con->sendMessage(MessageType::TX, data);
-    }
-    else qDebug() << "tcpsocket == nullptr";
+
 }
 
 void MainWindow::change_data(QString str, QString label)
@@ -112,35 +99,12 @@ void MainWindow::newRequest(const MessageType &type, const QString &data, Connec
 
 }
 
-void MainWindow::dataBack()
-{
-    QByteArray array = tcpsocket->read(tcpsocket->bytesAvailable());
-    qDebug() <<"databack: " <<array;
-    if (array == "PING 1 p")
-    {
-        tcpsocket->write("PONG 1 p");
-        //tcpsocket->write("PING 1 p");
-    }
-}
-
 void MainWindow::on_pushButton_4_clicked()
 {
     qDebug() << Q_FUNC_INFO;
     // ÏÐÎÂÅÐÈÒÜ ÍÀ ÏÐÀÂÈËÜÍÎÑÒÜ ÂÂÎÄÀ
     QString ip = ui->ip2_2->text();
-    quint16 port = 9229;
-
-    qDebug() << port << " " <<ip;
-    tcpsocket = new QTcpSocket();
-    QHostAddress hostadd(ip);//"127.0.0.1");("95.71.66.118")
-    tcpsocket->connectToHost(hostadd, port);
-    QObject::connect(tcpsocket, SIGNAL(readyRead()),this,SLOT(dataBack()));
-    qDebug() << tcpsocket->state();
-
-    con = new Connection();
-    con->connectToHost(hostadd, port);
-    qDebug() << con->state();
-    client.newConnection(con);
+    uniCoin.connectToNode(ip);
 }
 
 void MainWindow::on_actionwallet_triggered()
@@ -206,7 +170,7 @@ void MainWindow::on_generateNewAddressRP_clicked()
                                                 "Your private key: %1\n"
                                                 "Your address: %2").arg(priv, addr));
         // update information
-        wallet->updateNewKeys(this, priv, pub, addr);
+//        wallet->updateNewKeys(this, priv, pub, addr);
     }
 }
 

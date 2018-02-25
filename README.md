@@ -20,6 +20,10 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 - git diff --numstat
 - git diff -U0
 - git push --set-upstream origin mybranch
+- git checkout master
+- git merge network
+- git checkout master -f
+- git branch -d network
 * Break hands with the help of C++
 * Build bicycle
 
@@ -30,5 +34,5 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 - [x] Create main window and some design for GUI 
 - [ ] Write crypto part
 - [ ] Write data part
-- [ ] Write network part
+- [x] Write network part
 - [ ] Write miner part

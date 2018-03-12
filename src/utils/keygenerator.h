@@ -1,21 +1,29 @@
 #ifndef KEYGENERATOR_H
 #define KEYGENERATOR_H
+
 #include <QString>
 #include <QCryptographicHash>
+
+
+/**
+ * @brief The KeyGenerator class
+ * This class generates private and privates keys. Also it converts public key to address.
+ */
+
 class KeyGenerator
 {
 public:
     KeyGenerator();
 
-    QString generatePrivateKey();
-    QString generatePrivateKey(QString words);
-    QString generatePublicKey(QString privateKey);
-    QString generateAddress(QString publicKey);
+    //! Method generates random private key and returns QByteArray
+    QByteArray generatePrivateKey();
+    //! Method generates public key from private key
+    QByteArray generatePublicKey(QByteArray privateKey);
+    //! Method generates address from public key, which displayed for user
+    QByteArray generateAddress(QByteArray publicKey);
 
 private:
-    /*QString privateKey;
-    QString publicKey;
-    QString address;*/
+
 };
 
 #endif // KEYGENERATOR_H

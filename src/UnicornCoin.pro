@@ -61,6 +61,14 @@ FORMS += \
 RESOURCES += \
     qt/res.qrc
 
+
+INCLUDEPATH += $$PWD/../dependency/cryptopp/include/
+DEPENDPATH += $$PWD/../dependency/cryptopp/include/
+#C:/Users/Defolter/Downloads/cryptopp610/include/cryptopp
+#DEPENDPATH += C:/Users/Defolter/Downloads/cryptopp610/include/cryptopp
+#LIBS += -L"C:/Users/Defolter/Downloads/cryptopp610/lib" -lcryptopp
+LIBS += -L"$$PWD/../dependency/cryptopp/lib" -lcryptopp
+
 VERSION = 0.0.0.1
 QMAKE_TARGET_COMPANY = Defolter
 QMAKE_TARGET_PRODUCT = product

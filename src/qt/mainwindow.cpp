@@ -162,9 +162,10 @@ void MainWindow::on_generateNewAddressRP_clicked()
 
 //        generate pair of keys
         KeyGenerator kg;
-        QString priv = kg.generatePrivateKey();
-        QString pub = kg.generatePublicKey("1");
-        QString addr = kg.generateAddress("1");
+        QByteArray pk = kg.generatePrivateKey();
+        QString priv = pk.toHex();
+        QString pub = kg.generatePublicKey(pk).toHex();
+        QString addr = kg.generateAddress(pk).toHex();
 //        display keys
         QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
                                                 "Your private key: %1\n"

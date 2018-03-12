@@ -42,13 +42,13 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>130</x>
         <y>10</y>
         <width>81</width>
         <height>41</height>
@@ -78,8 +78,8 @@
      <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>360</x>
-        <y>250</y>
+        <x>160</x>
+        <y>210</y>
         <width>80</width>
         <height>21</height>
        </rect>
@@ -91,8 +91,8 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>70</y>
+        <x>30</x>
+        <y>60</y>
         <width>279</width>
         <height>60</height>
        </rect>
@@ -191,8 +191,8 @@
      <widget class="QTextBrowser" name="textBrowser_7">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>170</y>
+        <x>260</x>
+        <y>200</y>
         <width>256</width>
         <height>192</height>
        </rect>
@@ -222,6 +222,81 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The wallet.dat file is located in the&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Data_directory&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;Bitcoin data directory&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; and may be &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Wallet_encryption&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;encrypted with a password&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;It is intended that a wallet file be used on only one installation of Bitcoin at a time. Attempting to clone a wallet file for use on multiple computers will result in &amp;quot;weird behavior&amp;quot;&lt;/span&gt;&lt;a name=&quot;cite_ref-1&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Wallet#cite_note-1&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080; vertical-align:super;&quot;&gt;[&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#0b0080; vertical-align:super;&quot;&gt;1]&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The format of this file is Berkeley DB. Tools that can manipulate wallet files include&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Pywallet&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;pywallet&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addressAboutRP_2">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>120</y>
+        <width>301</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>This is your address, show it to recieve money from people</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addressLabelRP_2">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>10</y>
+        <width>181</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Your address:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="generateNewAddressRP_2">
+      <property name="geometry">
+       <rect>
+        <x>659</x>
+        <y>370</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>generate new address</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addExistingAddressRP_2">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>370</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>add existing address</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addressRP_2">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>70</y>
+        <width>261</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -420,29 +495,6 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
     <widget class="QWidget" name="recievePage">
-     <widget class="QTextBrowser" name="textBrowser_8">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>270</y>
-        <width>231</width>
-        <height>141</height>
-       </rect>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;here I can manage my addresses:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1) add &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2) create&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;all of this addresses is using in wallet and sending&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;all should be displayed like table/list&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FOR THE BEGINNING I CAN CREATE AND MANAGE ONE KEY/ADDRESS!!&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="generateNewAddressRP">
       <property name="geometry">
        <rect>
@@ -557,24 +609,6 @@ p, li { white-space: pre-wrap; }
        <string>MINE MY MONEY</string>
       </property>
      </widget>
-     <widget class="QTextBrowser" name="textBrowser_2">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>256</width>
-        <height>192</height>
-       </rect>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;display info about mining (current block/other..)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;mining on/off&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton_5">
       <property name="geometry">
        <rect>
@@ -654,7 +688,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -764,30 +798,6 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
       </layout>
-     </widget>
-     <widget class="QTextBrowser" name="textBrowser_9">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>210</y>
-        <width>256</width>
-        <height>192</height>
-       </rect>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;on this page we can see state of netwrok:&lt;br /&gt;state of connection (has internet)&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;number of peers&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ability to connect to other node&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;https://en.bitcoin.it/wiki/Protocol_documentation#Message_types&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;https://bitcoin.org/en/developer-reference#message-headers&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
      </widget>
      <widget class="QLCDNumber" name="lcdNumber">
       <property name="geometry">

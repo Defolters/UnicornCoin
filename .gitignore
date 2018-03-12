@@ -11,6 +11,7 @@ sfml-*
 *.vs
 /GUI/x64/Release
 build
+dependency
 build-release
 src/GeneratedFiles
 src/release

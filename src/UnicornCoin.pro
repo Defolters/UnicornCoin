@@ -36,7 +36,8 @@ SOURCES += \
     utils/verifier.cpp \
     network/client.cpp \
     network/connection.cpp \
-    unicorncoin.cpp
+    unicorncoin.cpp \
+    datastructure/transactionmanager.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     network/client.h \
     network/connection.h \
     utils/messagetype.h \
-    unicorncoin.h
+    unicorncoin.h \
+    datastructure/transactionmanager.h
 
 FORMS += \
     qt/forms/mainwindow.ui

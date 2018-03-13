@@ -10,6 +10,7 @@
 #include "network/client.h"
 #include "network/server.h"
 #include "network/connection.h"
+#include "datastructure/transactionmanager.h"
 
 class UnicornCoin : public QObject
 {
@@ -22,6 +23,7 @@ public:
     void sendMessage(const QString &data);
     void addExistingAddress(); //can emit error
     void generateNewAddress(); //after it make qdialog
+    void createNewTransaction(QString recipient, int amount, int fee); // кому + сколько + комиссия
     void mineMyMoney();
     void connectToNode(const QString &ip); //conect to ip
 signals:
@@ -67,6 +69,17 @@ private:
     Client client;  //!< Network client
     Wallet* wallet;
     Connection* con;
+    TransactionManager txManager;
+    //QMultiHash<address, > unspent; //!< multihash contains unspent money for every address
+    QList<QJsonObject> myUnspent; //!< list contains my unspent transactions
+    //QList unconfirmed; //!< list of unconfirmed tx sorted by fee
 };
-
+/*
+class struct In
+{
+    In() {}
+    QString hashOfTx;
+    int numberOfBlock;
+    int numberOfOutput;
+};*/
 #endif // UNICORNCOIN_H

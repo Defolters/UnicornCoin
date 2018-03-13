@@ -37,7 +37,8 @@ SOURCES += \
     network/client.cpp \
     network/connection.cpp \
     unicorncoin.cpp \
-    datastructure/transactionmanager.cpp
+    datastructure/transactionmanager.cpp \
+    datastructure/blockmanager.cpp
 
 HEADERS += \
     qt\mainwindow.h \
@@ -55,7 +56,8 @@ HEADERS += \
     network/connection.h \
     utils/messagetype.h \
     unicorncoin.h \
-    datastructure/transactionmanager.h
+    datastructure/transactionmanager.h \
+    datastructure/blockmanager.h
 
 FORMS += \
     qt/forms/mainwindow.ui

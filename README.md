@@ -25,6 +25,8 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 - git checkout master -f
 - git branch -d network
 - git rm -r --cached directory/
+- git shortlog -s -n
+- git ls-files | xargs wc -l
 * Break hands with the help of C++
 * Build bicycle
 

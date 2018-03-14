@@ -16,11 +16,18 @@ public:
     KeyGenerator();
 
     //! Method generates random private key and returns QByteArray
-    QByteArray generatePrivateKey();
+    static QByteArray generatePrivateKey();
+
     //! Method generates public key from private key
-    QByteArray generatePublicKey(QByteArray privateKey);
+    static QByteArray generatePublicKey(QByteArray privateKey);
+
     //! Method generates address from public key, which displayed for user
-    QByteArray generateAddress(QByteArray publicKey);
+    static QByteArray generateAddress(QByteArray publicKey);
+
+    //! Method generate
+    //! @return true if
+    //! @return false if
+    static bool checkAddress(QByteArray address, QByteArray publicKey);
 
 private:
 

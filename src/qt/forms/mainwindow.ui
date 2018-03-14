@@ -42,7 +42,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -88,16 +88,127 @@
        <string>PushButton</string>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QTextBrowser" name="textBrowser_7">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>60</y>
-        <width>279</width>
-        <height>60</height>
+        <x>260</x>
+        <y>200</y>
+        <width>256</width>
+        <height>192</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- look at blockchain and count my money &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- all transaction, that has been created, but not in blocksare unconfirmed&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- create pool of unspending transaction&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;wallet page read data from wallet.dat and do it every changes in blocks/transactions&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;wallet.dat contain &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The original Bitcoin client stores private key information in a file named&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; font-weight:600; color:#252525;&quot;&gt;wallet.dat&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; following the so called &lt;/span&gt;&lt;a href=&quot;https://bitcointalk.org/index.php?topic=4448.0&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#663366;&quot;&gt;&amp;quot;bitkeys&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; format.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;It contains:&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:5px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;keypairs for each of your &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Address&quot;&gt;&lt;span style=&quot; font-size:14px; text-decoration: underline; color:#0b0080;&quot;&gt;addresses&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;transactions done from/to your addresses&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;user preferences&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;default key&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;reserve keys&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Accounts_explained&quot;&gt;&lt;span style=&quot; font-size:14px; text-decoration: underline; color:#0b0080;&quot;&gt;accounts&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;a version number&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Key_pool&quot;&gt;&lt;span style=&quot; font-size:14px; text-decoration: underline; color:#0b0080;&quot;&gt;Key pool&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Since 0.3.21: information about the current best chain, to be able to rescan automatically when restoring from a backup.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The wallet.dat file is located in the&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Data_directory&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;Bitcoin data directory&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; and may be &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Wallet_encryption&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;encrypted with a password&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;It is intended that a wallet file be used on only one installation of Bitcoin at a time. Attempting to clone a wallet file for use on multiple computers will result in &amp;quot;weird behavior&amp;quot;&lt;/span&gt;&lt;a name=&quot;cite_ref-1&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Wallet#cite_note-1&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080; vertical-align:super;&quot;&gt;[&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#0b0080; vertical-align:super;&quot;&gt;1]&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The format of this file is Berkeley DB. Tools that can manipulate wallet files include&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Pywallet&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;pywallet&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addressAboutRP">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>120</y>
+        <width>301</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>This is your address, show it to recieve money from people</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addressLabelRP">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>10</y>
+        <width>181</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Your address:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="generateNewAddressRP">
+      <property name="geometry">
+       <rect>
+        <x>659</x>
+        <y>370</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>generate new address</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addExistingAddressRP">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>370</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>add existing address</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="addressRP">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>70</y>
+        <width>261</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>31</x>
+        <y>61</y>
+        <width>341</width>
+        <height>64</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
@@ -143,189 +254,106 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="balanceAmountWP">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>FF DIN Pro</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>0.0 UCN</string>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="balanceAmountWP">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>FF DIN Pro</family>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>0.0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="UCN1">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>UCN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QLabel" name="unconfirmedAmountrWP">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>FF DIN Pro</family>
-             <pointsize>12</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>0.0 UCN</string>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QLabel" name="unconfirmedAmountrWP">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>FF DIN Pro</family>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>0.0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="UCN2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>UCN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QTextBrowser" name="textBrowser_7">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>200</y>
-        <width>256</width>
-        <height>192</height>
-       </rect>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- look at blockchain and count my money &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- all transaction, that has been created, but not in blocksare unconfirmed&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- create pool of unspending transaction&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;wallet page read data from wallet.dat and do it every changes in blocks/transactions&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;wallet.dat contain &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The original Bitcoin client stores private key information in a file named&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; font-weight:600; color:#252525;&quot;&gt;wallet.dat&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; following the so called &lt;/span&gt;&lt;a href=&quot;https://bitcointalk.org/index.php?topic=4448.0&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#663366;&quot;&gt;&amp;quot;bitkeys&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; format.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;It contains:&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:5px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;keypairs for each of your &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Address&quot;&gt;&lt;span style=&quot; font-size:14px; text-decoration: underline; color:#0b0080;&quot;&gt;addresses&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;transactions done from/to your addresses&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;user preferences&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;default key&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;reserve keys&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Accounts_explained&quot;&gt;&lt;span style=&quot; font-size:14px; text-decoration: underline; color:#0b0080;&quot;&gt;accounts&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;a version number&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Key_pool&quot;&gt;&lt;span style=&quot; font-size:14px; text-decoration: underline; color:#0b0080;&quot;&gt;Key pool&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot; style=&quot; margin-top:0px; margin-bottom:1px; margin-left:27px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Since 0.3.21: information about the current best chain, to be able to rescan automatically when restoring from a backup.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The wallet.dat file is located in the&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Data_directory&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;Bitcoin data directory&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; and may be &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Wallet_encryption&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;encrypted with a password&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;It is intended that a wallet file be used on only one installation of Bitcoin at a time. Attempting to clone a wallet file for use on multiple computers will result in &amp;quot;weird behavior&amp;quot;&lt;/span&gt;&lt;a name=&quot;cite_ref-1&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Wallet#cite_note-1&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080; vertical-align:super;&quot;&gt;[&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#0b0080; vertical-align:super;&quot;&gt;1]&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:9px; margin-bottom:9px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; background-color:#ffffff;&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525; background-color:#ffffff;&quot;&gt;The format of this file is Berkeley DB. Tools that can manipulate wallet files include&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://en.bitcoin.it/wiki/Pywallet&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; text-decoration: underline; color:#0b0080;&quot;&gt;pywallet&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:8pt; color:#252525;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="addressAboutRP_2">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>120</y>
-        <width>301</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>This is your address, show it to recieve money from people</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="addressLabelRP_2">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>10</y>
-        <width>181</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Your address:</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="generateNewAddressRP_2">
-      <property name="geometry">
-       <rect>
-        <x>659</x>
-        <y>370</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>generate new address</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="addExistingAddressRP_2">
-      <property name="geometry">
-       <rect>
-        <x>530</x>
-        <y>370</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>add existing address</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="addressRP_2">
-      <property name="geometry">
-       <rect>
-        <x>480</x>
-        <y>70</y>
-        <width>261</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="sendPage">
-     <widget class="QPushButton" name="send_money">
-      <property name="geometry">
-       <rect>
-        <x>440</x>
-        <y>50</y>
-        <width>101</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Calibri Light</family>
-        <pointsize>9</pointsize>
-        <italic>false</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>SEND MY MONEY!</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="createTransaction">
       <property name="geometry">
        <rect>
-        <x>440</x>
-        <y>10</y>
+        <x>350</x>
+        <y>170</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -336,43 +364,15 @@ p, li { white-space: pre-wrap; }
        </font>
       </property>
       <property name="text">
-       <string>create transaction</string>
-      </property>
-     </widget>
-     <widget class="QTextBrowser" name="textBrowser_6">
-      <property name="geometry">
-       <rect>
-        <x>540</x>
-        <y>0</y>
-        <width>256</width>
-        <height>192</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <italic>false</italic>
-       </font>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1) fill the fields&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2) check all is valid&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3) create transaction&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4) check transaction&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5) add transaction into pool&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;6) make *some* file for sending&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;7) add in query to sending data to other nodes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>Send money</string>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>1</x>
-        <y>1</y>
-        <width>441</width>
+        <x>170</x>
+        <y>30</y>
+        <width>451</width>
         <height>111</height>
        </rect>
       </property>
@@ -435,7 +435,7 @@ p, li { white-space: pre-wrap; }
             </font>
            </property>
            <property name="placeholderText">
-            <string>enter address (e.x. 12345)</string>
+            <string>enter address (e.x. 24fgddsfd21d)</string>
            </property>
           </widget>
          </item>
@@ -457,10 +457,13 @@ p, li { white-space: pre-wrap; }
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
            <property name="decimals">
-            <number>6</number>
+            <number>3</number>
            </property>
            <property name="maximum">
             <double>21000000.000000000000000</double>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -482,7 +485,7 @@ p, li { white-space: pre-wrap; }
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
            <property name="decimals">
-            <number>6</number>
+            <number>3</number>
            </property>
            <property name="maximum">
             <double>21000000.000000000000000</double>
@@ -492,83 +495,6 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
       </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="recievePage">
-     <widget class="QPushButton" name="generateNewAddressRP">
-      <property name="geometry">
-       <rect>
-        <x>669</x>
-        <y>380</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>generate new address</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="addressLabelRP">
-      <property name="geometry">
-       <rect>
-        <x>310</x>
-        <y>10</y>
-        <width>181</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>22</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Your address:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="addressRP">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>80</y>
-        <width>261</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="addExistingAddressRP">
-      <property name="geometry">
-       <rect>
-        <x>540</x>
-        <y>380</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>add existing address</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="addressAboutRP">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>120</y>
-        <width>301</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>This is your address, show it to recieve money from people</string>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="historyPage">

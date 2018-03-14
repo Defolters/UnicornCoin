@@ -5,18 +5,20 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-class TransactionManager : public QObject
+class TransactionManager
 {
-    Q_OBJECT
+
 public:
-    explicit TransactionManager(QObject *parent = nullptr);
+    //!
+    static QByteArray createNewTransaction(QList<double> inputs, QByteArray recipient,
+                                    QByteArray privateKey, QByteArray publicKey,
+                                    double amount, double fee);
+    //!
+    static QByteArray signTransaction(QByteArray tx, QByteArray privateKey);
 
-    QByteArray createNewTransaction(QList<int> inputs, QString recipient,
-                                    int amount, int fee);
+    //!
+    static bool verifyTransaction(QJsonObject tx);
 
-signals:
-
-public slots:
 };
 
 #endif // TRANSACTIONMANAGER_H

@@ -5,12 +5,6 @@
 #include <QTcpServer>
 
 #include "unicorncoin.h"
-#include "pages/wallet.h"
-#include "utils/keygenerator.h"
-#include "utils/messagetype.h"
-#include "network/client.h"
-#include "network/server.h"
-#include "network/connection.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,19 +37,13 @@ private slots:
 
     void on_actionsend_triggered();
 
-    void on_actionrecieve_triggered();
-
     void on_actionhistory_triggered();
 
     void on_actiondatabase_triggered();
 
     void on_pushButton_2_clicked();
 
-    //void on_pushButton_5_clicked();
-
     void on_pushButton_send_clicked();
-
-    void on_send_money_clicked();
 
     void on_actionnetwork_triggered();
 
@@ -68,11 +56,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     UnicornCoin uniCoin;
-
-    /*QTcpSocket *tcpsocket;
-    Client client;  //!< Network client
-    Wallet* wallet;
-    Connection* con;*/
 
 };
 

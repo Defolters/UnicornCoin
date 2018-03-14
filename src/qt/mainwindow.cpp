@@ -51,14 +51,6 @@ void MainWindow::on_pushButton_send_clicked()
     //qDebug() << ui->lineEdit->text();
     //qDebug() << tcpsocket->state();
     //exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};
-    try
-    {
-        json::parse("dsfsd");
-    }
-    catch(json::exception& ex)
-    {
-        qDebug() << ex.what();
-    }
     //QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
     QString data = ui->lineEdit_2->text();
     uniCoin.sendMessage(data);
@@ -117,29 +109,24 @@ void MainWindow::on_actionsend_triggered()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_actionrecieve_triggered()
+void MainWindow::on_actionhistory_triggered()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_actionhistory_triggered()
+void MainWindow::on_actionminer_triggered()
 {
     ui->stackedWidget->setCurrentIndex(3);
 }
 
-void MainWindow::on_actionminer_triggered()
+void MainWindow::on_actiondatabase_triggered()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_actiondatabase_triggered()
-{
-    ui->stackedWidget->setCurrentIndex(5);
-}
-
 void MainWindow::on_actionnetwork_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(6);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -147,50 +134,54 @@ void MainWindow::on_pushButton_2_clicked()
     ui->balanceAmountWP->setText("21000000 UCN");
 }
 
-void MainWindow::on_send_money_clicked()
-{
-
-}
-
 void MainWindow::on_generateNewAddressRP_clicked()
 {
 
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "IMPORTANT", "If you already generated address, you can lose him!\n Continue?",
-                                                              QMessageBox::Yes | QMessageBox::No);
+    QMessageBox::StandardButton reply = QMessageBox::question(
+                this, "IMPORTANT", "If you already generated address, you can "
+                                   "lose it!\n Continue?",
+                QMessageBox::Yes | QMessageBox::No);
+
     if (reply == QMessageBox::Yes)
     {
+        uniCoin.generateNewAddress();
 
-//        generate pair of keys
-        KeyGenerator kg;
-        QByteArray pk = kg.generatePrivateKey();
-        QString priv = pk.toHex();
-        QString pub = kg.generatePublicKey(pk).toHex();
-        QString addr = kg.generateAddress(pk).toHex();
-//        display keys
+        QString priv = uniCoin.getPrivateKey().toHex();
+        QString addr = uniCoin.getAddress().toHex();
+        double balance = uniCoin.getBalance();
+        // unconfirmed?
+        QList<QJsonObject> history = uniCoin.getHistory();
+
+
         QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
                                                 "Your private key: %1\n"
                                                 "Your address: %2").arg(priv, addr));
         // update information
-//        wallet->updateNewKeys(this, priv, pub, addr);
+        ui->addressRP->setText(addr);
+        ui->balanceAmountWP->setText(QString::number(balance));
+        // unconfirmed
+        // history
     }
 }
 
 void MainWindow::on_createTransaction_clicked()
 {
-    Transaction tx(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value());
+    //Transaction tx(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value());
 
     try
     {
         uniCoin.createNewTransaction(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value());
     }
-    catch (...)
+    catch (std::runtime_error ex)
     {
-        QMessageBox::critical(this, "IMPORTANT", QString("Error"));
+        QMessageBox::critical(this, "IMPORTANT", QString("Error: %1").arg(ex.what()));
     }
-    /*bool valid = tx.verify(); // and add inputs
-    if valid == true
-    tx.sign();
-    tx.sendToNetwork();*/
+    catch(...)
+    {
+        QMessageBox::critical(this, "IMPORTANT", QString("Undefined error"));
+        // save state into file and exit
+        exit(1);
+    }
 }
 
 void MainWindow::on_addExistingAddressRP_clicked()

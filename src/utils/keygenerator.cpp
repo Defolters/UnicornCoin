@@ -147,6 +147,41 @@ QByteArray KeyGenerator::generateAddress(QByteArray publicKey)
      * doubleHashOfPublicAndChecksum = dobleHashOfPublic + checksum
      * address = base58(doubleHashOfPublicAndChecksum)*/
     // hash public key in order to get short address
-    //return QByteArray("1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN");
+/*
+private key: 20 "f7d15064a1b4d171cc1ebe75e1bd4b5b298706c0"
+public key: 40 "99fcc1c53a1f43bfb8d8361abc89e5cb44601a4a5ad34a5f0e9fb5e52b894c1f2febba82efafb9da"
+private key for signing: "f7d15064a1b4d171cc1ebe75e1bd4b5b298706c0"
+public key: 40 "99fcc1c53a1f43bfb8d8361abc89e5cb44601a4a5ad34a5f0e9fb5e52b894c1f2febba82efafb9da"
+pub  "99FQZKG00XHMHr514b1LWymHBsA="
+add hex  "5796a13d375e4c81fc22c60fdaf58dd384e78771"
+add base64  "V5ahPTdeTIH8IsYP2vWN04Tnh3E="
+checksum:  "43d72f46f04a8a9109fa61a44f7fb70be8257893ab9a1d359dc7dcc5aa94db0c"
+add hex with checksum:  "5796a13d375e4c81fc22c60fdaf58dd384e7877143d72f46f0"
+*/
+    qDebug() <<"pub " <<publicKey.toBase64();
+
+    QByteArray address;
+    address = QCryptographicHash::hash(publicKey, QCryptographicHash::Sha3_256);
+    address = QCryptographicHash::hash(publicKey, QCryptographicHash::Sha1);
+    qDebug() <<"add hex " << address.toHex();
+    qDebug() <<"add base64 " << address.toBase64();
+
+    QByteArray checksum;
+    checksum = QCryptographicHash::hash(address, QCryptographicHash::Sha256);
+    checksum = QCryptographicHash::hash(checksum, QCryptographicHash::Sha256);
+
+    qDebug() <<"checksum: " << checksum.toHex();
+
+    address.append(checksum.mid(0,5));
+    qDebug() <<"add hex with checksum: " << address.toHex();
+
     return QCryptographicHash::hash(publicKey.toHex(), QCryptographicHash::Md5);
+}
+
+bool KeyGenerator::checkAddress(QByteArray address, QByteArray publicKey)
+{
+    if (address == generateAddress(publicKey))
+        return true;
+
+    return false;
 }

@@ -2,6 +2,8 @@
 #define WALLET_H
 #include <QString>
 #include <QObject>
+#include <QJsonObject>
+
 //! Class saves private and public key, contain amount of money and history of transactions which connected to
 //! отвечает за wallet page, recieve page and history page
 /*!
@@ -21,35 +23,48 @@ contain amount of money, unconfirmed, history of transactions??
 5. создаем блоки (from mining -> amount and history + like получаем блоки)
 6.
 */
-#include "utils/json.hpp"
-using json = nlohmann::json;
-class MainWindow;
+
 
 class Wallet
 {
 public:
     Wallet(QObject* parent);
+
     //! load information from file
     void load();
-    //! update wallet page, recieve page, and history
-    void update(MainWindow* mw, QString& priv, QString& pub, QString& addr, double amount, QString& history);
-    //! update file and @ref update()
-    void updateNewKeys(MainWindow *mw, QString &priv, QString &pub, QString &addr);
-    bool updateFile(QString& priv, QString& pub, QString& addr, double amount);
-    bool setAmount(double& amount);
-    json getHistory();
+
+    void setBalance(double balance);
+
+    //! Method write wallet information into wallet.dat (encrypt)
+    void updateFile();
+
+    //! Method checks that we have enough money in wallet
+    //! and returns list with ouputs
+    QList<double> checkMoney(double amount);
+
+    void setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray address);
+    void setUnspent(QList<QJsonObject> &unspent);
+
+    QList<QJsonObject> getHistory() const;
+    double getBalance() const;
+    QByteArray getPrivateKey() const;
+    QByteArray getPublicKey() const;
+    QByteArray getAddress() const;
+
 private:
 
-    bool updateWallet(double amount, double unconfirmed);
     bool updateHistory();
     QString path;
-    QString privateKey;
-    QString publicKey;
-    QString Address;
-    double amount;
+    QByteArray privateKey;
+    QByteArray publicKey;
+    QByteArray address;
+
+    double balance;
     double unconfirmed;
-    json exportFile;
-    json history;
+
+    //! History = all tx spent by me (confirmed)
+    QList<QJsonObject> history;
+    QList<QJsonObject> myUnspent;
 //    MainWindow* parent;
 };
 

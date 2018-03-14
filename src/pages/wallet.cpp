@@ -2,10 +2,12 @@
 #include <QDebug>
 #include "qt/mainwindow.h"
 #include <fstream>
+#include <QList>
 Wallet::Wallet(QObject *parent)
 //    : parent(parent)
 {
     //load();
+    /*
     exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};
     exportFile["amount"] = {{"amount",100},{"unconfirmed", 10}};
     exportFile["history"] = { {"currency", "USD"}, {"value", 42.99} };
@@ -13,7 +15,7 @@ Wallet::Wallet(QObject *parent)
     i >> j;*/
     //
 
-    std::ifstream i("file.json");
+    /*std::ifstream i("file.json");
     if(i.is_open())
     {
         //load data
@@ -21,7 +23,7 @@ Wallet::Wallet(QObject *parent)
     else
     {
         //set "wallet is unload"
-    }
+    }*/
     //o << std::setw(4) << exportFile << std::endl;
     // write prettified JSON to another file
 //    std::ofstream o("pretty.json");
@@ -52,43 +54,69 @@ void Wallet::load()
 
 }
 
-void Wallet::update(MainWindow *mw, QString &priv, QString &pub, QString &addr, double amount, QString &history)
-{
-    qDebug() << Q_FUNC_INFO;
-//    ui->addressRP->setText(addr);
-    //        update recieve information
-    mw->change_data(addr, "addressRP");
 
-    //        look at block and count amount and history, then write it in the wallet file
+void Wallet::setBalance(double balance)
+{
+    this->balance = balance;
+    updateFile();
 }
 
-void Wallet::updateNewKeys(MainWindow *mw, QString &priv, QString &pub, QString &addr)
+void Wallet::updateFile()
 {
-    QString history("");
-    update(mw, priv, pub, addr, 0.0, history);
-    //        save keys in wallet.dat
-    updateFile(priv, pub, addr, 0.0);
+    // save all information into file
 }
 
-
-bool Wallet::updateFile(QString &priv, QString &pub, QString &addr, double amount)
+QList<double> Wallet::checkMoney(double amount) // возвращать ссылку? Удалится ли содержимое?
 {
-    //create file
-    //write to file: private, public, address, amount
-    return false;
+    QList<double> listOfOutputs;
+    double amountFromUnspent = 0;
+
+    int i = 0;
+    while ((amountFromUnspent < amount) && (i<myUnspent.size()))
+    {
+            listOfOutputs.append(myUnspent.at(i)["value"].toDouble());
+            amountFromUnspent += myUnspent.at(i)["value"].toDouble();
+            i++;
+    }
+
+    if (amountFromUnspent < amount)
+    {
+        throw std::runtime_error("Not enough money in wallet");
+    }
+
+
+    return listOfOutputs;
 }
 
-bool Wallet::setAmount(double &amount)
+void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray address)
 {
-    this->amount = amount;
-    return false;
-    //write new amount to file
-    // display on the screen
+    this->privateKey = privateKey;
+    this->publicKey = publicKey;
+    this->address = address;
+    updateFile();
 }
 
-bool Wallet::updateWallet(double amount, double unconfirmed)
+QList<QJsonObject> Wallet::getHistory() const
 {
-    return false;
-//    mw->changeData(amount, "balanceAmountrWP");
-//    mw->changeData(unconfirmed, "unconfirmedAmountrWP");
+    return history;
+}
+
+double Wallet::getBalance() const
+{
+    return balance;
+}
+
+QByteArray Wallet::getPrivateKey() const
+{
+    return privateKey;
+}
+
+QByteArray Wallet::getPublicKey() const
+{
+    return publicKey;
+}
+
+QByteArray Wallet::getAddress() const
+{
+    return address;
 }

@@ -4,9 +4,7 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     QObject(parent),
     wallet(new Wallet(this)),
     tcpsocket(nullptr),
-    con(nullptr),
-    txManager(nullptr)
-
+    con(nullptr)
 {
     wallet->load();
 
@@ -28,32 +26,59 @@ void UnicornCoin::sendMessage(const QString &data)
     else qDebug() << "tcpsocket == nullptr";
 }
 
-void UnicornCoin::createNewTransaction(QString recipient, int amount, int fee)
+void UnicornCoin::generateNewAddress()
 {
-    /*
-        проверить, что адрес и сумма правильные, иначе выкинуть ошибку
-        проверить, что у нас на счету (наши unspent деньги) достаточно денег и сформировать массив in, иначе выкинуть ошибку
-        создать транзанкцию, добавить ее в unconfirmed и рассказать о ней всем
-    */
+    QByteArray pk = KeyGenerator::generatePrivateKey();
+    QByteArray pubk = KeyGenerator::generatePublicKey(pk);
+    QByteArray ad = KeyGenerator::generateAddress(pk);
+    KeyGenerator::checkAddress(ad,pubk);
+
+    // update keys in wallet
+    wallet->setKeys(pk, pubk, ad);
+    // analyze blockchain and search for amount/ouputs
+    /*QList<QJsonObject> unspent = blockManager.getUnspent(ad);
+    if (!unspent.empty())
+        wallet->setUnspent(unspent);
+*/
+
+    //
+}
+
+void UnicornCoin::createNewTransaction(QString recipient, double amount, double fee)
+{
+    //проверить, что адрес и сумма правильные, иначе выкинуть ошибку
     //KeyGenerator::checkAddress(recipient);
-    // формируем лист из хэшей транзакций и номеров outputs
+    if ((amount <= 0) || (fee<0) ) // || правильное написание адреса (символы нормальные) \\ длина адреса подходящая
+    {
+        throw std::runtime_error("invalid field");
+    }
+
+
     // если денегнедостаточно, то выбрасываем ошибку
+    //проверить, что у нас на счету (наши unspent деньги) достаточно денег и сформировать массив in, иначе выкинуть ошибку
+    QList<double> listOfOutputs;
     try
     {
 //        TYPE input = wallet->checkMoney(amount+fee);
         // QPair<hash, numberOfOutput>
         // list of values, which >= amont+fee
-//        QList<int> listOfOutputs;
+        listOfOutputs = wallet->checkMoney(amount+fee);
     }
-    catch(...)
+    catch(std::runtime_error ex)
     {
         //s; // недостаточно денег
+        throw ex;
     }
-    QList<int> listOfOutputs;
+
     listOfOutputs.push_back(1);
     listOfOutputs.push_back(2);
     listOfOutputs.push_back(3);
-    txManager.createNewTransaction(listOfOutputs, recipient, amount, fee);
+
+    //создать транзанкцию, добавить ее в unconfirmed и рассказать о ней всем
+    // HOW TO CAST STRING TO PROPER ADDRESS???
+    QByteArray rec = recipient.toUtf8();
+    QByteArray tx = txManager.createNewTransaction(listOfOutputs, rec, wallet->getPrivateKey(), wallet->getPublicKey(), amount, fee);
+
     //client.sendMessage();
 }
 
@@ -66,4 +91,24 @@ void UnicornCoin::connectToNode(const QString &ip)
     con->connectToHost(hostadd, port);
     qDebug() << con->state();
     client.newConnection(con);
+}
+
+QList<QJsonObject> UnicornCoin::getHistory() const
+{
+    return wallet->getHistory();
+}
+
+double UnicornCoin::getBalance() const
+{
+    return wallet->getBalance();
+}
+
+QByteArray UnicornCoin::getPrivateKey() const
+{
+    return wallet->getPrivateKey();
+}
+
+QByteArray UnicornCoin::getAddress() const
+{
+    return wallet->getAddress();
 }

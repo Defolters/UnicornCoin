@@ -49,7 +49,6 @@ HEADERS += \
     utils/keygenerator.h \
     datastructure/data.h \
     pages/wallet.h \
-    utils/json.hpp \
     pages/history.h \
     utils/verifier.h \
     network/client.h \

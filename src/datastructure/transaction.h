@@ -3,8 +3,7 @@
 #include <vector>
 #include <QString>
 #include "data.h"
-#include "utils/json.hpp"
-using json = nlohmann::json;
+
 //https://github.com/nlohmann/json
 //http://leveldb.org/
 struct Input
@@ -40,7 +39,6 @@ private:
     std::vector<Input*> inputs;
     int numberOfOutputs;
     std::vector<Output*> outputs;
-    json exportFile;
 };
 
 #endif // TRANSACTION_H

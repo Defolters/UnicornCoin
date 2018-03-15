@@ -12,7 +12,9 @@ Server::Server(QObject *parent)
 
 void Server::incomingConnection(qintptr socketDescriptor)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
+#endif
     Connection *connection = new Connection(this);
     connection->setSocketDescriptor(socketDescriptor);
     emit newConnection(connection);

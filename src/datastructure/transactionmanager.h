@@ -5,13 +5,16 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+/**
+ * @brief The TransactionManager class
+ */
 class TransactionManager
 {
 
 public:
     //!
     static QByteArray createNewTransaction(QList<double> inputs, QByteArray recipient,
-                                    QByteArray privateKey, QByteArray publicKey,
+                                    QByteArray privateKey, QByteArray publicKey, QByteArray address,
                                     double amount, double fee);
     //!
     static QByteArray signTransaction(QByteArray tx, QByteArray privateKey);
@@ -40,4 +43,28 @@ public key + script = my money
 
 выписать прилгательные, наречия и главголы для первого задания.
 
+*/
+
+//https://github.com/nlohmann/json
+//http://leveldb.org/
+/*
+tx:
+1. version
+2. number of inputs
+3. inputs[]
+4. number of outputs
+5. outputs[]
+6. lock_time
+
+input:
+1. prev_output:
+1) hash of transaction
+2) index of output in transaction
+2. script_len
+3. script
+
+output:
+1. value
+2. script_len
+3. script_pubkey
 */

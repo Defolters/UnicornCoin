@@ -26,9 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     qt/main.cpp \
     qt/mainwindow.cpp \
-    datastructure/transaction.cpp \
     network/server.cpp \
-    datastructure/block.cpp \
     datastructure/blockchain.cpp \
     utils/keygenerator.cpp \
     pages/wallet.cpp \
@@ -42,12 +40,9 @@ SOURCES += \
 
 HEADERS += \
     qt\mainwindow.h \
-    datastructure/transaction.h \
     network/server.h \
-    datastructure/block.h \
     datastructure/blockchain.h \
     utils/keygenerator.h \
-    datastructure/data.h \
     pages/wallet.h \
     pages/history.h \
     utils/verifier.h \

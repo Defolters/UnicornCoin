@@ -26,7 +26,9 @@ Connection::Connection(QObject *parent)
 
 bool Connection::sendMessage(const MessageType type, const QString &data)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
+#endif
     /*if (message.isEmpty())
         return false;*/
 
@@ -38,8 +40,9 @@ bool Connection::sendMessage(const MessageType type, const QString &data)
     QByteArray raw = QByteArray::number(typeM.size()) + "#" + typeM + "#" +
                      QByteArray::number(dat.size()) + "#" + dat + "#" +
                      QByteArray::number(hash.size()) + "#" + hash;
+#ifdef DEBUG
     qDebug() << raw;
-
+#endif
     return write(raw) == raw.size();
 }
 
@@ -57,11 +60,12 @@ void Connection::timerEvent(QTimerEvent *timerEvent)
 
 void Connection::processNewData()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
 //    start connection -> send version -> wait for verack -> ready
 //    wait for version -> send verack -> ready
     qDebug() << "My port:" << this->peerPort();
-
+#endif
     try
     {
         readNewData();
@@ -116,8 +120,9 @@ void Connection::processNewData()
 
 void Connection::sendPing()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     // Check that connection is answering to us, else abort
     if (pongTime.elapsed() > PongTimeout) {
         abort();
@@ -131,7 +136,9 @@ void Connection::readNewData()
 {
     // ПЛОХО ЧИТАЕТ, ЕСЛИ ОТПРАВЛЕНО ПОРЦИЯМИ?
     // А ЧТО, ЕСЛИ ДАННЫХ МНОГО?
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
+#endif
     //7#Version#2#De#5#12345
     int size;
 
@@ -139,26 +146,33 @@ void Connection::readNewData()
 
     QByteArray type = read(size);
     read(1); //read # before size
+#ifdef DEBUG
     qDebug() << size << " " << type;
-
+#endif
     size = readSize();
     buffer = read(size);
     read(1); //read # before size
+#ifdef DEBUG
     qDebug() << size << " " << QString::fromUtf8(buffer);
-
+#endif
     size = readSize();
     QByteArray md5 = read(size);
+#ifdef DEBUG
     qDebug() << size << " " << md5;
-
+#endif
     int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
     currentDataType = static_cast<MessageType>(indexOfType);
+#ifdef DEBUG
     qDebug() << indexOfType;
+#endif
     //readAll();
 
     // check that md5 of data == md5(buffer)
     if (QCryptographicHash::hash(buffer, QCryptographicHash::Md5).toHex() == md5)
     {
+#ifdef DEBUG
         qDebug() << "Hash is valid";
+#endif
     }
     else
     {
@@ -169,8 +183,9 @@ void Connection::readNewData()
 
 int Connection::readSize()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     QByteArray size;
     bool numberSign = false;
     //что, если знака такого нет?, все сломается и будет ждать #
@@ -196,8 +211,9 @@ int Connection::readSize()
 
 void Connection::sendVersion()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     MessageType type;
 
     if (isVersionSend || (currentDataType == VERSION))

@@ -6,6 +6,11 @@
 Wallet::Wallet(QObject *parent)
 //    : parent(parent)
 {
+    QJsonObject one;
+    one["value"] = 100;
+    one["recipient"] = "me";
+
+    myUnspent.append(one);
     //load();
     /*
     exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};

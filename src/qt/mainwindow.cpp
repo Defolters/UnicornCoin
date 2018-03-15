@@ -5,7 +5,6 @@
 #include <QHostAddress>
 #include <QTcpSocket>
 #include <QMessageBox>
-#include "datastructure/transaction.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

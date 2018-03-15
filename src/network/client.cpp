@@ -3,6 +3,8 @@
 #include "client.h"
 #include "connection.h"
 
+//#define DEBUG
+
 static const int AddrInterval = 30 * 1000;  //!< getAddr interval 30s
 static const int MAX_CONNECTIONS = 40; //!< max number of connections
 
@@ -40,8 +42,9 @@ Client::Client()
 
 void Client::sendMessage(const MessageType &type, const QString &message)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     if (message.isEmpty())
         return;
 
@@ -57,8 +60,9 @@ bool Client::hasConnection(const QHostAddress &host) const
 
 void Client::connectToNodes(const QString &addresses)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     QStringList addrList = addresses.split(" ");
     QStringListIterator addrListIter(addrList);
 
@@ -68,9 +72,9 @@ void Client::connectToNodes(const QString &addresses)
         QString address = addrListIter.next();
         if (address.isEmpty())
             continue;
-
+#ifdef DEBUG
         qDebug() << address;
-
+#endif
         QHostAddress host(address);
         quint16 port = 9229;
 
@@ -85,13 +89,14 @@ void Client::connectToNodes(const QString &addresses)
 
 void Client::newConnection(Connection *connection)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     if (peers.size() > MAX_CONNECTIONS)
         return;
-
+#ifdef DEBUG
     qDebug() << " " << connection->peerAddress().toString();
-
+#endif
     connect(connection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(connection, SIGNAL(disconnected()), this, SLOT(disconnected()));
@@ -100,8 +105,9 @@ void Client::newConnection(Connection *connection)
 
 void Client::readyForUse()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     Connection *connection = qobject_cast<Connection *>(sender());
     if (!connection || hasConnection(connection->peerAddress()))
         return;
@@ -115,8 +121,9 @@ void Client::readyForUse()
 
 void Client::processData(const MessageType &type, const QString &data)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     typedef MessageType MT;
 
     QList<MT> dataType;
@@ -127,9 +134,9 @@ void Client::processData(const MessageType &type, const QString &data)
 
     requestType << MT::GETTX << MT::GETBLOCK << MT::GETBCHAINSTATE
                 << MT::GETMEMPOOL << MT::GETUTXO;
-
+#ifdef DEBUG
     qDebug() << data;
-
+#endif
     if (dataType.contains(type))
     {
         emit newData(type, data);
@@ -155,24 +162,27 @@ void Client::processData(const MessageType &type, const QString &data)
 
 void Client::connectionError(QAbstractSocket::SocketError)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     if (Connection *connection = qobject_cast<Connection *>(sender()))
         removeConnection(connection);
 }
 
 void Client::disconnected()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     if (Connection *connection = qobject_cast<Connection *>(sender()))
         removeConnection(connection);
 }
 
 void Client::getAddr()
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     QString addresses = peersToString();
 
     if (addresses.isEmpty())
@@ -182,7 +192,9 @@ void Client::getAddr()
 
     if(file.open(QFile::WriteOnly | QFile::Text))
     {
+#ifdef DEBUG
         qDebug() << "addresses opened";
+#endif
         file.write(addresses.toUtf8());
     }
 
@@ -191,8 +203,9 @@ void Client::getAddr()
 
 void Client::removeConnection(Connection *connection)
 {
+#ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     if (peers.contains(connection->peerAddress().toString())) {
         peers.remove(connection->peerAddress().toString());
     }
@@ -208,11 +221,14 @@ QString Client::peersToString()
     // если мы сами подключаемся, то нет этих fff
     for (auto ip : peers.keys())
     {
+#ifdef DEBUG
         qDebug() << "ip from list: "<<ip;
-
+#endif
         // с двоеточиями создаются сервером, а без при подключении к кому-то, надо сохранять оба.
         addresses.append(ip.split(":").last() + " ");//(host.toString().split(":").last() + " ");
     }
+#ifdef DEBUG
     qDebug() << addresses << endl;
+#endif
     return addresses;
 }

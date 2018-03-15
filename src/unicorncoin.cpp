@@ -77,7 +77,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     //создать транзанкцию, добавить ее в unconfirmed и рассказать о ней всем
     // HOW TO CAST STRING TO PROPER ADDRESS???
     QByteArray rec = recipient.toUtf8();
-    QByteArray tx = txManager.createNewTransaction(listOfOutputs, rec, wallet->getPrivateKey(), wallet->getPublicKey(), amount, fee);
+    QByteArray tx = txManager.createNewTransaction(listOfOutputs, rec, wallet->getPrivateKey(), wallet->getPublicKey(), wallet->getAddress(), amount, fee);
 
     //client.sendMessage();
 }

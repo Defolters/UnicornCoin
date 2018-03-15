@@ -10,13 +10,16 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
                                                     QByteArray recipient,
                                                     QByteArray privateKey,
                                                     QByteArray publicKey,
+                                                    QByteArray address,
                                                     double amount, double fee)
 {
     QJsonObject tx;
     tx["type"] = 1;
     tx["fee"] = fee;
 
-    qDebug() << tx;
+    // ВАЖНАЯ ЧАСТЬ
+    tx["pubkey"] = QString::fromLatin1(publicKey.toBase64());
+
 
     QJsonArray in;
 
@@ -24,6 +27,7 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
     {
         QJsonObject input;
         input["value"] = inputs.at(i);
+        // hash and number of output
         input["pubkey"] = QString(publicKey.toHex());
 
         in << input;
@@ -35,12 +39,39 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
     QJsonObject output;
     output["value"] = amount;
     output["recipient"] = QString::fromUtf8(recipient);
+
+    out << output;
     // if sum of inputs > amount + fee
+    double sum = 0;
+
+    for(auto i : inputs)
+    {
+        sum += i;
+    }
+
+    if (sum > (amount + fee))
+    {
+        QJsonObject remains;
+        remains["value"] = sum - (amount+fee);
+        remains["recipient"] = QString::fromUtf8(address);
+
+        out << remains;
+    }
     // add in output
+    tx["out"] = out;
 
     QJsonDocument txJD(tx);
 
-    tx["signature"] = QString(signTransaction(txJD.toJson(), privateKey).toHex());
+    QByteArray signature = signTransaction(txJD.toJson(), privateKey);
+    qDebug() << "signa: " << signature;
+    // in string and reverse
+    QString signastr = QString::fromLatin1(signature.toBase64());
+    qDebug() << "signastr: " << signastr;
+    QByteArray fromstring = QByteArray::fromBase64(signastr.toLatin1());
+    qDebug() << "fromstring: " << fromstring;
+
+    tx["signature"] = QString::fromLatin1(signature.toBase64());
+
 
     qDebug() << tx;
 
@@ -50,7 +81,8 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
     }
     else{qDebug()<<"NOOOO!!";}
 
-    return QByteArray();
+    QJsonDocument txret(tx);
+    return txret.toJson();
 }
 
 QByteArray TransactionManager::signTransaction(QByteArray tx, QByteArray privateKeyData)
@@ -94,10 +126,75 @@ QByteArray TransactionManager::signTransaction(QByteArray tx, QByteArray private
 
     QByteArray m_signature = QByteArray(signature.data(), siglen);
 
-    return QByteArray();
+    return m_signature;
 }
 
 bool TransactionManager::verifyTransaction(QJsonObject tx)
 {
+    // chech that public key подходит для tx без signature
+    /*QByteArray temp = tx["in"].toArray().at(0).toObject()["pubkey"].toString().toUtf8();
+    QByteArray pubKey = QByteArray::fromHex(temp);
+    temp = tx["signature"].toString().toUtf8();
+    QByteArray signature = QByteArray::fromHex(temp);
+    QJsonObject txForVerifying = tx;
+    */
+
+    //QJsonDocument txJD(txForVerifying);
+
+    // получаем сигнатуру из транзакции
+    QByteArray signature = QByteArray::fromBase64(tx["signature"].toString().toLatin1());
+    // получаем публичный ключ
+    QByteArray pubKey = QByteArray::fromBase64(tx["pubkey"].toString().toLatin1());
+    // копируем транзакцию
+    QJsonObject txForVerifying = tx;
+    txForVerifying.remove(QString("signature"));
+    // переводим в bytearray
+    QJsonDocument txJD(txForVerifying);
+    QByteArray dataForSign = txJD.toJson();
+
+
+    CryptoPP::AutoSeededRandomPool autoSeededRandomPool;
+
+    QByteArray xData = pubKey.left(pubKey.size() / 2);
+    QByteArray yData = pubKey.right(pubKey.size() / 2);
+
+    qDebug() << xData.toHex() << yData.toHex();
+
+    CryptoPP::ECP::Point point;
+
+    point.x.Decode((CryptoPP::byte*)xData.data(), (size_t)xData.size());
+    point.y.Decode((CryptoPP::byte*)yData.data(), (size_t)yData.size());
+    point.identity = false;
+
+    CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::PublicKey publicKey;
+
+    publicKey.Initialize( CryptoPP::ASN1::secp160r1(), point );
+
+    bool result = publicKey.Validate( autoSeededRandomPool, 3 );
+    if( !result )
+    {
+        qDebug() << "public key is not valid!";
+        return false;
+    }
+
+    CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::Verifier verifier( publicKey );
+
+
+//    QByteArray message = txJD.toJson();
+    QByteArray message = dataForSign;
+    qDebug() << signature;
+    result = verifier.VerifyMessage( (const CryptoPP::byte*)message.data(), message.size(), (const CryptoPP::byte*)signature.data(), signature.size() );
+
+    if(result)
+    {
+        qDebug() << "Verified signature on message";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Failed to verify signature on message";
+        return false;
+    }
+
     return false;
 }

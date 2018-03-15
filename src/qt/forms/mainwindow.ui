@@ -199,7 +199,7 @@ p, li { white-space: pre-wrap; }
        <string/>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>31</x>
@@ -929,7 +929,6 @@ p, li { white-space: pre-wrap; }
    <addaction name="separator"/>
    <addaction name="actionwallet"/>
    <addaction name="actionsend"/>
-   <addaction name="actionrecieve"/>
    <addaction name="actionhistory"/>
    <addaction name="actionminer"/>
    <addaction name="actiondatabase"/>
@@ -959,18 +958,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>send</string>
-   </property>
-  </action>
-  <action name="actionrecieve">
-   <property name="icon">
-    <iconset resource="../res.qrc">
-     <normaloff>:/icons/res/icons/recieve.png</normaloff>:/icons/res/icons/recieve.png</iconset>
-   </property>
-   <property name="text">
-    <string>recieve</string>
-   </property>
-   <property name="toolTip">
-    <string>recieve</string>
    </property>
   </action>
   <action name="actionhistory">

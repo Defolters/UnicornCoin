@@ -39,7 +39,7 @@ SOURCES += \
     datastructure/blockmanager.cpp
 
 HEADERS += \
-    qt\mainwindow.h \
+    qt/mainwindow.h \
     network/server.h \
     datastructure/blockchain.h \
     utils/keygenerator.h \
@@ -62,12 +62,9 @@ RESOURCES += \
 
 INCLUDEPATH += $$PWD/../dependency/cryptopp/include/
 DEPENDPATH += $$PWD/../dependency/cryptopp/include/
-#C:/Users/Defolter/Downloads/cryptopp610/include/cryptopp
-#DEPENDPATH += C:/Users/Defolter/Downloads/cryptopp610/include/cryptopp
-#LIBS += -L"C:/Users/Defolter/Downloads/cryptopp610/lib" -lcryptopp
 LIBS += -L"$$PWD/../dependency/cryptopp/lib" -lcryptopp
 
-VERSION = 0.0.0.1
+VERSION = 0.0.0.2
 QMAKE_TARGET_COMPANY = Defolter
 QMAKE_TARGET_PRODUCT = product
 QMAKE_TARGET_DESCRIPTION = UnicornCoin

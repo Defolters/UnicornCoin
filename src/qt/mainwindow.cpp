@@ -143,10 +143,19 @@ void MainWindow::on_generateNewAddressRP_clicked()
 
     if (reply == QMessageBox::Yes)
     {
-        uniCoin.generateNewAddress();
+        try
+        {
+            uniCoin.generateNewAddress();
+        }
+        catch(std::runtime_error ex)
+        {
+            QMessageBox::critical(this, "ERROR", QString("Error: %1").arg(ex.what()));
+            return;
+        }
 
-        QString priv = uniCoin.getPrivateKey().toHex();
-        QString addr = uniCoin.getAddress().toHex();
+
+        QString priv = uniCoin.getPrivateKey();
+        QString addr = uniCoin.getAddress();
         double balance = uniCoin.getBalance();
         // unconfirmed?
         QList<QJsonObject> history = uniCoin.getHistory();

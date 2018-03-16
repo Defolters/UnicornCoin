@@ -28,13 +28,17 @@ void UnicornCoin::sendMessage(const QString &data)
 
 void UnicornCoin::generateNewAddress()
 {
-    QByteArray pk = KeyGenerator::generatePrivateKey();
-    QByteArray pubk = KeyGenerator::generatePublicKey(pk);
-    QByteArray ad = KeyGenerator::generateAddress(pk);
-    KeyGenerator::checkAddress(ad,pubk);
+    QByteArray privk = KeyGenerator::generatePrivateKey();
+    QByteArray pubk = KeyGenerator::generatePublicKey(privk);
+    QByteArray ad = KeyGenerator::generateAddress(pubk);
+
+    if (!KeyGenerator::checkAddress(ad,pubk))
+    {
+        throw std::runtime_error("Error occurred, try again");
+    }
 
     // update keys in wallet
-    wallet->setKeys(pk, pubk, ad);
+    wallet->setKeys(privk, pubk, ad);
     // analyze blockchain and search for amount/ouputs
     /*QList<QJsonObject> unspent = blockManager.getUnspent(ad);
     if (!unspent.empty())
@@ -46,6 +50,7 @@ void UnicornCoin::generateNewAddress()
 
 void UnicornCoin::createNewTransaction(QString recipient, double amount, double fee)
 {
+    // спросить у валлет, что у нас есть все ключи и адреса
     //проверить, что адрес и сумма правильные, иначе выкинуть ошибку
     //KeyGenerator::checkAddress(recipient);
     if ((amount <= 0) || (fee<0) ) // || правильное написание адреса (символы нормальные) \\ длина адреса подходящая
@@ -103,12 +108,12 @@ double UnicornCoin::getBalance() const
     return wallet->getBalance();
 }
 
-QByteArray UnicornCoin::getPrivateKey() const
+QString UnicornCoin::getPrivateKey()
 {
-    return wallet->getPrivateKey();
+    return KeyGenerator::toBase32(wallet->getPrivateKey());
 }
 
-QByteArray UnicornCoin::getAddress() const
+QString UnicornCoin::getAddress()
 {
-    return wallet->getAddress();
+    return KeyGenerator::toBase32(wallet->getAddress());
 }

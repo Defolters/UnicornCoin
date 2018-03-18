@@ -13,12 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setFixedSize(width(), height());
 
-//    ui->label_3->setText("123");
     ui->statusBar->showMessage("Out of syns");
 
-    //QPixmap pixmap(QPixmap(":/res/icons/error.png").scaledToHeight(ui->statusBar->height()/2));
-
-    //ui->statusBarIconNetwork->setPixmap(pixmap);
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
     ui->addressRP->setText("Address is not generated yet");
@@ -189,8 +185,5 @@ void MainWindow::on_addExistingAddressRP_clicked()
                                                                   QMessageBox::Yes | QMessageBox::No);
     }
 
-
-    /*if (reply == QMessageBox::Yes)
-    {}*/
 //    show window, where user add address and private key, then save, update
 }

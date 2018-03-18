@@ -45,7 +45,6 @@ HEADERS += \
     utils/keygenerator.h \
     pages/wallet.h \
     pages/history.h \
-    utils/verifier.h \
     network/client.h \
     network/connection.h \
     utils/messagetype.h \

@@ -3,7 +3,8 @@
 #include "qt/mainwindow.h"
 #include <fstream>
 #include <QList>
-Wallet::Wallet(QObject *parent)
+Wallet::Wallet(QObject *parent) :
+    keySet(false)
 //    : parent(parent)
 {
     QJsonObject one;
@@ -99,6 +100,8 @@ void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray add
     this->publicKey = publicKey;
     this->address = address;
     updateFile();
+    keySet = true;
+    balance = 0;
 }
 
 QList<QJsonObject> Wallet::getHistory() const
@@ -124,4 +127,9 @@ QByteArray Wallet::getPublicKey() const
 QByteArray Wallet::getAddress() const
 {
     return address;
+}
+
+bool Wallet::isKeySet() const
+{
+    return keySet;
 }

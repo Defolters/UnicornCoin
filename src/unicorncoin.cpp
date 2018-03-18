@@ -45,21 +45,32 @@ void UnicornCoin::generateNewAddress()
         wallet->setUnspent(unspent);
 */
 
-    //
 }
 
 void UnicornCoin::createNewTransaction(QString recipient, double amount, double fee)
 {
-    // спросить у валлет, что у нас есть все ключи и адреса
-    //проверить, что адрес и сумма правильные, иначе выкинуть ошибку
-    //KeyGenerator::checkAddress(recipient);
-    if ((amount <= 0) || (fee<0) ) // || правильное написание адреса (символы нормальные) \\ длина адреса подходящая
+    // Check that we have keys
+    if (!wallet->isKeySet())
     {
-        throw std::runtime_error("invalid field");
+        throw std::runtime_error("You haven't address, you should start with generating one");
+    }
+
+    // Check fields
+    if (amount <= 0)
+    {
+        throw std::runtime_error("Amount cannot be less or equal zero");
+    }
+    if (fee < 0)
+    {
+        throw std::runtime_error("Fee cannot be less zero");
+    }
+    if (recipient.size() != 39)
+    {
+        throw std::runtime_error("Lenght of address is wrong, try another");
     }
 
 
-    // если денегнедостаточно, то выбрасываем ошибку
+    // если денег недостаточно, то выбрасываем ошибку
     //проверить, что у нас на счету (наши unspent деньги) достаточно денег и сформировать массив in, иначе выкинуть ошибку
     QList<double> listOfOutputs;
     try
@@ -80,10 +91,20 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     listOfOutputs.push_back(3);
 
     //создать транзанкцию, добавить ее в unconfirmed и рассказать о ней всем
-    // HOW TO CAST STRING TO PROPER ADDRESS???
-    QByteArray rec = recipient.toUtf8();
-    QByteArray tx = txManager.createNewTransaction(listOfOutputs, rec, wallet->getPrivateKey(), wallet->getPublicKey(), wallet->getAddress(), amount, fee);
 
+    QByteArray recipientAddr;
+    try
+    {
+        recipientAddr = KeyGenerator::fromBase32(recipient);
+    }
+    catch(std::runtime_error ex)
+    {
+        throw std::runtime_error("Address is wrong, try another");
+    }
+
+    QByteArray tx = txManager.createNewTransaction(listOfOutputs, recipientAddr, wallet->getPrivateKey(), wallet->getPublicKey(), wallet->getAddress(), amount, fee);
+
+    // добавляем в unspent и рассылаем другим людям
     //client.sendMessage();
 }
 

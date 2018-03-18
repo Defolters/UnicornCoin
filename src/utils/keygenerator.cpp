@@ -146,7 +146,7 @@ QByteArray KeyGenerator::fromBase32(QString string)
 
     if (hash != checksum.mid(0,4))
     {
-        throw std::runtime_error("Checksum is invalid, you made a mistake");
+        throw std::runtime_error("Checksum is invalid");
     }
 
     return decoded;

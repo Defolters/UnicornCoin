@@ -137,24 +137,6 @@ p, li { white-space: pre-wrap; }
        <string>This is your address, show it to recieve money from people</string>
       </property>
      </widget>
-     <widget class="QLabel" name="addressLabelRP">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>10</y>
-        <width>181</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Your address:</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="generateNewAddressRP">
       <property name="geometry">
        <rect>
@@ -181,30 +163,12 @@ p, li { white-space: pre-wrap; }
        <string>add existing address</string>
       </property>
      </widget>
-     <widget class="QLabel" name="addressRP">
-      <property name="geometry">
-       <rect>
-        <x>430</x>
-        <y>70</y>
-        <width>351</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>31</x>
-        <y>61</y>
-        <width>341</width>
+        <x>32</x>
+        <y>62</y>
+        <width>161</width>
         <height>64</height>
        </rect>
       </property>
@@ -258,7 +222,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QLabel" name="balanceAmountWP">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -272,7 +236,7 @@ p, li { white-space: pre-wrap; }
               </font>
              </property>
              <property name="text">
-              <string>0.0</string>
+              <string>0</string>
              </property>
             </widget>
            </item>
@@ -303,7 +267,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QLabel" name="unconfirmedAmountrWP">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -317,7 +281,7 @@ p, li { white-space: pre-wrap; }
               </font>
              </property>
              <property name="text">
-              <string>0.0</string>
+              <string>0</string>
              </property>
             </widget>
            </item>
@@ -344,6 +308,75 @@ p, li { white-space: pre-wrap; }
           </layout>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>30</y>
+        <width>341</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="addressLabelRP">
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Your address:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="addressRP">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

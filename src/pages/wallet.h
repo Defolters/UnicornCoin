@@ -51,9 +51,15 @@ public:
     QByteArray getPublicKey() const;
     QByteArray getAddress() const;
 
+    //! Method return true if keys are set, false otherwise
+    bool isKeySet() const;
+
 private:
 
     bool updateHistory();
+
+    //! Status of keys?
+    bool keySet;
     QString path;
     QByteArray privateKey;
     QByteArray publicKey;

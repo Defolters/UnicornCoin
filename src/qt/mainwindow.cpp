@@ -15,12 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    ui->label_3->setText("123");
     ui->statusBar->showMessage("Out of syns");
-    setFont(QFont ("Calibri Light", 9));
+
     //QPixmap pixmap(QPixmap(":/res/icons/error.png").scaledToHeight(ui->statusBar->height()/2));
 
     //ui->statusBarIconNetwork->setPixmap(pixmap);
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
+    ui->addressRP->setText("Address is not generated yet");
 
 
 
@@ -32,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     start miner
 
     */
+    setFont(QFont ("Calibri Light", 9));
 }
 
 MainWindow::~MainWindow()
@@ -55,29 +57,6 @@ void MainWindow::on_pushButton_send_clicked()
     uniCoin.sendMessage(data);
     //if (tcpsocket != nullptr) tcpsocket->write(data);
 
-}
-
-void MainWindow::change_data(QString str, QString label)
-{
-    qDebug() << Q_FUNC_INFO;
-
-    qDebug() << str;
-    if (label == "label_3")
-    {
-        ui->label_3->setText(str);
-    }
-    else if(label == "addressRP")
-    {
-        ui->addressRP->setText(str);
-    }
-    else if(label == "balanceAmountWP")
-    {
-        ui->balanceAmountWP->setText(str + " UCN");
-    }
-    else if(label == "unconfirmedAmountrWP")
-    {
-        ui->unconfirmedAmountrWP->setText(str + " UCN");
-    }
 }
 
 void MainWindow::newData(const MessageType &type, const QString &data)
@@ -159,8 +138,10 @@ void MainWindow::on_generateNewAddressRP_clicked()
         double balance = uniCoin.getBalance();
         // unconfirmed?
         QList<QJsonObject> history = uniCoin.getHistory();
+        qDebug() << "ADDR: " <<addr.size() << addr;
 
-
+        // copy to clipboard
+        //QMessageBox msgBox;
         QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
                                                 "Your private key: %1\n"
                                                 "Your address: %2").arg(priv, addr));
@@ -182,11 +163,11 @@ void MainWindow::on_createTransaction_clicked()
     }
     catch (std::runtime_error ex)
     {
-        QMessageBox::critical(this, "IMPORTANT", QString("Error: %1").arg(ex.what()));
+        QMessageBox::critical(this, "ERROR", QString("Error: %1").arg(ex.what()));
     }
     catch(...)
     {
-        QMessageBox::critical(this, "IMPORTANT", QString("Undefined error"));
+        QMessageBox::critical(this, "ERROR", QString("Undefined error"));
         // save state into file and exit
         exit(1);
     }
@@ -194,9 +175,22 @@ void MainWindow::on_createTransaction_clicked()
 
 void MainWindow::on_addExistingAddressRP_clicked()
 {
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "IMPORTANT", "If you already generated address, you can lose him!\n Continue?",
-                                                              QMessageBox::Yes | QMessageBox::No);
-    if (reply == QMessageBox::Yes)
-    {}
+    QMessageBox msgBox(this);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(tr("If you already generated address, you can lose him!\n Continue?"));
+    //msgBox.
+    QAbstractButton* pButtonYes = msgBox.addButton(tr("Yes"), QMessageBox::YesRole);
+    msgBox.addButton(tr("No"), QMessageBox::NoRole);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == pButtonYes) {
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "ERROR", "If you already generated address, you can lose him!\n Continue?",
+                                                                  QMessageBox::Yes | QMessageBox::No);
+    }
+
+
+    /*if (reply == QMessageBox::Yes)
+    {}*/
 //    show window, where user add address and private key, then save, update
 }

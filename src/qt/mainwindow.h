@@ -21,7 +21,6 @@ public:
 
 public slots:
     void networkPage(int peer);
-    void change_data(QString array, QString label);
 
 private slots:
     //! Slot processes new data

@@ -167,6 +167,15 @@ void MainWindow::on_createTransaction_clicked()
         // save state into file and exit
         exit(1);
     }
+    /*QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, QString::number(wow++));
+    item->setText(1,"sds");
+    ui->historyTree->addTopLevelItem(item);*/
+    ui->tableWidget->insertRow(0);
+    ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(QString::number(wow++)));
+    ui->tableWidget->setItem( 0, 1, new QTableWidgetItem(ui->addressSP->text()));
+    ui->tableWidget->setItem( 0, 2, new QTableWidgetItem(QString::number(ui->amountSP->value())));
+    ui->tableWidget->setItem( 0, 3, new QTableWidgetItem(QString::number(ui->feeSP->value())));
 }
 
 void MainWindow::on_addExistingAddressRP_clicked()

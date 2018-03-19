@@ -55,6 +55,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     UnicornCoin uniCoin;
+    int wow = 0;
 
 };
 

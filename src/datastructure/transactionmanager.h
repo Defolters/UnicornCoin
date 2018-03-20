@@ -13,7 +13,7 @@ class TransactionManager
 
 public:
     //!
-    static QByteArray createNewTransaction(QList<double> inputs, QByteArray recipient,
+    static QJsonObject createNewTransaction(QList<QJsonObject> inputs, QByteArray recipient,
                                     QByteArray privateKey, QByteArray publicKey, QByteArray address,
                                     double amount, double fee);
     //!

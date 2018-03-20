@@ -2,16 +2,19 @@
 #define BLOCKMANAGER_H
 
 #include <QObject>
-
-class BlockManager : public QObject
+#include <QJsonObject>
+/**
+ * @brief The BlockManager class creates and verifies blocks
+ */
+class BlockManager
 {
-    Q_OBJECT
 public:
-    explicit BlockManager(QObject *parent = nullptr);
 
-signals:
+    //! Method creates block
+    static QJsonObject createBlock(QByteArray prevBlockHash, QList<QJsonObject> transactions); // merkle root
 
-public slots:
+    //! Method finds merkle root of transactions
+    static QByteArray getMerkleRoot(QList<QJsonObject> transactions);
 };
 
 #endif // BLOCKMANAGER_H

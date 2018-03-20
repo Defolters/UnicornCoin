@@ -7,11 +7,11 @@ Wallet::Wallet(QObject *parent) :
     keySet(false)
 //    : parent(parent)
 {
-    QJsonObject one;
+    /*QJsonObject one;
     one["value"] = 100;
     one["recipient"] = "me";
 
-    myUnspent.append(one);
+    myUnspent.append(one);*/
     //load();
     /*
     exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};
@@ -72,24 +72,41 @@ void Wallet::updateFile()
     // save all information into file
 }
 
-QList<double> Wallet::checkMoney(double amount) // возвращать ссылку? Удалится ли содержимое?
+QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удалится ли содержимое?
 {
-    QList<double> listOfOutputs;
+    QList<QJsonObject> listOfOutputs;
     double amountFromUnspent = 0;
 
-    int i = 0;
-    while ((amountFromUnspent < amount) && (i<myUnspent.size()))
-    {
-            listOfOutputs.append(myUnspent.at(i)["value"].toDouble());
-            amountFromUnspent += myUnspent.at(i)["value"].toDouble();
-            i++;
+    QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(myUnspent);
+    while (iter.hasNext()) {
+        iter.next();
+        QJsonObject tx = iter.value().first;
+        QList<int> numbOfOut = iter.value().second;
+        //create listofoutputs
+        for (int i = 0; i < numbOfOut.size(); i++)
+        {
+            QJsonObject out;
+            out["hash"] = tx["hash"];
+            out["index"] = numbOfOut.at(i);
+//            out["script"] = ""
+
+            amountFromUnspent += tx["out"].toArray().at(numbOfOut.at(i)).toDouble();
+            listOfOutputs.append(out);
+
+            if (amountFromUnspent >= amount)
+                break;
+        }
+
+        if (amountFromUnspent >= amount)
+            break;
+
+
     }
 
     if (amountFromUnspent < amount)
     {
         throw std::runtime_error("Not enough money in wallet");
     }
-
 
     return listOfOutputs;
 }
@@ -102,6 +119,11 @@ void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray add
     updateFile();
     keySet = true;
     balance = 0;
+}
+
+void Wallet::setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > &unspent)
+{
+    this->myUnspent = unspent;
 }
 
 QList<QJsonObject> Wallet::getHistory() const

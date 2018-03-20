@@ -167,10 +167,6 @@ void MainWindow::on_createTransaction_clicked()
         // save state into file and exit
         exit(1);
     }
-    /*QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setText(0, QString::number(wow++));
-    item->setText(1,"sds");
-    ui->historyTree->addTopLevelItem(item);*/
     ui->tableWidget->insertRow(0);
     ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(QString::number(wow++)));
     ui->tableWidget->setItem( 0, 1, new QTableWidgetItem(ui->addressSP->text()));

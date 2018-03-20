@@ -31,12 +31,12 @@ SOURCES += \
     utils/keygenerator.cpp \
     pages/wallet.cpp \
     pages/history.cpp \
-    utils/verifier.cpp \
     network/client.cpp \
     network/connection.cpp \
     unicorncoin.cpp \
     datastructure/transactionmanager.cpp \
-    datastructure/blockmanager.cpp
+    datastructure/blockmanager.cpp \
+    utils/miner.cpp
 
 HEADERS += \
     qt/mainwindow.h \
@@ -50,7 +50,8 @@ HEADERS += \
     utils/messagetype.h \
     unicorncoin.h \
     datastructure/transactionmanager.h \
-    datastructure/blockmanager.h
+    datastructure/blockmanager.h \
+    utils/miner.h
 
 FORMS += \
     qt/forms/mainwindow.ui

@@ -7,6 +7,17 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     con(nullptr)
 {
     wallet->load();
+    // CREATE TEST BLOCK
+    QList<QJsonObject> txs;
+    QJsonObject one;
+    one["value"] = 100;
+    one["recipient"] = "me";
+    one["hash"] = "me";
+
+    txs.append(one);
+
+    QJsonObject block = BlockManager::createBlock(QByteArray(), txs);
+    processBlock(block);
 
     /*connect(&client, SIGNAL(newData(MessageType,QString)),
             this, SLOT(newData(MessageType,QString)));
@@ -72,7 +83,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
 
     // если денег недостаточно, то выбрасываем ошибку
     //проверить, что у нас на счету (наши unspent деньги) достаточно денег и сформировать массив in, иначе выкинуть ошибку
-    QList<double> listOfOutputs;
+    QList<QJsonObject> listOfOutputs;
     try
     {
 //        TYPE input = wallet->checkMoney(amount+fee);
@@ -86,10 +97,6 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
         throw ex;
     }
 
-    listOfOutputs.push_back(1);
-    listOfOutputs.push_back(2);
-    listOfOutputs.push_back(3);
-
     //создать транзанкцию, добавить ее в unconfirmed и рассказать о ней всем
 
     QByteArray recipientAddr;
@@ -102,9 +109,9 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
         throw std::runtime_error("Address is wrong, try another");
     }
 
-    QByteArray tx = txManager.createNewTransaction(listOfOutputs, recipientAddr, wallet->getPrivateKey(), wallet->getPublicKey(), wallet->getAddress(), amount, fee);
+    QJsonObject tx = txManager.createNewTransaction(listOfOutputs, recipientAddr, wallet->getPrivateKey(), wallet->getPublicKey(), wallet->getAddress(), amount, fee);
 
-    // добавляем в unspent и рассылаем другим людям
+    // добавляем в unconfirmed и рассылаем другим людям
     //client.sendMessage();
 }
 
@@ -137,4 +144,18 @@ QString UnicornCoin::getPrivateKey()
 QString UnicornCoin::getAddress()
 {
     return KeyGenerator::toBase32(wallet->getAddress());
+}
+
+void UnicornCoin::processBlock(QJsonObject block)
+{
+    try
+    {
+        blockchain.addBlock(block);
+        wallet->setUnspent(blockchain.getMyUnspent(KeyGenerator::toBase32(wallet->getAddress())));
+    }
+    catch(...)
+    {
+
+    }
+
 }

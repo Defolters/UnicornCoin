@@ -5,8 +5,9 @@
 #include <osrng.h>
 #include <eccrypto.h>
 #include <oids.h>
+#include <QCryptographicHash>
 
-QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
+QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
                                                     QByteArray recipient,
                                                     QByteArray privateKey,
                                                     QByteArray publicKey,
@@ -26,7 +27,7 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
     for (int i =0;i<inputs.size();i++)
     {
         QJsonObject input;
-        input["value"] = inputs.at(i);
+        input["value"] = inputs.at(i)["value"];
         // hash and number of output
         input["pubkey"] = QString(publicKey.toHex());
 
@@ -46,7 +47,7 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
 
     for(auto i : inputs)
     {
-        sum += i;
+        sum += i["value"].toDouble();
     }
 
     if (sum > (amount + fee))
@@ -82,7 +83,9 @@ QByteArray TransactionManager::createNewTransaction(QList<double> inputs,
     else{qDebug()<<"NOOOO!!";}
 
     QJsonDocument txret(tx);
-    return txret.toJson();
+    QByteArray hash = QCryptographicHash::hash(txret.toJson(), QCryptographicHash::Sha3_256);
+    tx["hash"] = QString::fromLatin1(hash.toBase64());
+    return tx;
 }
 
 QByteArray TransactionManager::signTransaction(QByteArray tx, QByteArray privateKeyData)

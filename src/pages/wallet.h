@@ -3,6 +3,9 @@
 #include <QString>
 #include <QObject>
 #include <QJsonObject>
+#include <QPair>
+#include <QHash>
+#include <QList>
 
 //! Class saves private and public key, contain amount of money and history of transactions which connected to
 //! отвечает за wallet page, recieve page and history page
@@ -40,10 +43,10 @@ public:
 
     //! Method checks that we have enough money in wallet
     //! and returns list with ouputs
-    QList<double> checkMoney(double amount);
+    QList<QJsonObject> checkMoney(double amount);
 
     void setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray address);
-    void setUnspent(QList<QJsonObject> &unspent);
+    void setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > &unspent);
 
     QList<QJsonObject> getHistory() const;
     double getBalance() const;
@@ -70,8 +73,7 @@ private:
 
     //! History = all tx spent by me (confirmed)
     QList<QJsonObject> history;
-    QList<QJsonObject> myUnspent;
-//    MainWindow* parent;
+    QHash<QByteArray, QPair<QJsonObject, QList<int> > > myUnspent;
 };
 
 #endif // WALLET_H

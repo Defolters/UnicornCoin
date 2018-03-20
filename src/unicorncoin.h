@@ -11,6 +11,8 @@
 #include "network/server.h"
 #include "network/connection.h"
 #include "datastructure/transactionmanager.h"
+#include "datastructure/blockchain.h"
+#include "datastructure/blockmanager.h"
 
 class UnicornCoin : public QObject
 {
@@ -86,12 +88,16 @@ Network:
 */
 public slots:
 
+    //! Slot processes block
+    void processBlock(QJsonObject block);
+
 private:
     QTcpSocket *tcpsocket;
     Client client;  //!< Network client
     Wallet* wallet;
     Connection* con;
     TransactionManager txManager;
+    Blockchain blockchain;
     //QMultiHash<address, > unspent; //!< multihash contains unspent money for every address
     QList<QJsonObject> myUnspent; //!< list contains my unspent transactions
     //QList unconfirmed; //!< list of unconfirmed tx sorted by fee

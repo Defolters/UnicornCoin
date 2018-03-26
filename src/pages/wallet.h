@@ -46,7 +46,7 @@ public:
     QList<QJsonObject> checkMoney(double amount);
 
     void setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray address);
-    void setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > &unspent);
+    void setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > unspent);
 
     QList<QJsonObject> getHistory() const;
     double getBalance() const;

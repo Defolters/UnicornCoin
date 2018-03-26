@@ -121,7 +121,7 @@ void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray add
     balance = 0;
 }
 
-void Wallet::setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > &unspent)
+void Wallet::setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent)
 {
     this->myUnspent = unspent;
 }

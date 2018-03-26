@@ -2,7 +2,7 @@
 
 #include <QtNetwork>
 #include <QCryptographicHash>
-
+#define DEBUG
 /*static const int TransferTimeout = 30 * 1000;*/
 static const int PongTimeout = 60 * 1000;  //!< If we not gets answer in pongtimeout close connection 60s
 static const int PingInterval = 5 * 1000;  //!< Ping interval 5s

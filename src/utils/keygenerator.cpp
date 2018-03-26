@@ -8,11 +8,11 @@
 #ifdef CRYPTOPP_WIN32_AVAILABLE
 #include <windows.h>
 #endif
+
 #include "cryptlib.h"
 #include "osrng.h"
 #include "eccrypto.h"
 #include "oids.h"
-#include "base32.h"
 
 
 QByteArray KeyGenerator::generatePrivateKey()
@@ -94,60 +94,4 @@ bool KeyGenerator::checkAddress(QByteArray address, QByteArray publicKey)
         return true;
 
     return false;
-}
-
-
-QString KeyGenerator::toBase32(QByteArray data)
-{
-    QByteArray checksum = QCryptographicHash::hash(data, QCryptographicHash::Sha256);
-    checksum = QCryptographicHash::hash(checksum, QCryptographicHash::Sha256);
-
-    QByteArray dataWithChecksum = data;
-    dataWithChecksum.append(checksum.mid(0,4));
-
-    CryptoPP::Base32Encoder encoder;
-    std::string encodedStr;
-    encoder.Put((byte*)dataWithChecksum.data(), (size_t)dataWithChecksum.size());
-    encoder.MessageEnd();
-
-    CryptoPP::word64 size = encoder.MaxRetrievable();
-    if (size)
-    {
-        encodedStr.resize(size);
-        encoder.Get((byte*)&encodedStr[0], encodedStr.size());
-    }
-
-    return QString::fromStdString(encodedStr);
-}
-
-QByteArray KeyGenerator::fromBase32(QString string)
-{
-    std::string encodedStr = string.toStdString();
-    QByteArray decoded;
-    std::string decodedStr;
-
-    CryptoPP::Base32Decoder decoder;
-    decoder.Put((byte*)encodedStr.data(), encodedStr.size());
-    decoder.MessageEnd();
-
-    CryptoPP::word64 size = decoder.MaxRetrievable();
-    if(size && size <= SIZE_MAX)
-    {
-        decodedStr.resize(size);
-        decoder.Get((byte*)&decodedStr[0], decodedStr.size());
-    }
-
-    decoded = QByteArray::fromStdString(decodedStr);
-    QByteArray hash = decoded.mid(decoded.length()-4, 4);
-    decoded =  decoded.mid(0,decoded.length()-4);
-
-    QByteArray checksum = QCryptographicHash::hash(decoded, QCryptographicHash::Sha256);
-    checksum = QCryptographicHash::hash(checksum, QCryptographicHash::Sha256);
-
-    if (hash != checksum.mid(0,4))
-    {
-        throw std::runtime_error("Checksum is invalid");
-    }
-
-    return decoded;
 }

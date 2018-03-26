@@ -33,6 +33,9 @@ public:
     //! Method generates new address via @class KeyGenerator
     void generateNewAddress(); //after it make
 
+    //! Overloaded method with existing private key
+    void generateNewAddress(QByteArray privateKey); //after it make
+
     //! Method checks input variable, считает, что денег достаточно на счете
     //! and then creates tx with @class TransactionManager
     void createNewTransaction(QString recipient, double amount, double fee); // кому + сколько + комиссия

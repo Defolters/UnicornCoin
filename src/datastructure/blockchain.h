@@ -18,7 +18,7 @@ public:
     void addBlock(QJsonObject block);
 
     //!
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>>& getMyUnspent(QString address);
+    QHash<QByteArray, QPair<QJsonObject, QList<int>>> getMyUnspent(QString address);
 
 
 private:

@@ -27,6 +27,8 @@ private slots:
     void newData(const MessageType &type, const QString &data);
     //! Slot processes new reqest
     void newRequest(const MessageType &type, const QString &data, Connection *connection);
+    //!
+    void existingPrivate(QString privateKey);
 
     void on_pushButton_4_clicked();
 
@@ -53,6 +55,10 @@ private slots:
     void on_addExistingAddressRP_clicked();
 
 private:
+    //!
+    //! \brief ui
+    void updateAddress();
+
     Ui::MainWindow *ui;
     UnicornCoin uniCoin;
     int wow = 0;

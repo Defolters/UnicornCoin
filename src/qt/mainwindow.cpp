@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
 #include <QDebug>
 #include <QHostAddress>
 #include <QTcpSocket>
 #include <QMessageBox>
+#include "../pages/existingaddress.h"
+#include "../utils/base32.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -62,6 +63,39 @@ void MainWindow::newData(const MessageType &type, const QString &data)
 
 void MainWindow::newRequest(const MessageType &type, const QString &data, Connection *connection)
 {
+
+}
+
+void MainWindow::existingPrivate(QString privateKey)
+{
+    qDebug() << privateKey;
+
+    if (privateKey.length() != 39)
+    {
+        QMessageBox::critical(this, "ERROR", QString("Error: Lenght of address is wrong, try another"));
+        return;
+    }
+    if(!base32::isBase32(privateKey))
+    {
+        QMessageBox::critical(this, "ERROR", QString("Error: Unsupported characters in address"));
+        return;
+    }
+
+    try
+    {
+        uniCoin.generateNewAddress(base32::fromBase32(privateKey));
+    }
+    catch(std::runtime_error ex)
+    {
+        QMessageBox::critical(this, "ERROR", QString("Error: %1").arg(ex.what()));
+        return;
+    }
+    updateAddress();
+    //upda
+    // create public and address
+    // count money in blockchain
+
+    // throw if error has been occured
 
 }
 
@@ -127,26 +161,8 @@ void MainWindow::on_generateNewAddressRP_clicked()
             QMessageBox::critical(this, "ERROR", QString("Error: %1").arg(ex.what()));
             return;
         }
-
-
-        QString priv = uniCoin.getPrivateKey();
-        QString addr = uniCoin.getAddress();
-        double balance = uniCoin.getBalance();
-        // unconfirmed?
-        QList<QJsonObject> history = uniCoin.getHistory();
-        qDebug() << "ADDR: " <<addr.size() << addr;
-
-        // copy to clipboard
-        //QMessageBox msgBox;
-        QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
-                                                "Your private key: %1\n"
-                                                "Your address: %2").arg(priv, addr));
-        // update information
-        ui->addressRP->setText(addr);
-        ui->balanceAmountWP->setText(QString::number(balance));
-        // unconfirmed
-        // history
     }
+    updateAddress();
 }
 
 void MainWindow::on_createTransaction_clicked()
@@ -176,7 +192,11 @@ void MainWindow::on_createTransaction_clicked()
 
 void MainWindow::on_addExistingAddressRP_clicked()
 {
-    QMessageBox msgBox(this);
+    ExistingAddress *ea = new ExistingAddress(this); //for example in the MainWindow constructor
+    connect(ea, SIGNAL(existingPrivate(QString)),
+            this, SLOT(existingPrivate(QString)));
+    ea->show();
+    /*QMessageBox msgBox(this);
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setText(tr("If you already generated address, you can lose him!\n Continue?"));
     //msgBox.
@@ -188,7 +208,31 @@ void MainWindow::on_addExistingAddressRP_clicked()
     if (msgBox.clickedButton() == pButtonYes) {
         QMessageBox::StandardButton reply = QMessageBox::question(this, "ERROR", "If you already generated address, you can lose him!\n Continue?",
                                                                   QMessageBox::Yes | QMessageBox::No);
-    }
+    }*/
 
-//    show window, where user add address and private key, then save, update
+    //    show window, where user add address and private key, then save, update
+}
+
+void MainWindow::updateAddress()
+{
+
+    QString priv = uniCoin.getPrivateKey();
+    qDebug() << priv.length() << priv;
+    //return KeyGenerator::toBase32(wallet->getPrivateKey());
+    QString addr = uniCoin.getAddress();
+    double balance = uniCoin.getBalance();
+    // unconfirmed?
+    QList<QJsonObject> history = uniCoin.getHistory();
+    qDebug() << "ADDR: " <<addr.size() << addr;
+
+    // copy to clipboard
+    //QMessageBox msgBox;
+    QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
+                                            "Your private key: %1\n"
+                                            "Your address: %2").arg(priv, addr));
+    // update information
+    ui->addressRP->setText(addr);
+    ui->balanceAmountWP->setText(QString::number(balance));
+    // unconfirmed
+    // history
 }

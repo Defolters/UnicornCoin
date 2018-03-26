@@ -1,6 +1,8 @@
 #include "blockmanager.h"
 #include <QDateTime>
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
 
 QJsonObject BlockManager::createBlock(QByteArray prevBlockHash, QList<QJsonObject> transactions)
 {
@@ -13,13 +15,13 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash, QList<QJsonObjec
     transaction;
     block;*/
     QJsonObject block;
-    block["prev_block"];
-    block["merkle_root"];
+    block["prev_block"] = "ds";
+    block["merkle_root"] = "sds";
     QDateTime dt;
     block["time"] =dt.toMSecsSinceEpoch();
     qDebug() << dt.toMSecsSinceEpoch();
-    block["bits"];
-    block["nonce"];
+    block["bits"] = 1;
+    block["nonce"] = 1;
     //transactions.insert();
     QList<int> a;
     a.append(1);
@@ -28,7 +30,14 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash, QList<QJsonObjec
     qDebug() << a;
     a.insert(0,0);
     qDebug() << a;
-    block["txs"];
+
+    QJsonArray txs;
+    for (auto tx : transactions)
+    {
+        txs << tx;
+    }
+
+    block["txs"] = txs;
 
     return block;
 }

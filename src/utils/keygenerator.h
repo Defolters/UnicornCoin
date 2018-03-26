@@ -37,15 +37,7 @@ public:
     //! @return true if was generated, else false
     static bool checkAddress(QByteArray address, QByteArray publicKey);
 
-    //! Method encodes QByteArray to base32 QString
-    //! @param data any data
-    //! @return QString with base32 encoding
-    static QString toBase32(QByteArray data);
 
-    //! Method decodes base32 QString to QByteArray
-    //! @param string QString with base32 encoding
-    //! @return decoded data from string
-    static QByteArray fromBase32(QString string);
 };
 
 #endif // KEYGENERATOR_H

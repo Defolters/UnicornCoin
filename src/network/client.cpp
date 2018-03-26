@@ -3,7 +3,7 @@
 #include "client.h"
 #include "connection.h"
 
-//#define DEBUG
+#define DEBUG
 
 static const int AddrInterval = 30 * 1000;  //!< getAddr interval 30s
 static const int MAX_CONNECTIONS = 40; //!< max number of connections

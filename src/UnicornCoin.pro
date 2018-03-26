@@ -36,7 +36,8 @@ SOURCES += \
     unicorncoin.cpp \
     datastructure/transactionmanager.cpp \
     datastructure/blockmanager.cpp \
-    utils/miner.cpp
+    utils/miner.cpp \
+    pages/existingaddress.cpp
 
 HEADERS += \
     qt/mainwindow.h \
@@ -51,10 +52,13 @@ HEADERS += \
     unicorncoin.h \
     datastructure/transactionmanager.h \
     datastructure/blockmanager.h \
-    utils/miner.h
+    utils/miner.h \
+    pages/existingaddress.h \
+    utils/base32.hpp
 
 FORMS += \
-    qt/forms/mainwindow.ui
+    qt/forms/mainwindow.ui \
+    qt/forms/dialog.ui
 
 RESOURCES += \
     qt/res.qrc

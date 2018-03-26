@@ -1,4 +1,5 @@
 #include "unicorncoin.h"
+#include "utils/base32.hpp"
 
 UnicornCoin::UnicornCoin(QObject *parent) :
     QObject(parent),
@@ -16,7 +17,7 @@ UnicornCoin::UnicornCoin(QObject *parent) :
 
     txs.append(one);
 
-    QJsonObject block = BlockManager::createBlock(QByteArray(), txs);
+    QJsonObject block = BlockManager::createBlock(QByteArray("2"), txs);
     processBlock(block);
 
     /*connect(&client, SIGNAL(newData(MessageType,QString)),
@@ -40,7 +41,12 @@ void UnicornCoin::sendMessage(const QString &data)
 void UnicornCoin::generateNewAddress()
 {
     QByteArray privk = KeyGenerator::generatePrivateKey();
-    QByteArray pubk = KeyGenerator::generatePublicKey(privk);
+    generateNewAddress(privk);
+}
+
+void UnicornCoin::generateNewAddress(QByteArray privateKey)
+{
+    QByteArray pubk = KeyGenerator::generatePublicKey(privateKey);
     QByteArray ad = KeyGenerator::generateAddress(pubk);
 
     if (!KeyGenerator::checkAddress(ad,pubk))
@@ -49,13 +55,16 @@ void UnicornCoin::generateNewAddress()
     }
 
     // update keys in wallet
-    wallet->setKeys(privk, pubk, ad);
+    wallet->setKeys(privateKey, pubk, ad);
+
+    QString add = base32::toBase32(wallet->getAddress());
+    QHash<QByteArray, QPair<QJsonObject, QList<int>>> unsp = blockchain.getMyUnspent(add);
+    wallet->setUnspent(unsp);
     // analyze blockchain and search for amount/ouputs
     /*QList<QJsonObject> unspent = blockManager.getUnspent(ad);
     if (!unspent.empty())
         wallet->setUnspent(unspent);
 */
-
 }
 
 void UnicornCoin::createNewTransaction(QString recipient, double amount, double fee)
@@ -78,6 +87,10 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     if (recipient.size() != 39)
     {
         throw std::runtime_error("Lenght of address is wrong, try another");
+    }
+    if(!base32::isBase32(recipient))
+    {
+        throw std::runtime_error("Unsupported characters in address");
     }
 
 
@@ -102,7 +115,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     QByteArray recipientAddr;
     try
     {
-        recipientAddr = KeyGenerator::fromBase32(recipient);
+        recipientAddr = base32::fromBase32(recipient);
     }
     catch(std::runtime_error ex)
     {
@@ -138,12 +151,12 @@ double UnicornCoin::getBalance() const
 
 QString UnicornCoin::getPrivateKey()
 {
-    return KeyGenerator::toBase32(wallet->getPrivateKey());
+    return base32::toBase32(wallet->getPrivateKey());
 }
 
 QString UnicornCoin::getAddress()
 {
-    return KeyGenerator::toBase32(wallet->getAddress());
+    return base32::toBase32(wallet->getAddress());
 }
 
 void UnicornCoin::processBlock(QJsonObject block)
@@ -151,7 +164,7 @@ void UnicornCoin::processBlock(QJsonObject block)
     try
     {
         blockchain.addBlock(block);
-        wallet->setUnspent(blockchain.getMyUnspent(KeyGenerator::toBase32(wallet->getAddress())));
+
     }
     catch(...)
     {

@@ -33,7 +33,7 @@ void Blockchain::addBlock(QJsonObject block)
 
 }
 
-QHash<QByteArray, QPair<QJsonObject, QList<int> > > &Blockchain::getMyUnspent(QString address)
+    QHash<QByteArray, QPair<QJsonObject, QList<int>>> Blockchain::getMyUnspent(QString address)
 {
     QHash<QByteArray, QPair<QJsonObject, QList<int>>> myUnspent;
 

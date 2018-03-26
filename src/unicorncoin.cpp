@@ -28,14 +28,13 @@ UnicornCoin::UnicornCoin(QObject *parent) :
             this, SLOT(networkPage(int)));*/
 }
 
-void UnicornCoin::sendMessage(const QString &data)
+void UnicornCoin::sendMessage(const QByteArray &data)
 {
     if (con != nullptr)
     {
-//        con->write(data);
         con->sendMessage(MessageType::TX, data);
     }
-    else qDebug() << "tcpsocket == nullptr";
+    else {qDebug() << "tcpsocket == nullptr";}
 }
 
 void UnicornCoin::generateNewAddress()

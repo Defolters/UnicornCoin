@@ -51,7 +51,7 @@ void MainWindow::on_pushButton_send_clicked()
     //exportFile["address"] = {{"private", "priv"},{"public","pub"},{"address", "add"}};
     //QByteArray data = ui->lineEdit_2->text().toUtf8();//ui->lineEdit->text();
     QString data = ui->lineEdit_2->text();
-    uniCoin.sendMessage(data);
+    uniCoin.sendMessage(data.toUtf8());
     //if (tcpsocket != nullptr) tcpsocket->write(data);
 
 }

@@ -40,7 +40,7 @@ Client::Client()
     }
 }
 
-void Client::sendMessage(const MessageType &type, const QString &message)
+void Client::sendMessage(const MessageType &type, const QByteArray &message)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
@@ -112,14 +112,14 @@ void Client::readyForUse()
     if (!connection || hasConnection(connection->peerAddress()))
         return;
 
-    connect(connection, SIGNAL(newMessage(MessageType,QString)),
-            this, SLOT(processData(MessageType,QString)));
+    connect(connection, SIGNAL(newMessage(MessageType,QByteArray)),
+            this, SLOT(processData(MessageType,QByteArray)));
     peers.insert(connection->peerAddress().toString(), connection);
 
     emit networkPage(peers.size());
 }
 
-void Client::processData(const MessageType &type, const QString &data)
+void Client::processData(const MessageType &type, const QByteArray &data)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
@@ -155,7 +155,7 @@ void Client::processData(const MessageType &type, const QString &data)
     {
         if(Connection *connection = qobject_cast<Connection *>(sender()))
         {
-            connection->sendMessage(MT::ADDR, peersToString());
+            connection->sendMessage(MT::ADDR, peersToString().toUtf8());
         }
     }
 }

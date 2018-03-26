@@ -24,7 +24,7 @@ Connection::Connection(QObject *parent)
     QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVersion())); // when we connected to new server, send version message
 }
 
-bool Connection::sendMessage(const MessageType type, const QString &data)
+bool Connection::sendMessage(const MessageType type, const QByteArray &data)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
@@ -33,12 +33,11 @@ bool Connection::sendMessage(const MessageType type, const QString &data)
         return false;*/
 
     // SIZE#TYPE#SIZEOFDATA#DATA#SIZEOFHASH#HASHOFDATA
-
     QByteArray typeM = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8();
-    QByteArray dat = data.toUtf8();
-    QByteArray hash = QCryptographicHash::hash(dat, QCryptographicHash::Md5).toHex();
+    //QByteArray dat = data.toUtf8();
+    QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
     QByteArray raw = QByteArray::number(typeM.size()) + "#" + typeM + "#" +
-                     QByteArray::number(dat.size()) + "#" + dat + "#" +
+                     QByteArray::number(data.size()) + "#" + data + "#" +
                      QByteArray::number(hash.size()) + "#" + hash;
 #ifdef DEBUG
     qDebug() << raw;
@@ -73,6 +72,7 @@ void Connection::processNewData()
     catch(const std::exception &ex)
     {
         qDebug() << ex.what();
+        //return;
     }
 
     if (connectionState == ConnectionState::CONNECTED)
@@ -104,13 +104,13 @@ void Connection::processNewData()
     case UNDEFINED:
         break;
     case PING:
-        sendMessage(PONG,"I am alive");
+        sendMessage(PONG, "I am alive");
         break;
     case PONG:
         pongTime.restart();
         break;
     default:
-        emit newMessage(currentDataType, QString::fromUtf8(buffer));
+        emit newMessage(currentDataType, buffer);
         break;
     }
 
@@ -226,7 +226,7 @@ void Connection::sendVersion()
         isVersionSend = true;
     }
 
-    sendMessage(type, QHostInfo::localHostName());
+    sendMessage(type, QHostInfo::localHostName().toUtf8());
 }
 /*
 

@@ -25,7 +25,7 @@ public:
     void sendMoney();
 
     //!
-    void sendMessage(const QString &data);
+    void sendMessage(const QByteArray &data);
 
     //!
     void addExistingAddress(); //can emit error

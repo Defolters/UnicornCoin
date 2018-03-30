@@ -94,7 +94,6 @@ static bool isBase32(QString string)
     }
     return true;
 }
-
 }
 
 

@@ -37,7 +37,8 @@ SOURCES += \
     datastructure/transactionmanager.cpp \
     datastructure/blockmanager.cpp \
     utils/miner.cpp \
-    pages/existingaddress.cpp
+    pages/existingaddress.cpp \
+    utils/minermanager.cpp
 
 HEADERS += \
     qt/mainwindow.h \
@@ -54,7 +55,8 @@ HEADERS += \
     datastructure/blockmanager.h \
     utils/miner.h \
     pages/existingaddress.h \
-    utils/base32.hpp
+    utils/base32.hpp \
+    utils/minermanager.h
 
 FORMS += \
     qt/forms/mainwindow.ui \

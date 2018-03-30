@@ -13,12 +13,37 @@ class TransactionManager
 
 public:
     //!
-    static QJsonObject createNewTransaction(QList<QJsonObject> inputs, QByteArray recipient,
-                                    QByteArray privateKey, QByteArray publicKey, QByteArray address,
-                                    double amount, double fee);
+    //! \brief createNewTransaction
+    //! \param type 1 is tx, 2 is block reward, 3 is fee
+    //! \param inputs
+    //! \param recipient
+    //! \param privateKey
+    //! \param publicKey
+    //! \param address
+    //! \param amount
+    //! \param fee
+    //! \return
+    //!
+    static QJsonObject createNewTransaction(int type,
+                                            QList<QJsonObject> inputs,
+                                            QByteArray recipient,
+                                            QByteArray privateKey,
+                                            QByteArray publicKey,
+                                            QByteArray address,
+                                            double amount, double fee,
+                                            QString message);
+    //!
+    //! \brief signTransaction
+    //! \param tx
+    //! \param privateKey
+    //! \return
     //!
     static QByteArray signTransaction(QByteArray tx, QByteArray privateKey);
 
+    //!
+    //! \brief verifyTransaction
+    //! \param tx
+    //! \return
     //!
     static bool verifyTransaction(QJsonObject tx);
 
@@ -26,7 +51,8 @@ public:
 
 #endif // TRANSACTIONMANAGER_H
 /*
-если
+если пришел блок, то мы удаляем из unspent транзакции
+добавить поле сообщения к транзакции
 
 in и out тоже json
 in:

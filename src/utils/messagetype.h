@@ -23,7 +23,6 @@ enum MessageType {
     GETUTXO,  /*!< Request */
     REJECT,  /*!< ??? */
     UNDEFINED  /*!< 18??? */
-
 };
 
 

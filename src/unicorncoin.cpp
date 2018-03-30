@@ -12,7 +12,7 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     QList<QJsonObject> txs;
     QJsonObject one;
     one["value"] = 100;
-    one["recipient"] = "me";
+    one["recipient"] = "YZMFC6IDNEDUH25BGRDFYZXICIHXWZDAIJQ65RA";
     one["hash"] = "me";
 
     txs.append(one);
@@ -59,14 +59,16 @@ void UnicornCoin::generateNewAddress(QByteArray privateKey)
     QString add = base32::toBase32(wallet->getAddress());
     QHash<QByteArray, QPair<QJsonObject, QList<int>>> unsp = blockchain.getMyUnspent(add);
     wallet->setUnspent(unsp);
-    // analyze blockchain and search for amount/ouputs
+
+    // analyze blockchain and search for amount/ouputs !!!!
+
     /*QList<QJsonObject> unspent = blockManager.getUnspent(ad);
     if (!unspent.empty())
         wallet->setUnspent(unspent);
 */
 }
 
-void UnicornCoin::createNewTransaction(QString recipient, double amount, double fee)
+void UnicornCoin::createNewTransaction(QString recipient, double amount, double fee, QString message)
 {
     // Check that we have keys
     if (!wallet->isKeySet())
@@ -121,9 +123,14 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
         throw std::runtime_error("Address is wrong, try another");
     }
 
-    QJsonObject tx = txManager.createNewTransaction(listOfOutputs, recipientAddr, wallet->getPrivateKey(), wallet->getPublicKey(), wallet->getAddress(), amount, fee);
+    QJsonObject tx = txManager.createNewTransaction(1, listOfOutputs, recipientAddr,
+                                                    wallet->getPrivateKey(), wallet->getPublicKey(),
+                                                    wallet->getAddress(), amount, fee, message);
+
+    qDebug()<<"Size of tx class: "<< sizeof(tx);
 
     // добавляем в unconfirmed и рассылаем другим людям
+
     //client.sendMessage();
 }
 
@@ -170,4 +177,17 @@ void UnicornCoin::processBlock(QJsonObject block)
 
     }
 
+}
+
+bool UnicornCoin::comparator(const QJsonObject &first, const QJsonObject &second)
+{
+    if ((first["value"].toDouble() + first["fee"].toDouble()) >
+            (second["value"].toDouble() + second["fee"].toDouble()))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

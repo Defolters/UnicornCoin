@@ -1,22 +1,28 @@
 #include "transactionmanager.h"
+
 #include <QDebug>
 #include <QJsonDocument>
+#include <QCryptographicHash>
+
 #include <cryptlib.h>
 #include <osrng.h>
 #include <eccrypto.h>
 #include <oids.h>
-#include <QCryptographicHash>
 
-QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
-                                                    QByteArray recipient,
-                                                    QByteArray privateKey,
-                                                    QByteArray publicKey,
-                                                    QByteArray address,
-                                                    double amount, double fee)
+
+QJsonObject TransactionManager::createNewTransaction(int type,
+                                                     QList<QJsonObject> inputs,
+                                                     QByteArray recipient,
+                                                     QByteArray privateKey,
+                                                     QByteArray publicKey,
+                                                     QByteArray address,
+                                                     double amount, double fee,
+                                                     QString message)
 {
     QJsonObject tx;
-    tx["type"] = 1;
+    tx["type"] = type;
     tx["fee"] = fee;
+    tx["message"] = message;
 
     // ÂÀÆÍÀß ×ÀÑÒÜ
     tx["pubkey"] = QString::fromLatin1(publicKey.toBase64());
@@ -50,6 +56,7 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
         sum += i["value"].toDouble();
     }
 
+    // îñòàòîê âåðíóòü ñåáå
     if (sum > (amount + fee))
     {
         QJsonObject remains;
@@ -60,6 +67,7 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     }
     // add in output
     tx["out"] = out;
+
 
     QJsonDocument txJD(tx);
 

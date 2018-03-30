@@ -20,13 +20,16 @@ public:
     ~MainWindow();
 
 public slots:
+    //!
     void networkPage(int peer);
 
 private slots:
     //! Slot processes new data
     void newData(const MessageType &type, const QString &data);
+
     //! Slot processes new reqest
     void newRequest(const MessageType &type, const QString &data, Connection *connection);
+
     //!
     void existingPrivate(QString privateKey);
 
@@ -53,14 +56,19 @@ private slots:
     void on_createTransaction_clicked();
 
     void on_addExistingAddressRP_clicked();
-
+protected:
+    void closeEvent(QCloseEvent *event) override;
 private:
     //!
     //! \brief ui
     void updateAddress();
 
+    //!
     Ui::MainWindow *ui;
+
+    //!
     UnicornCoin uniCoin;
+
     int wow = 0;
 
 };

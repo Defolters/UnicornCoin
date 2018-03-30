@@ -33,12 +33,13 @@ void Blockchain::addBlock(QJsonObject block)
 
 }
 
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>> Blockchain::getMyUnspent(QString address)
+QHash<QByteArray, QPair<QJsonObject, QList<int>>> Blockchain::getMyUnspent(QString address)
 {
     QHash<QByteArray, QPair<QJsonObject, QList<int>>> myUnspent;
 
     QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(unspent);
-    while (iter.hasNext()) {
+    while (iter.hasNext())
+    {
         iter.next();
 
         QJsonObject tx = iter.value().first;
@@ -71,4 +72,10 @@ void Blockchain::addBlock(QJsonObject block)
     }
 
     return myUnspent;
+}
+
+void Blockchain::saveBlockchain()
+{
+    // save blockchain state into file
+    // save blocks
 }

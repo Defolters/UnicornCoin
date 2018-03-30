@@ -16,12 +16,15 @@ public:
     explicit ExistingAddress(QWidget *parent = nullptr);
 
 signals:
+    //!
     void existingPrivate(QString privateKey);
 
 private slots:
+    //!
     void on_buttonBox_accepted();
 
 private:
+    //!
     Ui::Dialog *ui;
 };
 

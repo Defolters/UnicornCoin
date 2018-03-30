@@ -20,11 +20,16 @@ public:
     //!
     QHash<QByteArray, QPair<QJsonObject, QList<int>>> getMyUnspent(QString address);
 
+    //!
+    void saveBlockchain();
 
 private:
+    //!
     QList<QJsonObject> blockchain;
+
     //! <number of ouput>
     //QHash<QByteArray, QPair<QJsonObject, QList<int>>> myUnspent;
+
     //! <hash of tx, (tx, list of numbers of outputs)>
     QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent;
 

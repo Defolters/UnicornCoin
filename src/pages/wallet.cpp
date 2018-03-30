@@ -105,7 +105,7 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
 
     if (amountFromUnspent < amount)
     {
-        throw std::runtime_error("Not enough money in wallet");
+        //throw std::runtime_error("Not enough money in wallet");
     }
 
     return listOfOutputs;
@@ -154,4 +154,13 @@ QByteArray Wallet::getAddress() const
 bool Wallet::isKeySet() const
 {
     return keySet;
+}
+
+void Wallet::saveWallet()
+{
+    //save into file keySet, path, privatek, publick, address, balance
+    // unconfirmed
+    // history
+    // unspent
+
 }

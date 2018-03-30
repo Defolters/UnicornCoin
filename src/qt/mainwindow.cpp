@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->addressRP->setText("Address is not generated yet");
 
 
-
     /*
     load wallet
     load information from wallet
@@ -171,7 +170,7 @@ void MainWindow::on_createTransaction_clicked()
 
     try
     {
-        uniCoin.createNewTransaction(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value());
+        uniCoin.createNewTransaction(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value(), ui->messageSP->text());
     }
     catch (std::runtime_error ex)
     {
@@ -211,6 +210,18 @@ void MainWindow::on_addExistingAddressRP_clicked()
     }*/
 
     //    show window, where user add address and private key, then save, update
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    // save necessary data
+    // save settings
+    // save wallet
+    // save blockchainstate (refreshwhen new block is added or smt changed)
+    // save unconfirmed
+    // save unspent
+    //
+    event->accept();
 }
 
 void MainWindow::updateAddress()

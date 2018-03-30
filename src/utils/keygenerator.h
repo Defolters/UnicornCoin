@@ -36,8 +36,6 @@ public:
     //! @param address data of address
     //! @return true if was generated, else false
     static bool checkAddress(QByteArray address, QByteArray publicKey);
-
-
 };
 
 #endif // KEYGENERATOR_H

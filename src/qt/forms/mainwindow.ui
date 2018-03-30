@@ -42,7 +42,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -323,7 +323,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>183</x>
@@ -398,7 +398,7 @@
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>170</y>
+        <y>220</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -417,13 +417,13 @@
        <rect>
         <x>170</x>
         <y>30</y>
-        <width>451</width>
-        <height>111</height>
+        <width>441</width>
+        <height>141</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="paytoLabelSP">
            <property name="font">
@@ -466,6 +466,20 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QLabel" name="messageLabelSP">
+           <property name="font">
+            <font>
+             <family>Calibri Light</family>
+             <pointsize>12</pointsize>
+             <italic>false</italic>
+            </font>
+           </property>
+           <property name="text">
+            <string>Message:</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -478,6 +492,9 @@
              <pointsize>12</pointsize>
              <italic>false</italic>
             </font>
+           </property>
+           <property name="maxLength">
+            <number>39</number>
            </property>
            <property name="placeholderText">
             <string>enter address (e.x. 24fgddsfd21d)</string>
@@ -534,6 +551,22 @@
            </property>
            <property name="maximum">
             <double>21000000.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="messageSP">
+           <property name="font">
+            <font>
+             <family>Calibri Light</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="maxLength">
+            <number>39</number>
+           </property>
+           <property name="placeholderText">
+            <string>enter message or leave empty (no more 39 characters)</string>
            </property>
           </widget>
          </item>
@@ -628,6 +661,14 @@
         <font>
          <underline>false</underline>
         </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Message</string>
        </property>
        <property name="textAlignment">
         <set>AlignCenter</set>

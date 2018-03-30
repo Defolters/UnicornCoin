@@ -14,6 +14,10 @@
 #include "datastructure/blockchain.h"
 #include "datastructure/blockmanager.h"
 
+/**
+ * @brief The UnicornCoin class
+ *
+ */
 class UnicornCoin : public QObject
 {
     Q_OBJECT
@@ -38,7 +42,7 @@ public:
 
     //! Method checks input variable, считает, что денег достаточно на счете
     //! and then creates tx with @class TransactionManager
-    void createNewTransaction(QString recipient, double amount, double fee); // кому + сколько + комиссия
+    void createNewTransaction(QString recipient, double amount, double fee, QString message); // кому + сколько + комиссия
 
     //!
     void mineMyMoney();
@@ -46,24 +50,34 @@ public:
     //!
     void connectToNode(const QString &ip); //conect to ip
 
-
+    //!
     QList<QJsonObject> getHistory() const;
+
+    //!
     double getBalance() const;
+
+    //!
     QString getPrivateKey();
+
+    //!
     QString getAddress();
 
 signals:
     // Wallet
     //!
     void newBalance(double balance, double unconfirmed);
+
     // Recieve
     //!
     void newAddress();
+
     // history
     void newHistory();
+
     //miner
     // database
     void newBlock(); // it also contains txs
+
     // network
     void newState();
 
@@ -90,21 +104,34 @@ Network:
     (for testing ) send message
 */
 public slots:
-
     //! Slot processes block
     void processBlock(QJsonObject block);
 
 private:
+    //!
+    static bool comparator(const QJsonObject& first, const QJsonObject& second);
+    //!
     QTcpSocket *tcpsocket;
+
+    //!
     Client client;  //!< Network client
+
+    //!
     Wallet* wallet;
+
+    //!
     Connection* con;
+
+    //!
     TransactionManager txManager;
+
+    //!
     Blockchain blockchain;
+
     //QMultiHash<address, > unspent; //!< multihash contains unspent money for every address
     QList<QJsonObject> myUnspent; //!< list contains my unspent transactions
     //QList unconfirmed; //!< list of unconfirmed tx sorted by fee
-
+    QList<QJsonObject> unconfirmed;
 };
 
 #endif // UNICORNCOIN_H

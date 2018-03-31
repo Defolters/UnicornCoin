@@ -7,6 +7,7 @@
 #include "pages/wallet.h"
 #include "utils/keygenerator.h"
 #include "utils/messagetype.h"
+#include "utils/minermanager.h"
 #include "network/client.h"
 #include "network/server.h"
 #include "network/connection.h"
@@ -124,6 +125,9 @@ private:
 
     //!
     TransactionManager txManager;
+
+    //!
+    MinerManager *mineManager;
 
     //!
     Blockchain blockchain;

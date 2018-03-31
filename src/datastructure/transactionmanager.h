@@ -6,15 +6,14 @@
 #include <QJsonArray>
 
 /**
- * @brief The TransactionManager class
+ * \brief The TransactionManager class
  */
 class TransactionManager
 {
 
 public:
-    //!
     //! \brief createNewTransaction
-    //! \param type 1 is tx, 2 is block reward, 3 is fee
+    //! \param type 1 is tx, 0 is block reward(coinbase+fee)
     //! \param inputs
     //! \param recipient
     //! \param privateKey
@@ -24,15 +23,22 @@ public:
     //! \param fee
     //! \return
     //!
-    static QJsonObject createNewTransaction(int type,
-                                            QList<QJsonObject> inputs,
+    static QJsonObject createNewTransaction(QList<QJsonObject> inputs,
                                             QByteArray recipient,
                                             QByteArray privateKey,
                                             QByteArray publicKey,
                                             QByteArray address,
                                             double amount, double fee,
                                             QString message);
+
+    //! \brief createCoinbaseTransaction
+    //! \param recipient
+    //! \param amount
+    //! \return
     //!
+    static QJsonObject &createCoinbaseTransaction(QByteArray recipient,
+                                            double amount);
+
     //! \brief signTransaction
     //! \param tx
     //! \param privateKey
@@ -40,7 +46,6 @@ public:
     //!
     static QByteArray signTransaction(QByteArray tx, QByteArray privateKey);
 
-    //!
     //! \brief verifyTransaction
     //! \param tx
     //! \return

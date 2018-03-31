@@ -1,11 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "../pages/existingaddress.h"
+#include "../utils/base32.hpp"
+
 #include <QDebug>
 #include <QHostAddress>
 #include <QTcpSocket>
 #include <QMessageBox>
-#include "../pages/existingaddress.h"
-#include "../utils/base32.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

@@ -3,8 +3,12 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
+#include "../datastructure/transactionmanager.h"
 
-QJsonObject BlockManager::createBlock(QByteArray prevBlockHash, QList<QJsonObject> transactions)
+QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
+                                      QByteArray minerAddress,
+                                      QList<QJsonObject> &transactions,
+                                      int height)
 {
     /*
     prev_block = "000000000000000117c80378b8da0e33559b5997f2ad55e2f7d18ec1975b9717";
@@ -14,22 +18,25 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash, QList<QJsonObjec
     nonce;
     transaction;
     block;*/
+
+
+    // first coinbase tx (block reward)
+    QJsonObject coinbase = TransactionManager::createCoinbaseTransaction(minerAddress, getCoinbaseReward(height) + getFeeFromTx(transactions));
+    // Put coinbase tx at 0 position
+    transactions.insert(0, coinbase);
+
     QJsonObject block;
     block["prev_block"] = "ds";
-    block["merkle_root"] = "sds";
+//    block["merkle_root"] = QString::fromLatin1(getMerkleRoot(transactions).toBase64());
+
     QDateTime dt;
-    block["time"] =dt.toMSecsSinceEpoch();
+    block["time"] = dt.toMSecsSinceEpoch();
     qDebug() << dt.toMSecsSinceEpoch();
+
+    block["height"] = 1;
     block["bits"] = 1;
     block["nonce"] = 1;
-    //transactions.insert();
-    QList<int> a;
-    a.append(1);
-    a.append(2);
-    a.append(3);
-    qDebug() << a;
-    a.insert(0,0);
-    qDebug() << a;
+
 
     QJsonArray txs;
     for (auto tx : transactions)
@@ -42,7 +49,42 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash, QList<QJsonObjec
     return block;
 }
 
-QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> transactions)
+QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
 {
     return QByteArray();
+}
+
+double BlockManager::getCoinbaseReward(int blockchainHeight)
+{
+    // block reward half every 300,000 blocks
+    int interval = 4;//00000;
+    double reward = 0;
+    while(1){
+    int halvings = blockchainHeight / interval;
+
+    // ÄÎ ÏßÒÈ ÍÓËÅÉ
+    if (halvings >= 19){break;}
+        //return 0;
+    double subsidy = 50;
+
+//    subsidy >>= halvings;
+    for (int i = 0; i < halvings; i++)
+        subsidy /= 2;
+
+    blockchainHeight++;
+    qDebug() << (((float)((int)((subsidy) * (100000))) / (100000)));
+    }
+    return reward;
+}
+
+double BlockManager::getFeeFromTx(QList<QJsonObject> &transactions)
+{
+    double fee;
+
+    for (int i = 0; i < transactions.size(); i++)
+    {
+        fee += transactions.at(i)["fee"].toDouble();
+    }
+
+    return fee;
 }

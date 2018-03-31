@@ -10,8 +10,7 @@
 #include <oids.h>
 
 
-QJsonObject TransactionManager::createNewTransaction(int type,
-                                                     QList<QJsonObject> inputs,
+QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
                                                      QByteArray recipient,
                                                      QByteArray privateKey,
                                                      QByteArray publicKey,
@@ -20,11 +19,11 @@ QJsonObject TransactionManager::createNewTransaction(int type,
                                                      QString message)
 {
     QJsonObject tx;
-    tx["type"] = type;
+    tx["type"] = 1; // tx
     tx["fee"] = fee;
-    tx["message"] = message;
+    tx["message"] = message; // no more 39 char
 
-    // ¬ј∆Ќјя „ј—“№
+    // ¬ј∆Ќјя „ј—“№ (перенести в input дл€ будущего)
     tx["pubkey"] = QString::fromLatin1(publicKey.toBase64());
 
 
@@ -35,7 +34,7 @@ QJsonObject TransactionManager::createNewTransaction(int type,
         QJsonObject input;
         input["value"] = inputs.at(i)["value"];
         // hash and number of output
-        input["pubkey"] = QString(publicKey.toHex());
+        input["pubkey"] = QString::fromLatin1(publicKey.toBase64());
 
         in << input;
     }
@@ -45,7 +44,7 @@ QJsonObject TransactionManager::createNewTransaction(int type,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromUtf8(recipient);
+    output["recipient"] = QString::fromLatin1(recipient.toBase64());
 
     out << output;
     // if sum of inputs > amount + fee
@@ -61,7 +60,7 @@ QJsonObject TransactionManager::createNewTransaction(int type,
     {
         QJsonObject remains;
         remains["value"] = sum - (amount+fee);
-        remains["recipient"] = QString::fromUtf8(address);
+        remains["recipient"] = QString::fromLatin1(address.toBase64());
 
         out << remains;
     }
@@ -92,7 +91,29 @@ QJsonObject TransactionManager::createNewTransaction(int type,
 
     QJsonDocument txret(tx);
     QByteArray hash = QCryptographicHash::hash(txret.toJson(), QCryptographicHash::Sha3_256);
+    qDebug() << QString::fromLatin1(hash.toBase64());
     tx["hash"] = QString::fromLatin1(hash.toBase64());
+    return tx;
+}
+
+QJsonObject &TransactionManager::createCoinbaseTransaction(QByteArray recipient, double amount)
+{
+    // проверка (посчитать награду + fee)
+    // в блоке только одна така€ транзакци€ (перва€)
+    // жесткие услови€ дл€ проверки транзакции (пол€ и проч)
+    QJsonObject tx;
+
+    tx["type"] = 0; // block reward
+    tx["message"] = QString("Block reward");
+
+    QJsonArray out;
+    QJsonObject output;
+    output["value"] = amount;
+    output["recipient"] = QString::fromLatin1(recipient.toBase64());
+    out << output;
+
+    tx["out"] = out;
+
     return tx;
 }
 
@@ -159,6 +180,7 @@ bool TransactionManager::verifyTransaction(QJsonObject tx)
     // копируем транзакцию
     QJsonObject txForVerifying = tx;
     txForVerifying.remove(QString("signature"));
+    txForVerifying.remove(QString("hash"));
     // переводим в bytearray
     QJsonDocument txJD(txForVerifying);
     QByteArray dataForSign = txJD.toJson();

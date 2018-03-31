@@ -17,14 +17,23 @@ UnicornCoin::UnicornCoin(QObject *parent) :
 
     txs.append(one);
 
-    QJsonObject block = BlockManager::createBlock(QByteArray("2"), txs);
+    QJsonObject block = BlockManager::createBlock(QByteArray("2"), wallet->getAddress(), txs);
     processBlock(block);
 
+    /*QJsonObject s;
+    unconfirmed.append(s);
+    mineManager = new MinerManager();
+
+    QJsonObject a;
+    unconfirmed.append(a);
+    mineManager->moveToThread(mineManager);
+    mineManager->run();
+    mineManager->setUnconfirmed(unconfirmed);*/
     /*connect(&client, SIGNAL(newData(MessageType,QString)),
             this, SLOT(newData(MessageType,QString)));
     connect(&client, SIGNAL(newRequest(MessageType,QString,Connection*)),
             this, SLOT(newRequest(MessageType,QString,Connection*)));
-    connect(&client, SIGNAL(networkPage(int)),
+    connect(&client,     SIGNAL(networkPage(int)),
             this, SLOT(networkPage(int)));*/
 }
 

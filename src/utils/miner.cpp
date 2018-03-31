@@ -4,3 +4,8 @@ Miner::Miner()
 {
 
 }
+
+void Miner::run()
+{
+
+}

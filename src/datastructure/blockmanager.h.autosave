@@ -14,7 +14,7 @@ public:
     //! Method creates block
     static QJsonObject createBlock(QByteArray prevBlockHash,
                                    QByteArray minerAddress,
-                                   QList<QJsonObject> transactions,
+                                   QList<QJsonObject> &transactions,
                                    int height);
 
     //! Method finds merkle root of transactions
@@ -22,7 +22,7 @@ public:
 
     static double getCoinbaseReward(int blockchainHeight);
 
-    static double getFeeFromTx(QList<QJsonObject> transactions);
+    static double getFeeFromTx(QList<QJsonObject> &transactions);
 
 };
 

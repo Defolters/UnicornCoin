@@ -1,12 +1,17 @@
 #include "blockmanager.h"
+#include "../datastructure/transactionmanager.h"
+
 #include <QDateTime>
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
-#include "../datastructure/transactionmanager.h"
+#include <QJsonDocument>
+#include <QCryptographicHash>
+
+
 
 QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
-                                      QByteArray minerAddress,
+                                      QByteArray &minerAddress,
                                       QList<QJsonObject> &transactions,
                                       int height)
 {
@@ -19,21 +24,23 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
     transaction;
     block;*/
 
-
+    qDebug() << "ss";
     // first coinbase tx (block reward)
-    QJsonObject coinbase = TransactionManager::createCoinbaseTransaction(minerAddress, getCoinbaseReward(height) + getFeeFromTx(transactions));
+    QJsonObject coinbase = TransactionManager::createCoinbaseTransaction(minerAddress,
+                                                                         getCoinbaseReward(height) +
+                                                                         getFeeFromTx(transactions));
     // Put coinbase tx at 0 position
     transactions.insert(0, coinbase);
 
     QJsonObject block;
-    block["prev_block"] = "ds";
-//    block["merkle_root"] = QString::fromLatin1(getMerkleRoot(transactions).toBase64());
+    block["prev_block"] = QString::fromLatin1(prevBlockHash.toBase64());;
+    block["merkle_root"] = QString::fromLatin1(getMerkleRoot(transactions).toBase64());
 
     QDateTime dt;
     block["time"] = dt.toMSecsSinceEpoch();
     qDebug() << dt.toMSecsSinceEpoch();
 
-    block["height"] = 1;
+    block["height"] = height+1;
     block["bits"] = 1;
     block["nonce"] = 1;
 
@@ -51,6 +58,33 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
 
 QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
 {
+    // check if empty
+    // if odd +1
+    QList<QByteArray> *hashes = new QList<QByteArray>();
+
+    for (int i = 0; 2*i < transactions.size(); i++)
+    {
+        QJsonDocument data(transactions.at(i));
+
+        hashes->append(QCryptographicHash::hash(data.toJson(),
+                                                QCryptographicHash::Sha3_256));
+    }
+    while(hashes->size() != 1)
+    {
+        QList<QByteArray> *temp = new QList<QByteArray>();
+
+        for (int i = 0; (2*i) < hashes->size(); i++)
+        {
+            QByteArray hash = QCryptographicHash::hash(hashes->at(2*i)+ hashes->at(2*i+1),
+                                                       QCryptographicHash::Sha3_256);
+            temp->append(hash);
+        }
+        // если нечетное, то добавляем последнее
+        if (hashes->size()%2 != 0){temp->append(hashes->last());}
+        delete hashes;
+        hashes = temp;
+    }
+    qDebug() << QString::fromLocal8Bit(hashes->first());
     return QByteArray();
 }
 

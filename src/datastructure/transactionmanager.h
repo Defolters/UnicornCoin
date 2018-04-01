@@ -36,7 +36,7 @@ public:
     //! \param amount
     //! \return
     //!
-    static QJsonObject &createCoinbaseTransaction(QByteArray recipient,
+    static QJsonObject createCoinbaseTransaction(QByteArray &recipient,
                                             double amount);
 
     //! \brief signTransaction

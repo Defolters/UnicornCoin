@@ -16,8 +16,10 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     one["hash"] = "me";
 
     txs.append(one);
-
-    QJsonObject block = BlockManager::createBlock(QByteArray("2"), wallet->getAddress(), txs);
+    QByteArray recipient = QByteArray::fromStdString("dsf");
+    QJsonObject block = BlockManager::createBlock(recipient,
+                                                  recipient,
+                                                  txs, 0);
     processBlock(block);
 
     /*QJsonObject s;
@@ -132,7 +134,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
         throw std::runtime_error("Address is wrong, try another");
     }
 
-    QJsonObject tx = txManager.createNewTransaction(1, listOfOutputs, recipientAddr,
+    QJsonObject tx = txManager.createNewTransaction(listOfOutputs, recipientAddr,
                                                     wallet->getPrivateKey(), wallet->getPublicKey(),
                                                     wallet->getAddress(), amount, fee, message);
 

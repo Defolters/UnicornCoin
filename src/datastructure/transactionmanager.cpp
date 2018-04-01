@@ -85,22 +85,27 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
 
     if (verifyTransaction(tx))
     {
-        qDebug() << "yee";
+        qDebug() << "tx verified";
     }
-    else{qDebug()<<"NOOOO!!";}
+    else{qDebug()<<"tx not verified!!";}
 
     QJsonDocument txret(tx);
     QByteArray hash = QCryptographicHash::hash(txret.toJson(), QCryptographicHash::Sha3_256);
     qDebug() << QString::fromLatin1(hash.toBase64());
     tx["hash"] = QString::fromLatin1(hash.toBase64());
+
     return tx;
 }
 
-QJsonObject &TransactionManager::createCoinbaseTransaction(QByteArray recipient, double amount)
+QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient, double amount)
 {
+    qDebug() << Q_FUNC_INFO;
+
+    QByteArray recipientt = recipient;
     // проверка (посчитать награду + fee)
     // в блоке только одна такая транзакция (первая)
     // жесткие условия для проверки транзакции (поля и проч)
+    // ДОБАВИТЬ СИГНАТУРУ ИНАЧЕ ЭТО ПОЛЕ МОЖНО БУДЕТ МЕНЯТЬ
     QJsonObject tx;
 
     tx["type"] = 0; // block reward
@@ -109,10 +114,16 @@ QJsonObject &TransactionManager::createCoinbaseTransaction(QByteArray recipient,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromLatin1(recipient.toBase64());
+    output["recipient"] = QString::fromLatin1(recipientt.toBase64());
     out << output;
 
     tx["out"] = out;
+
+
+    QJsonDocument txret(tx);
+    QByteArray hash = QCryptographicHash::hash(txret.toJson(), QCryptographicHash::Sha3_256);
+    qDebug() << QString::fromLatin1(hash.toBase64());
+    tx["hash"] = QString::fromLatin1(hash.toBase64());
 
     return tx;
 }

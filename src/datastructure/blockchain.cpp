@@ -19,16 +19,16 @@ void Blockchain::addBlock(QJsonObject block)
     {
         QJsonObject tx = jsonval.toObject();
         //myUnspent.append(tx.toObject());
-        QPair<QJsonObject, QList<int>> unconfirmedPair;
+        QPair<QJsonObject, QList<int>> unspentPair;
 
-        unconfirmedPair.first = tx;
+        unspentPair.first = tx;
 
         for (int i =0; i < tx["out"].toArray().size(); i++)
         {
-            unconfirmedPair.second.append(i);
+            unspentPair.second.append(i);
         }
 
-        unspent[QByteArray::fromBase64(tx["hash"].toString().toLatin1())] = unconfirmedPair;
+        unspent[QByteArray::fromBase64(tx["hash"].toString().toLatin1())] = unspentPair;
     }
 
 }

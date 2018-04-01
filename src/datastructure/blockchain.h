@@ -18,20 +18,29 @@ public:
     void addBlock(QJsonObject block);
 
     //!
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>> getMyUnspent(QString address);
+    void saveBlockchain();
 
     //!
-    void saveBlockchain();
+    QHash<QByteArray, QPair<QJsonObject, QList<int>>> getMyUnspent(QString address);
+
+    //! Method analyse blockchain for time spent on mining and every 2016
+    //! blocks (every week) adjust difficulty (current height for old blocks)
+    int getDifficulty(int currentHeight = 0);
+
+    QString getLastBlockHash();
 
 private:
     //!
     QList<QJsonObject> blockchain;
+
+    int height;
 
     //! <number of ouput>
     //QHash<QByteArray, QPair<QJsonObject, QList<int>>> myUnspent;
 
     //! <hash of tx, (tx, list of numbers of outputs)>
     QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent;
+
 
 };
 

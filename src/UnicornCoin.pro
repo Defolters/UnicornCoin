@@ -38,7 +38,8 @@ SOURCES += \
     datastructure/blockmanager.cpp \
     utils/miner.cpp \
     pages/existingaddress.cpp \
-    utils/minermanager.cpp
+    utils/minermanager.cpp \
+    datastructure/unconfirmedpool.cpp
 
 HEADERS += \
     qt/mainwindow.h \
@@ -56,7 +57,8 @@ HEADERS += \
     utils/miner.h \
     pages/existingaddress.h \
     utils/base32.hpp \
-    utils/minermanager.h
+    utils/minermanager.h \
+    datastructure/unconfirmedpool.h
 
 FORMS += \
     qt/forms/mainwindow.ui \

@@ -1,18 +1,24 @@
 #include "blockchain.h"
-#include <QJsonArray>
-#include <QJsonObject>
 #include "../pages/wallet.h"
 
-Blockchain::Blockchain()
+#include <QJsonArray>
+#include <QJsonObject>
+
+Blockchain::Blockchain() : height (0)
 {
 
+   QJsonObject debugBlock;
+   debugBlock["hash"] = "00000000000000000021cee1e8097955acd09dddf9743e66cb0bb4a4de07fff2";
+
+   blockchain.append(debugBlock);
 }
 
 void Blockchain::addBlock(QJsonObject block)
 {
-    blockchain.append(block);
     // проверить блок
-    // достать из блока транзакции
+    blockchain.append(block);
+
+    // достать из блока транзакции и проверить их
     QJsonArray array = block["txs"].toArray();
     //QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent;
     for (auto jsonval : array)
@@ -33,9 +39,15 @@ void Blockchain::addBlock(QJsonObject block)
 
 }
 
-QHash<QByteArray, QPair<QJsonObject, QList<int>>> Blockchain::getMyUnspent(QString address)
+void Blockchain::saveBlockchain()
 {
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>> myUnspent;
+    // save blockchain state into file
+    // save blocks
+}
+
+QHash<QByteArray, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QString address)
+{
+    QHash<QByteArray, QPair<QJsonObject, QList<int> > > myUnspent;
 
     QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(unspent);
     while (iter.hasNext())
@@ -74,8 +86,36 @@ QHash<QByteArray, QPair<QJsonObject, QList<int>>> Blockchain::getMyUnspent(QStri
     return myUnspent;
 }
 
-void Blockchain::saveBlockchain()
+int Blockchain::getDifficulty(int currentHeight)
 {
-    // save blockchain state into file
-    // save blocks
+    if (blockchain.size() == 0)
+    {
+        throw std::runtime_error("Blockchain is empty");
+    }
+
+    // every 2016 blocks
+    // analyse blockchain and find new difficulty
+
+    if ((blockchain.size() % 2016) == 0)
+    {
+        //analyse blockchain time spent on mining and adjust difficulty;
+    }
+    else
+    {
+        return blockchain.last()["difficulty"].toInt();
+    }
+
+    //return QByteArray::fromHex(QString("0100000000000000000000000090000000000000000000000000000000000000").toUtf8()); 1 difficulty
+    return 1;
+}
+
+QString Blockchain::getLastBlockHash()
+{
+    // error prone if we can't load blockchain
+    if (blockchain.size() == 0)
+    {
+        throw std::runtime_error("Blockchain is empty");
+    }
+
+    return blockchain.last()["hash"].toString();
 }

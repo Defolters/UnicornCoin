@@ -42,7 +42,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -392,6 +392,19 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>150</y>
+        <width>131</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Copy address to clipboard</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="sendPage">
      <widget class="QPushButton" name="createTransaction">
@@ -628,7 +641,7 @@
        <bool>false</bool>
       </property>
       <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderHighlightSections">
        <bool>false</bool>

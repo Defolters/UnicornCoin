@@ -12,10 +12,13 @@ class BlockManager
 public:
 
     //! Method creates block
-    static QJsonObject createBlock(QByteArray prevBlockHash,
+    static QJsonObject createBlock(QString prevBlockHash,
                                    QByteArray &minerAddress,
                                    QList<QJsonObject> &transactions,
-                                   int height);
+                                   int height, int difficulty);
+
+
+    static bool checkBlock(QJsonObject block);
 
     //! Method finds merkle root of transactions
     static QByteArray getMerkleRoot(QList<QJsonObject> &transactions);

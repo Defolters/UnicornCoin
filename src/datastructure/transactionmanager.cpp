@@ -101,11 +101,10 @@ QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient,
 {
     qDebug() << Q_FUNC_INFO;
 
-    QByteArray recipientt = recipient;
     // ïðîâåðêà (ïîñ÷èòàòü íàãðàäó + fee)
     // â áëîêå òîëüêî îäíà òàêàÿ òðàíçàêöèÿ (ïåðâàÿ)
     // æåñòêèå óñëîâèÿ äëÿ ïðîâåðêè òðàíçàêöèè (ïîëÿ è ïðî÷)
-    // ÄÎÁÀÂÈÒÜ ÑÈÃÍÀÒÓÐÓ ÈÍÀ×Å ÝÒÎ ÏÎËÅ ÌÎÆÍÎ ÁÓÄÅÒ ÌÅÍßÒÜ
+    // ÄÎÁÀÂÈÒÜ ÑÈÃÍÀÒÓÐÓ ÈÍÀ×Å ÝÒÎ ÏÎËÅ ÌÎÆÍÎ ÁÓÄÅÒ ÌÅÍßÒÜ ()
     QJsonObject tx;
 
     tx["type"] = 0; // block reward
@@ -114,7 +113,7 @@ QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromLatin1(recipientt.toBase64());
+    output["recipient"] = QString::fromLatin1(recipient.toBase64());
     out << output;
 
     tx["out"] = out;

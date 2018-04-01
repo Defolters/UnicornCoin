@@ -10,10 +10,10 @@
 
 
 
-QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
+QJsonObject BlockManager::createBlock(QString prevBlockHash,
                                       QByteArray &minerAddress,
                                       QList<QJsonObject> &transactions,
-                                      int height)
+                                      int height, int difficulty)
 {
     /*
     prev_block = "000000000000000117c80378b8da0e33559b5997f2ad55e2f7d18ec1975b9717";
@@ -23,8 +23,18 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
     nonce;
     transaction;
     block;*/
+    QByteArray as;
+    as = QCryptographicHash::hash(minerAddress,
+                                  QCryptographicHash::Sha3_256);
+    qDebug() <<  "Hex: " << as.toHex();
+    qDebug() << "Int: " << as.toHex().toInt();
+    QString MyHexString ="AF5603B4";
+    QByteArray cmd = QByteArray::fromHex(MyHexString.toUtf8());
+    if (as > QByteArray::fromHex(QString("00000000000000000021cee1e8097955acd09dddf9743e66cb0bb4a4de07fff2").toUtf8()))
+    {
+        qDebug() << "Yep";
+    }
 
-    qDebug() << "ss";
     // first coinbase tx (block reward)
     QJsonObject coinbase = TransactionManager::createCoinbaseTransaction(minerAddress,
                                                                          getCoinbaseReward(height) +
@@ -33,7 +43,7 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
     transactions.insert(0, coinbase);
 
     QJsonObject block;
-    block["prev_block"] = QString::fromLatin1(prevBlockHash.toBase64());;
+    block["prev_block"] = prevBlockHash;
     block["merkle_root"] = QString::fromLatin1(getMerkleRoot(transactions).toBase64());
 
     QDateTime dt;
@@ -41,8 +51,9 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
     qDebug() << dt.toMSecsSinceEpoch();
 
     block["height"] = height+1;
-    block["bits"] = 1;
-    block["nonce"] = 1;
+    block["difficulty"] = difficulty; // number of zeros (hash should be less, than target) (in miner we create bytearray full of zeros and then put 1 at difficulty position)
+
+    block["nonce"] = 1; // this field changed by miner
 
 
     QJsonArray txs;
@@ -56,36 +67,51 @@ QJsonObject BlockManager::createBlock(QByteArray prevBlockHash,
     return block;
 }
 
+bool BlockManager::checkBlock(QJsonObject block)
+{
+    // проверить блок (поля)
+    throw std::runtime_error("error");
+    return false;
+}
+
 QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
 {
     // check if empty
-    // if odd +1
+    if (transactions.isEmpty())
+    {
+        return QByteArray();
+    }
+
     QList<QByteArray> *hashes = new QList<QByteArray>();
 
     for (int i = 0; 2*i < transactions.size(); i++)
     {
         QJsonDocument data(transactions.at(i));
-
         hashes->append(QCryptographicHash::hash(data.toJson(),
                                                 QCryptographicHash::Sha3_256));
     }
+
     while(hashes->size() != 1)
     {
         QList<QByteArray> *temp = new QList<QByteArray>();
 
         for (int i = 0; (2*i) < hashes->size(); i++)
         {
-            QByteArray hash = QCryptographicHash::hash(hashes->at(2*i)+ hashes->at(2*i+1),
-                                                       QCryptographicHash::Sha3_256);
+            QByteArray hash;
+            hash = QCryptographicHash::hash(hashes->at(2*i) + hashes->at(2*i+1),
+                                            QCryptographicHash::Sha3_256);
             temp->append(hash);
         }
+
         // если нечетное, то добавляем последнее
-        if (hashes->size()%2 != 0){temp->append(hashes->last());}
+        if (hashes->size()%2 != 0) { temp->append(hashes->last()); }
+
         delete hashes;
         hashes = temp;
     }
+
     qDebug() << QString::fromLocal8Bit(hashes->first());
-    return QByteArray();
+    return hashes->first();
 }
 
 double BlockManager::getCoinbaseReward(int blockchainHeight)
@@ -93,7 +119,8 @@ double BlockManager::getCoinbaseReward(int blockchainHeight)
     // block reward half every 300,000 blocks
     int interval = 4;//00000;
     double reward = 0;
-    while(1){
+    while (1)
+    {
     int halvings = blockchainHeight / interval;
 
     // ДО ПЯТИ НУЛЕЙ
@@ -106,7 +133,8 @@ double BlockManager::getCoinbaseReward(int blockchainHeight)
         subsidy /= 2;
 
     blockchainHeight++;
-    qDebug() << (((float)((int)((subsidy) * (100000))) / (100000)));
+    //
+    qDebug() << (((float)((int)((subsidy) * (100000) ) ) / (100000) ) );
     }
     return reward;
 }

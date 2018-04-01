@@ -12,7 +12,7 @@ void UnconfirmedPool::addTransaction(QJsonObject tx)
     unconfirmedPool.append(tx);
 }
 
-QList<QJsonObject> UnconfirmedPool::getTransactions(int numberOfTx)
+QList<QJsonObject> UnconfirmedPool::getTransactions(int numberOfTx) const
 {
     // sort qlist
     qSort(unconfirmedPool.begin(), unconfirmedPool.end(), comparator);
@@ -50,6 +50,11 @@ void UnconfirmedPool::removeTransactions(QList<QJsonObject> txs)
             }
         }
     }
+}
+
+int UnconfirmedPool::size() const
+{
+    return unconfirmedPool.size();
 }
 
 void UnconfirmedPool::save()

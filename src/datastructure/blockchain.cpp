@@ -109,6 +109,11 @@ int Blockchain::getDifficulty(int currentHeight)
     return 1;
 }
 
+int Blockchain::getHeight()
+{
+    return this->height;
+}
+
 QString Blockchain::getLastBlockHash()
 {
     // error prone if we can't load blockchain

@@ -1,7 +1,10 @@
 #include "minermanager.h"
+#include "../datastructure/blockmanager.h"
+
 #include <QDebug>
 
-MinerManager::MinerManager() : QThread()
+MinerManager::MinerManager(Blockchain *blockchain, UnconfirmedPool *unconfirmedPool) :
+    QThread(), blockchain(blockchain), unconfirmedPool(unconfirmedPool)
 {
 }
 
@@ -18,18 +21,28 @@ void MinerManager::startMining()
     Miner *m_miner = new Miner(b2, 0, 20000000000000);
     m_miner->moveToThread(m_miner);
     m_miner->start();*/
-    qDebug() << unconfirmed.size();
-}
-
-void MinerManager::setUnconfirmed(QList<QJsonObject> &unconfirmed)
-{
-    this->unconfirmed = unconfirmed;
+    //qDebug() << unconfirmed.size();
 }
 
 void MinerManager::run()
 {
     while(1)
     {
+        // create list of txs when we have enough txs ??
+        QList;
+        QJsonObject block;
+        // create block
+        block = BlockManager::createBlock(blockchain->getLastBlockHash(),
+                                          minerAddress,
+                                          unconfirmedPool.getTransactions(100),
+                                          blockchain->getHeight(),
+                                          blockchain->getDifficulty());
+        // run miner
+        miner = new Miner();
+        miner->start();
+        // how miner will emit new block
+        // emit newBlock
+
 
     }
 }

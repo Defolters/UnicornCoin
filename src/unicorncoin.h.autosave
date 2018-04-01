@@ -14,10 +14,13 @@
 #include "datastructure/transactionmanager.h"
 #include "datastructure/blockchain.h"
 #include "datastructure/blockmanager.h"
+#include "datastructure/unconfirmedpool.h"
 
 /**
- * @brief The UnicornCoin class
- *
+ * \brief The UnicornCoin class
+ * The brain of system. 
+ * 
+ * \author Defolter
  */
 class UnicornCoin : public QObject
 {
@@ -130,6 +133,9 @@ private:
 
     //!
     Blockchain *blockchain;
+    
+    //! 
+    UnconfirmedPool *unconfirmed;
 
     //QMultiHash<address, > unspent; //!< multihash contains unspent money for every address
     QList<QJsonObject> myUnspent; //!< list contains my unspent transactions

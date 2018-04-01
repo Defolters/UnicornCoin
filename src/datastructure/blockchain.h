@@ -27,6 +27,9 @@ public:
     //! blocks (every week) adjust difficulty (current height for old blocks)
     int getDifficulty(int currentHeight = 0);
 
+    //! Method returns height of blockchain
+    int getHeight();
+
     QString getLastBlockHash();
 
 private:

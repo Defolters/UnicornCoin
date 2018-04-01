@@ -6,10 +6,11 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     wallet(new Wallet(this)),
     tcpsocket(nullptr),
     con(nullptr),
-    blockchain(new Blockchain())
+    blockchain(new Blockchain()),
+    unconfirmed(new UnconfirmedPool())
 {
     wallet->load();
-    minerManager = new MinerManager(blockchain);
+    minerManager = new MinerManager(blockchain, unconfirmed);
     // CREATE TEST FIRST BLOCK
 
     QByteArray recipient = QByteArray::fromBase64(QString("YZMFC6IDNEDUH25BGRDFYZXICIHXWZDAIJQ65RA").toLatin1());

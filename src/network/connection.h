@@ -12,7 +12,8 @@
 //static const int MaxBufferSize = 1024000;  //!<
 
 /**
- * @brief The Client class
+ * \brief The Connection class connects to ports and sends/recieves data
+ *
  */
 class Connection : public QTcpSocket
 {
@@ -28,14 +29,25 @@ public:
 
     Connection(QObject *parent = 0);
 
-    //!< Sends data
+    //!
+    //! \brief Sends data to server
+    //! \param type
+    //! \param data
+    //! \return
+    //!
     bool sendMessage(const MessageType type, const QByteArray &data);
 
 signals:
-    //! Signal is emitted, when socket is ready for use
+    //!
+    //! \brief Signal is emitted, when socket is ready for use
+    //!
     void readyForUse();
 
-    //! Signal is emitted, when new message is recieved
+    //!
+    //! \brief Signal is emitted, when new message is recieved
+    //! \param type
+    //! \param data
+    //!
     void newMessage(const MessageType type, const QByteArray &data);
 
 protected:
@@ -43,20 +55,31 @@ protected:
     //void timerEvent(QTimerEvent *timerEvent) override;
 
 private slots:
-    //! Method handles new data from socket
+    //!
+    //! \brief Method handles new data from socket
+    //!
     void processNewData();
 
-    //! Method which sends ping to check that connection is alive
+    //!
+    //! \brief Method which sends ping to check that connection is alive
+    //!
     void sendPing();
 
-    //! Method sends confirmation that connection is established
+    //!
+    //! \brief Method sends confirmation that connection is established
+    //!
     void sendVersion();
 
 private:
-    //! Method reads data from socket
+    //!
+    //! \brief Method reads data from socket
+    //!
     void readNewData();
 
-    //! Method reads size of particular data
+    //!
+    //! \brief Method reads size of particular data
+    //! \return
+    //!
     int readSize();
 
     //! Timer for sendPing()

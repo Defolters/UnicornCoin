@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+
 /**
  * @brief The Miner class
  * Miner looking for nonce, which will give hash with given difficulty
@@ -15,7 +16,12 @@ public:
     Miner();
 
     //!
+    //! \brief run
+    //!
     virtual void run() override;
+
+    //!
+    //! \brief forceStop
     //!
     void forceStop();
 };

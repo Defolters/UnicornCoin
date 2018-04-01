@@ -6,22 +6,22 @@
 #include <QJsonArray>
 
 /**
- * \brief The TransactionManager class
+ * \brief The TransactionManager class creates and verifies transactions
+ *
  */
 class TransactionManager
 {
 
 public:
-    //! \brief createNewTransaction
-    //! \param type 1 is tx, 0 is block reward(coinbase+fee)
+    //! \brief Method creates new transaction
     //! \param inputs
-    //! \param recipient
-    //! \param privateKey
-    //! \param publicKey
-    //! \param address
+    //! \param recipient Address of recipient
+    //! \param privateKey Private key of sender
+    //! \param publicKey Public key of sender
+    //! \param address ...?
     //! \param amount
     //! \param fee
-    //! \return
+    //! \return QJsonObject with 6-7 fields
     //!
     static QJsonObject createNewTransaction(QList<QJsonObject> inputs,
                                             QByteArray recipient,
@@ -31,23 +31,24 @@ public:
                                             double amount, double fee,
                                             QString message);
 
-    //! \brief createCoinbaseTransaction
+    //! \brief Method creates coinbase transaction
+    //! This transaction has only one output ... additional info
     //! \param recipient
     //! \param amount
     //! \return
     //!
     static QJsonObject createCoinbaseTransaction(QByteArray &recipient,
-                                            double amount);
+                                                 double amount);
 
-    //! \brief signTransaction
-    //! \param tx
-    //! \param privateKey
+    //! \brief Method signs the transaction
+    //! \param tx Transaction
+    //! \param privateKey Private key of sender
     //! \return
     //!
     static QByteArray signTransaction(QByteArray tx, QByteArray privateKey);
 
-    //! \brief verifyTransaction
-    //! \param tx
+    //! \brief Method verifies signature of transaction using public key in tx
+    //! \param tx Transaction
     //! \return
     //!
     static bool verifyTransaction(QJsonObject tx);
@@ -56,6 +57,7 @@ public:
 
 #endif // TRANSACTIONMANAGER_H
 /*
+ * //! \param type 1 is tx, 0 is block reward(coinbase+fee)
 если пришел блок, то мы удаляем из unspent транзакции
 добавить поле сообщения к транзакции
 

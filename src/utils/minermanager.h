@@ -19,28 +19,45 @@ public:
     MinerManager(Blockchain *blockchain, UnconfirmedPool *unconfirmedPool);
 
     //!
+    //! \brief Method sets address of miner, who will receive reward from mining
+    //! \param address
+    //!
     void setMinerAddress(QString address);
 
+    //!
+    //! \brief Method starts mining
     //!
     void startMining();
 
     //!
+    //! \brief Method stops mining
+    //!
     void stopMining();
 
+    //!
+    //! \brief Overrided method of QThread
     //!
     virtual void run() override;
 
 signals:
     //!
+    //! \brief Signal is emitted when new block is mined
+    //! \param block New block
+    //!
     void newBlock(QJsonObject block);
 
 private:
+    //! Blockchain which contains mined blocks
     Blockchain *blockchain;
+
+    //! Pool with unconfirmed transactions
     UnconfirmedPool unconfirmedPool;
+
+    //! Miner
     Miner *miner;
-    QByteArray prevBlockHash;
+
+    //! Address of miner
     QByteArray minerAddress;
-    //QList<QJsonObject> unconfirmed;
 };
 
 #endif // MINERMANAGER_H

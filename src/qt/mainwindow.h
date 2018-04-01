@@ -21,15 +21,30 @@ public:
 
 public slots:
     //!
+    //! \brief networkPage
+    //! \param peer
+    //!
     void networkPage(int peer);
 
 private slots:
-    //! Slot processes new data
+    //!
+    //! \brief Slot processes new data
+    //! \param type
+    //! \param data
+    //!
     void newData(const MessageType &type, const QString &data);
 
-    //! Slot processes new reqest
+    //!
+    //! \brief Slot processes new reqest
+    //! \param type
+    //! \param data
+    //! \param connection
+    //!
     void newRequest(const MessageType &type, const QString &data, Connection *connection);
 
+    //!
+    //! \brief existingPrivate
+    //! \param privateKey
     //!
     void existingPrivate(QString privateKey);
 
@@ -56,11 +71,18 @@ private slots:
     void on_createTransaction_clicked();
 
     void on_addExistingAddressRP_clicked();
+
 protected:
+    //!
+    //! \brief closeEvent
+    //! \param event
+    //!
     void closeEvent(QCloseEvent *event) override;
+
 private:
     //!
-    //! \brief ui
+    //! \brief updateAddress
+    //!
     void updateAddress();
 
     //!
@@ -70,7 +92,6 @@ private:
     UnicornCoin uniCoin;
 
     int wow = 0;
-
 };
 
 #endif // MAINWINDOW_H

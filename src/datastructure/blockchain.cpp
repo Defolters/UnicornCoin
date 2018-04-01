@@ -39,7 +39,7 @@ void Blockchain::addBlock(QJsonObject block)
 
 }
 
-void Blockchain::saveBlockchain()
+void Blockchain::save()
 {
     // save blockchain state into file
     // save blocks

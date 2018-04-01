@@ -14,10 +14,13 @@
 #include "datastructure/transactionmanager.h"
 #include "datastructure/blockchain.h"
 #include "datastructure/blockmanager.h"
+#include "datastructure/unconfirmedpool.h"
 
 /**
- * @brief The UnicornCoin class
+ * \brief The UnicornCoin class
+ * The brain of system.
  *
+ * \author Defolter
  */
 class UnicornCoin : public QObject
 {
@@ -27,59 +30,111 @@ public:
     explicit UnicornCoin(QObject *parent = nullptr);
 
     //!
+    //! \brief sendMoney
+    //!
     void sendMoney();
 
+    //!
+    //! \brief sendMessage
+    //! \param data
     //!
     void sendMessage(const QByteArray &data);
 
     //!
+    //! \brief addExistingAddress
+    //!
     void addExistingAddress(); //can emit error
 
-    //! Method generates new address via @class KeyGenerator
+    //!
+    //! \brief Method generates new address via @class KeyGenerator
+    //!
     void generateNewAddress(); //after it make
 
-    //! Overloaded method with existing private key
+    //!
+    //! \brief Overloaded method with existing private key
+    //! \param privateKey
+    //!
     void generateNewAddress(QByteArray privateKey); //after it make
 
-    //! Method checks input variable, считает, что денег достаточно на счете
+    //!
+    //! \brief Method checks input variable, считает, что денег достаточно на счете
     //! and then creates tx with @class TransactionManager
-    void createNewTransaction(QString recipient, double amount, double fee, QString message); // кому + сколько + комиссия
+    //! \param recipient
+    //! \param amount
+    //! \param fee
+    //! \param message
+    //!
+    void createNewTransaction(QString recipient,
+                              double amount, double fee,
+                              QString message); // кому + сколько + комиссия + сообщение
 
+    //!
+    //! \brief mineMyMoney
     //!
     void mineMyMoney();
 
     //!
+    //! \brief connectToNode
+    //! \param ip
+    //!
     void connectToNode(const QString &ip); //conect to ip
 
+    //!
+    //! \brief getHistory
+    //! \return
     //!
     QList<QJsonObject> getHistory() const;
 
     //!
+    //! \brief getBalance
+    //! \return
+    //!
     double getBalance() const;
 
     //!
+    //! \brief getPrivateKey
+    //! \return
+    //!
     QString getPrivateKey();
 
+    //!
+    //! \brief getAddress
+    //! \return
     //!
     QString getAddress();
 
 signals:
     // Wallet
     //!
+    //! \brief newBalance
+    //! \param balance
+    //! \param unconfirmed
+    //!
     void newBalance(double balance, double unconfirmed);
 
     // Recieve
     //!
+    //! \brief newAddress
+    //!
     void newAddress();
 
     // history
+    //!
+    //! \brief newHistory
+    //!
     void newHistory();
 
     //miner
     // database
+    //!
+    //! \brief newBlock
+    //!
     void newBlock(); // it also contains txs
 
     // network
+    //!
+    //! \brief newState
+    //!
     void newState();
 
 /*
@@ -105,12 +160,14 @@ Network:
     (for testing ) send message
 */
 public slots:
-    //! Slot processes block
+    //!
+    //! \brief Slot processes block
+    //! \param block
+    //!
     void processBlock(QJsonObject block);
 
 private:
-    //!
-    static bool comparator(const QJsonObject& first, const QJsonObject& second);
+
     //!
     QTcpSocket *tcpsocket;
 
@@ -127,15 +184,18 @@ private:
     TransactionManager txManager;
 
     //!
-    MinerManager *mineManager;
+    MinerManager *minerManager;
 
     //!
-    Blockchain blockchain;
+    Blockchain *blockchain;
+
+    //!
+    UnconfirmedPool *unconfirmed;
 
     //QMultiHash<address, > unspent; //!< multihash contains unspent money for every address
     QList<QJsonObject> myUnspent; //!< list contains my unspent transactions
     //QList unconfirmed; //!< list of unconfirmed tx sorted by fee
-    QList<QJsonObject> unconfirmed;
+
 };
 
 #endif // UNICORNCOIN_H

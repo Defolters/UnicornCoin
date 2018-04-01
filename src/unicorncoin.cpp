@@ -5,10 +5,12 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     QObject(parent),
     wallet(new Wallet(this)),
     tcpsocket(nullptr),
-    con(nullptr)
+    con(nullptr),
+    blockchain(new Blockchain()),
+    unconfirmed(new UnconfirmedPool())
 {
     wallet->load();
-
+    minerManager = new MinerManager(blockchain, unconfirmed);
     // CREATE TEST FIRST BLOCK
 
     QByteArray recipient = QByteArray::fromBase64(QString("YZMFC6IDNEDUH25BGRDFYZXICIHXWZDAIJQ65RA").toLatin1());
@@ -193,15 +195,4 @@ void UnicornCoin::processBlock(QJsonObject block)
 
 }
 
-bool UnicornCoin::comparator(const QJsonObject &first, const QJsonObject &second)
-{
-    if ((first["value"].toDouble() + first["fee"].toDouble()) >
-            (second["value"].toDouble() + second["fee"].toDouble()))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+

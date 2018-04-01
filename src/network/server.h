@@ -16,11 +16,17 @@ public:
     Server(QObject *parent = 0);
 
 signals:
-    //! Signal which emitted, when we get new Connection
+    //!
+    //! \brief Signal which emitted, when we get new Connection
+    //! \param connection
+    //!
     void newConnection(Connection *connection);
 
 protected:
-    //! Method from QTcpServer which is called when new connections are available
+    //!
+    //! \brief Method from QTcpServer which is called when new connections are available
+    //! \param socketDescriptor
+    //!
     void incomingConnection(qintptr socketDescriptor) override;
 };
 

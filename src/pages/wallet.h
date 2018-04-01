@@ -27,52 +27,100 @@ contain amount of money, unconfirmed, history of transactions??
 6.
 */
 
-
+/**
+ * @brief The Wallet class implements wallet and method for working with it
+ *
+ */
 class Wallet
 {
 public:
     Wallet(QObject* parent);
 
-    //! load information from file
+    //!
+    //! \brief Method saves data into file
+    //!
+    void save();
+
+    //!
+    //! \brief Method loads data from file
+    //!
     void load();
 
     //!
+    //! \brief setBalance
+    //! \param balance
+    //!
     void setBalance(double balance);
 
-    //! Method write wallet information into wallet.dat (encrypt)
+    //!
+    //! \brief Method write wallet information into wallet.dat (encrypt)
+    //!
     void updateFile();
-
-    //! Method checks that we have enough money in wallet
-    //! and returns list with ouputs
-    QList<QJsonObject> checkMoney(double amount);
-
-    //!
-    void setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray address);
-    //!
-    void setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > unspent);
-
-    //!
-    QList<QJsonObject> getHistory() const;
-
-    //!
-    double getBalance() const;
-
-    //!
-    QByteArray getPrivateKey() const;
-
-    //!
-    QByteArray getPublicKey() const;
-
-    //!
-    QByteArray getAddress() const;
-
-    //! Method returns true if keys are set, false otherwise
-    bool isKeySet() const;
 
     //! Method saves data of wallet into file
     void saveWallet();
 
+    //!
+    //! \brief Method checks that we have enough money in wallet and returns list with ouputs
+    //! \param amount
+    //! \return
+    //!
+    QList<QJsonObject> checkMoney(double amount);
+
+    //!
+    //! \brief Method sets keys for wallet
+    //! \param privateKey
+    //! \param publicKey
+    //! \param address
+    //!
+    void setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray address);
+
+    //!
+    //! \brief setUnspent
+    //! \param unspent
+    //!
+    void setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > unspent);
+
+    //!
+    //! \brief getHistory
+    //! \return
+    //!
+    QList<QJsonObject> getHistory() const;
+
+    //!
+    //! \brief getBalance
+    //! \return
+    //!
+    double getBalance() const;
+
+    //!
+    //! \brief getPrivateKey
+    //! \return
+    //!
+    QByteArray getPrivateKey() const;
+
+    //!
+    //! \brief getPublicKey
+    //! \return
+    //!
+    QByteArray getPublicKey() const;
+
+    //!
+    //! \brief getAddress
+    //! \return
+    //!
+    QByteArray getAddress() const;
+
+    //!
+    //! \brief Method returns true if keys are set, false otherwise
+    //! \return
+    //!
+    bool isKeySet() const;
+
 private:
+    //!
+    //! \brief updateHistory
+    //! \return
     //!
     bool updateHistory();
 

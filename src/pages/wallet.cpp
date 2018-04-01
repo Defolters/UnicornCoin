@@ -78,7 +78,8 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
     double amountFromUnspent = 0;
 
     QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(myUnspent);
-    while (iter.hasNext()) {
+    while (iter.hasNext())
+    {
         iter.next();
         QJsonObject tx = iter.value().first;
         QList<int> numbOfOut = iter.value().second;

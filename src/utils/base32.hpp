@@ -19,9 +19,11 @@
 
 namespace base32 {
 
-//! Method encodes QByteArray to base32 QString
-//! @param data any data
-//! @return QString with base32 encoding
+//!
+//! \brief Method encodes QByteArray to base32 QString
+//! \param data any data
+//! \return QString with base32 encoding
+//!
 static QString toBase32(QByteArray data)
 {
     QByteArray checksum = QCryptographicHash::hash(data, QCryptographicHash::Sha256);
@@ -45,9 +47,11 @@ static QString toBase32(QByteArray data)
     return QString::fromStdString(encodedStr);
 }
 
-//! Method decodes base32 QString to QByteArray
-//! @param string QString with base32 encoding
-//! @return decoded data from string
+//!
+//! \brief Method decodes base32 QString to QByteArray
+//! \param string QString with base32 encoding
+//! \return decoded data from string
+//!
 static QByteArray fromBase32(QString string)
 {
     std::string encodedStr = string.toStdString();
@@ -80,9 +84,11 @@ static QByteArray fromBase32(QString string)
     return decoded;
 }
 
-//! Method check if string is 32base
-//! @param string any string
-//! @return true if base32, false otherwise
+//!
+//! \brief Method check if string is 32base
+//! \param string any string
+//! \return true if base32, false otherwise
+//!
 static bool isBase32(QString string)
 {
     //ABCDEFGHIJKMNPQRSTUVWXYZ23456789
@@ -94,7 +100,8 @@ static bool isBase32(QString string)
     }
     return true;
 }
-}
+
+} // namespace base32
 
 
 #endif // BASE32_H

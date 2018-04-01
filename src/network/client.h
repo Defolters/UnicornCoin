@@ -10,7 +10,7 @@
 #include "utils/messagetype.h"
 
 /**
- * @brief Class implements functions of network client.
+ * @brief The Client Class implements functions of network client.
  * Takes care of @class Connections and hold listening server.
  * Sends and process data.
  */
@@ -21,50 +21,95 @@ class Client : public QObject
 public:
     Client();
 
-    //! Sends message to all Connections
+    //!
+    //! \brief Sends message to all Connections
+    //! \param type
+    //! \param message
+    //!
     void sendMessage(const MessageType &type, const QByteArray &message);
 
-    //! Checks that connection is already established
+    //!
+    //! \brief Checks that connection is already established
+    //! \param host
+    //! \return
+    //!
     bool hasConnection(const QHostAddress &host) const;
 
-    //! Method establishes connections with addresses from the string
+    //!
+    //! \brief Method establishes connections with addresses from the string
+    //! \param addresses
+    //!
     void connectToNodes(const QString &addresses);
 
 signals:
-    //! Signal is emitted, when we get new data
+    //!
+    //! \brief Signal is emitted, when we get new data
+    //! \param type
+    //! \param data
+    //!
     void newData(const MessageType &type, const QByteArray &data);
 
-    //! Signal is emitted, when we get request for data
+    //!
+    //! \brief Signal is emitted, when we get request for data
+    //! \param type
+    //! \param data
+    //! \param connection
+    //!
     void newRequest(const MessageType &type, const QByteArray &data, Connection *connection);
 
-    //! Signal is emitted, when we get new connection, for state of network
+    //!
+    //! \brief Signal is emitted, when we get new connection, for state of network
+    //! \param peer
+    //!
     void networkPage(int peer);
 
 // change to private
 public slots:
-    //! Slot is called when server gets new connection
+    //!
+    //! \brief Slot is called when server gets new connection
+    //! \param connection
+    //!
     void newConnection(Connection *connection);
 
-    //! Slot is called when connection established, so we can add it to multihash;
+    //!
+    //! \brief Slot is called when connection established, so we can add it to multihash;
+    //!
     void readyForUse();
 
-    //! Slot is called when when we get new data from @class Connection. It emit appropriate signal
+    //!
+    //! \brief Slot is called when when we get new data from @class Connection. It emit appropriate signal
+    //! \param type
+    //! \param data
+    //!
     void processData(const MessageType &type, const QByteArray &data);
 
-    //! Slot is called when error occured while working with socket
+    //!
+    //! \brief Slot is called when error occured while working with socket
+    //! \param socketError
+    //!
     void connectionError(QAbstractSocket::SocketError socketError);
 
-    //! Slot is called when socket is disconnected
+    //!
+    //! \brief Slot is called when socket is disconnected
+    //!
     void disconnected();
 
-    //! Slot is called when it is time to save state of Connections and request Connections for new addresses
+    //!
+    //! \brief Slot is called when it is time to save state of Connections and request Connections for new addresses
+    //!
     void getAddr();
 
 private:
-    //! Method removes Connection from peers and deletes it
+    //!
+    //! \brief Method removes Connection from peers and deletes it
+    //! \param connection
+    //!
     void removeConnection(Connection *connection);
 
-    //! Method returns string with ip of connections
+    //!
+    //! \brief Method returns string with ip of connections
+    //! \return
+    //!
     QString peersToString();
 
     //! Dictionary that contains all available connections, where key is address of peer and value is Connection;

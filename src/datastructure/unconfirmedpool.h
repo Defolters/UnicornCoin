@@ -28,7 +28,7 @@ public:
     //! \param numberOfTx
     //! \return
     //!
-    QList<QJsonObject> getTransactions(int numberOfTx = 100);
+    QList<QJsonObject> getTransactions(int numberOfTx = 100) const ;
 
     //!
     //! \brief Method removes transactions from unconfirmedPool
@@ -36,6 +36,12 @@ public:
     //! \param txs
     //!
     void removeTransactions(QList<QJsonObject> txs);
+
+    //!
+    //! \brief Method return size of unconfirmed pool
+    //! \return
+    //!
+    int size() const;
 
     //!
     //! \brief Method saves data into file

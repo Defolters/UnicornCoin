@@ -1,5 +1,6 @@
 #include "unicorncoin.h"
 #include "utils/base32.hpp"
+#include <QJsonDocument>
 
 UnicornCoin::UnicornCoin(QObject *parent) :
     QObject(parent),
@@ -24,6 +25,13 @@ UnicornCoin::UnicornCoin(QObject *parent) :
                                                   1);
     processBlock(block);
 
+    Miner *m_miner = new Miner(block);
+
+    connect(m_miner, SIGNAL(newBlock(QJsonObject)),
+            this, SLOT(processBlock(QJsonObject)));
+
+    m_miner->moveToThread(m_miner);
+    m_miner->start();
     /*QJsonObject s;
     unconfirmed.append(s);
     mineManager = new MinerManager();
@@ -39,15 +47,30 @@ UnicornCoin::UnicornCoin(QObject *parent) :
             this, SLOT(newRequest(MessageType,QString,Connection*)));
     connect(&client,     SIGNAL(networkPage(int)),
             this, SLOT(networkPage(int)));*/
+    connect(&client, SIGNAL(newData(MessageType,QByteArray)),
+            this, SLOT(processData(MessageType,QByteArray)));
+    connect(&client, SIGNAL(newRequest(MessageType,QByteArray,Connection*)),
+            this, SLOT(processRequest(MessageType,QByteArray,Connection*)));
+    connect(minerManager, SIGNAL(newBlock(QJsonObject)),
+            this, SLOT(processBlock(QJsonObject)));
+    //symbol \ for new line of code
 }
 
-void UnicornCoin::sendMessage(const QByteArray &data)
+void UnicornCoin::sendData(const QByteArray &data)
 {
     if (con != nullptr)
     {
         con->sendMessage(MessageType::TX, data);
     }
-    else {qDebug() << "tcpsocket == nullptr";}
+    else
+    {
+        qDebug() << "tcpsocket == nullptr";
+    }
+}
+
+void UnicornCoin::sendData(const MessageType &type, const QByteArray &data)
+{
+    client.sendData(type, data);
 }
 
 void UnicornCoin::generateNewAddress()
@@ -145,6 +168,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     // добавляем в unconfirmed и рассылаем другим людям
 
     //client.sendMessage();
+    processTransaction(tx);
 }
 
 void UnicornCoin::connectToNode(const QString &ip)
@@ -180,12 +204,12 @@ QString UnicornCoin::getAddress()
 
 void UnicornCoin::processBlock(QJsonObject block)
 {
-    // проверить блок и все транзакции
-    // если правильно, то добавить
+    // проверить блок и все транзакции (они валидны и потрачены правильно (с ссылками на правильные оутпуты))
+    // если правильно, то добавить в блокчейн, а он сам все транзакции реаспределит как надо
     try
     {
-        BlockManager::checkBlock(block);
-        blockchain->addBlock(block);
+        BlockManager::checkBlock(block); // проверяем на правильность поля
+        blockchain->addBlock(block); // проверяем аутпуты и распределяем транзкации по контейнерам
 
     }
     catch(...)
@@ -193,6 +217,35 @@ void UnicornCoin::processBlock(QJsonObject block)
 
     }
 
+    // рассказать другим
+    QJsonDocument blockDoc(block);
+    this->sendData(MessageType::BLOCK, blockDoc.toJson());
 }
 
+void UnicornCoin::processTransaction(QJsonObject tx)
+{
+    // проверить, что у нас еще нет ее в неподтвержденных (она уникальна)
+    if (unconfirmed->hasTransaction(tx))
+        return;
 
+    //проверить транзакцию на валидность
+    try {TransactionManager::verifyTransaction(tx);}
+    catch (std::runtime_error ex){}
+
+    // добавить ее в .. unconfirmed??
+    unconfirmed->addTransaction(tx);
+
+    // рассказать другим
+    QJsonDocument txDoc(tx);
+    this->sendData(MessageType::TX, txDoc.toJson());
+}
+
+void UnicornCoin::processData(const MessageType &type, const QByteArray &data)
+{
+    // process type and data
+}
+
+void UnicornCoin::processRequest(const MessageType &type, const QByteArray &data, Connection *connection)
+{
+ //process type and data and then send back
+}

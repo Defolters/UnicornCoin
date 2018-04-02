@@ -3,7 +3,7 @@
 #include "connection.h"
 #include "server.h"
 #include "qt/mainwindow.h"
-#define DEBUG
+//#define DEBUG
 Server::Server(QObject *parent)
     : QTcpServer(parent)
 {

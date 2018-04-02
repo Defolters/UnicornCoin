@@ -3,7 +3,7 @@
 #include "client.h"
 #include "connection.h"
 
-#define DEBUG
+//#define DEBUG
 
 static const int AddrInterval = 30 * 1000;  //!< getAddr interval 30s
 static const int MAX_CONNECTIONS = 40; //!< max number of connections
@@ -40,17 +40,17 @@ Client::Client()
     }
 }
 
-void Client::sendMessage(const MessageType &type, const QByteArray &message)
+void Client::sendData(const MessageType &type, const QByteArray &data)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
 #endif
-    if (message.isEmpty())
+    if (data.isEmpty())
         return;
 
     QList<Connection *> connections = peers.values();
     foreach (Connection *connection, connections)
-        connection->sendMessage(type, message);
+        connection->sendMessage(type, data);
 }
 
 bool Client::hasConnection(const QHostAddress &host) const

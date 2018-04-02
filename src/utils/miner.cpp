@@ -34,12 +34,12 @@ void Miner::run()
 
         hash = QCryptographicHash::hash(blockDoc.toJson(), QCryptographicHash::Sha3_256);
 
-        qDebug() << "Hash: " << hash.toHex();
+//        qDebug() << "Hash: " << hash.toHex();
         // проверить хэш
 
         if (hash < target)
         {
-            qDebug() << "Nonce found!!! Hash: " << hash.toHex() << "time: " << timer.elapsed()*0.001;
+            qDebug() << "Nonce found!!! Hash: " << hash.toHex() << "time: " << timer.elapsed()*0.001 << " nonce: " << block["nonce"].toInt();
 
             block["hash"] = QString::fromLatin1(hash.toBase64());
             emit newBlock(block);

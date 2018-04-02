@@ -173,6 +173,9 @@ QByteArray TransactionManager::signTransaction(QByteArray tx, QByteArray private
 
 bool TransactionManager::verifyTransaction(QJsonObject tx)
 {
+    // ПРОВЕРИТЬ СИГНАТУРУ И ДРУГИЕ ПОЛЯ (contains)
+    // выбрасывать ошибку с детальным описанием??
+
     // chech that public key подходит для tx без signature
     /*QByteArray temp = tx["in"].toArray().at(0).toObject()["pubkey"].toString().toUtf8();
     QByteArray pubKey = QByteArray::fromHex(temp);

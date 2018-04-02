@@ -38,6 +38,13 @@ public:
     void removeTransactions(QList<QJsonObject> txs);
 
     //!
+    //! \brief Method checks whether is tx in unconfirmed pool
+    //! \param tx Transaction
+    //! \return
+    //!
+    bool hasTransaction(QJsonObject tx);
+
+    //!
     //! \brief Method return size of unconfirmed pool
     //! \return
     //!

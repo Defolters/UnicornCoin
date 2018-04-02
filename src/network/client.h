@@ -26,7 +26,7 @@ public:
     //! \param type
     //! \param message
     //!
-    void sendMessage(const MessageType &type, const QByteArray &message);
+    void sendData(const MessageType &type, const QByteArray &data);
 
     //!
     //! \brief Checks that connection is already established

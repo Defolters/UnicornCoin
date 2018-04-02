@@ -1,5 +1,6 @@
 Debug
 docs
+doc/Doxygen
 sfml-*
 *.sln
 *v14\

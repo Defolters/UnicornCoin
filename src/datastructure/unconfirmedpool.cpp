@@ -52,6 +52,12 @@ void UnconfirmedPool::removeTransactions(QList<QJsonObject> txs)
     }
 }
 
+bool UnconfirmedPool::hasTransaction(QJsonObject tx)
+{
+    // check hashes
+    return false;
+}
+
 int UnconfirmedPool::size() const
 {
     return unconfirmedPool.size();

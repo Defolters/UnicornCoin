@@ -38,7 +38,14 @@ public:
     //! \brief sendMessage
     //! \param data
     //!
-    void sendMessage(const QByteArray &data);
+    void sendData(const QByteArray &data);
+
+    //!
+    //! \brief sendData
+    //! \param type
+    //! \param data
+    //!
+    void sendData(const MessageType &type, const QByteArray &data);
 
     //!
     //! \brief addExistingAddress
@@ -162,10 +169,33 @@ Network:
 public slots:
     //!
     //! \brief Slot processes block
-    //! \param block
+    //! \param block Block
     //!
     void processBlock(QJsonObject block);
 
+    //!
+    //! \brief Method processes transaction, verifies and adds it in lists.
+    //! Slot is called when we create new tx or got it from network
+    //! \param tx Transaction
+    //!
+    void processTransaction(QJsonObject tx);
+
+    //!
+    //! \brief Method processes new data from network
+    //! Slot is called from client signal
+    //! \param type Type of data
+    //! \param data Data
+    //!
+    void processData(const MessageType &type, const QByteArray &data);
+
+    //!
+    //! \brief Method processes request for data from connection
+    //! Slot is called from client signal
+    //! \param type Type of request
+    //! \param data Data
+    //! \param connection ...
+    //!
+    void processRequest(const MessageType &type, const QByteArray &data, Connection *connection);
 private:
 
     //!
@@ -181,7 +211,7 @@ private:
     Connection* con;
 
     //!
-    TransactionManager txManager;
+//    TransactionManager txManager;
 
     //!
     MinerManager *minerManager;

@@ -1,6 +1,6 @@
 #include "unconfirmedpool.h"
 
-#include <QtAlgorithms>
+#include <algorithm>
 
 UnconfirmedPool::UnconfirmedPool()
 {
@@ -15,7 +15,7 @@ void UnconfirmedPool::addTransaction(QJsonObject tx)
 QList<QJsonObject> UnconfirmedPool::getTransactions(int numberOfTx) const
 {
     // sort qlist
-    qSort(unconfirmedPool.begin(), unconfirmedPool.end(), comparator);
+//    std::sort(unconfirmedPool.begin(), unconfirmedPool.end(), comparator);
     // create new list with txs
     // WHAT IF NUMBER BIGGER THAN SIZE OF LIST????
     QList<QJsonObject> txs = unconfirmedPool.mid(0, numberOfTx);
@@ -28,7 +28,7 @@ void UnconfirmedPool::removeTransactions(QList<QJsonObject> txs)
     //with iterator важно, что мы передаем копию транзакций
     // должен удалять как надо
 
-    QMutableListIterator<QJsonObject> iter(unspent);
+    QMutableListIterator<QJsonObject> iter(unconfirmedPool);
 
     while (iter.hasNext() & (!txs.isEmpty()))
     {
@@ -67,7 +67,7 @@ void UnconfirmedPool::load()
 
 }
 
-bool UnicornCoin::comparator(const QJsonObject &first, const QJsonObject &second)
+bool UnconfirmedPool::comparator(QJsonObject first, QJsonObject second)
 {
     if ((first["value"].toDouble() + first["fee"].toDouble()) >
             (second["value"].toDouble() + second["fee"].toDouble()))

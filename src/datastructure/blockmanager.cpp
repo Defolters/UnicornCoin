@@ -12,7 +12,7 @@
 
 QJsonObject BlockManager::createBlock(QString prevBlockHash,
                                       QByteArray &minerAddress,
-                                      QList<QJsonObject> &transactions,
+                                      QList<QJsonObject> transactions,
                                       int height, int difficulty)
 {
     /*
@@ -53,7 +53,7 @@ QJsonObject BlockManager::createBlock(QString prevBlockHash,
     block["height"] = height+1;
     block["difficulty"] = difficulty; // number of zeros (hash should be less, than target) (in miner we create bytearray full of zeros and then put 1 at difficulty position)
 
-    block["nonce"] = 1; // this field changed by miner
+    block["nonce"] = -1; // this field changed by miner
 
 
     QJsonArray txs;

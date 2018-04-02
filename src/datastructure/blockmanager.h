@@ -22,7 +22,7 @@ public:
     //!
     static QJsonObject createBlock(QString prevBlockHash,
                                    QByteArray &minerAddress,
-                                   QList<QJsonObject> &transactions,
+                                   QList<QJsonObject> transactions,
                                    int height, int difficulty);
 
     //!

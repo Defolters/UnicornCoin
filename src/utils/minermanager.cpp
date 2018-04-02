@@ -29,17 +29,18 @@ void MinerManager::run()
     while(1)
     {
         // create list of txs when we have enough txs ??
-        QList;
         QJsonObject block;
         // create block
         block = BlockManager::createBlock(blockchain->getLastBlockHash(),
                                           minerAddress,
-                                          unconfirmedPool.getTransactions(100),
+                                          unconfirmedPool->getTransactions(100),
                                           blockchain->getHeight(),
                                           blockchain->getDifficulty());
         // run miner
-        miner = new Miner();
-        miner->start();
+        // block to solve, begin, end
+        Miner *m_miner = new Miner(block);
+        m_miner->moveToThread(m_miner);
+        m_miner->start();
         // how miner will emit new block
         // emit newBlock
 

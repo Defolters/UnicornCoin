@@ -51,7 +51,7 @@ private:
     Blockchain *blockchain;
 
     //! Pool with unconfirmed transactions
-    UnconfirmedPool unconfirmedPool;
+    UnconfirmedPool *unconfirmedPool;
 
     //! Miner
     Miner *miner;

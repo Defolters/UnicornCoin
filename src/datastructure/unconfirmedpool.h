@@ -60,7 +60,7 @@ private:
     //! \param second
     //! \return
     //!
-    static bool comparator(const QJsonObject& first, const QJsonObject& second);
+    static bool comparator(QJsonObject first, QJsonObject second);
 
     //!
     QList<QJsonObject> unconfirmedPool;

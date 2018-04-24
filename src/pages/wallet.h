@@ -38,6 +38,7 @@ public:
 
     //!
     //! \brief Method saves data into file
+    //! Method write wallet information into wallet.dat (encrypt)
     //!
     void save();
 
@@ -51,14 +52,6 @@ public:
     //! \param balance
     //!
     void setBalance(double balance);
-
-    //!
-    //! \brief Method write wallet information into wallet.dat (encrypt)
-    //!
-    void updateFile();
-
-    //! Method saves data of wallet into file
-    void saveWallet();
 
     //!
     //! \brief Method checks that we have enough money in wallet and returns list with ouputs

@@ -39,6 +39,14 @@ Wallet::Wallet(QObject *parent) :
     //    when initialise, i should read file in order to update info and be ready to do smt useful
 }
 
+void Wallet::save()
+{
+    //save into file keySet, path, privatek, publick, address, balance
+    // unconfirmed
+    // history
+    // unspent
+}
+
 void Wallet::load()
 {
     // read a JSON file
@@ -64,13 +72,9 @@ void Wallet::load()
 void Wallet::setBalance(double balance)
 {
     this->balance = balance;
-    updateFile();
+    //updateFile();
 }
 
-void Wallet::updateFile()
-{
-    // save all information into file
-}
 
 QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удалится ли содержимое?
 {
@@ -117,7 +121,7 @@ void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray add
     this->privateKey = privateKey;
     this->publicKey = publicKey;
     this->address = address;
-    updateFile();
+    //updateFile();
     keySet = true;
     balance = 0;
 }
@@ -155,13 +159,4 @@ QByteArray Wallet::getAddress() const
 bool Wallet::isKeySet() const
 {
     return keySet;
-}
-
-void Wallet::saveWallet()
-{
-    //save into file keySet, path, privatek, publick, address, balance
-    // unconfirmed
-    // history
-    // unspent
-
 }

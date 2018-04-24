@@ -24,6 +24,16 @@ void MinerManager::startMining()
     //qDebug() << unconfirmed.size();
 }
 
+void MinerManager::save()
+{
+
+}
+
+void MinerManager::load()
+{
+
+}
+
 void MinerManager::run()
 {
     while(1)
@@ -31,7 +41,7 @@ void MinerManager::run()
         // create list of txs when we have enough txs ??
         QJsonObject block;
         // create block
-        block = BlockManager::createBlock(blockchain->getLastBlockHash(),
+        block = BlockManager::createBlock(blockchain->getBlockHash(blockchain->getHeight()),
                                           minerAddress,
                                           unconfirmedPool->getTransactions(100),
                                           blockchain->getHeight(),

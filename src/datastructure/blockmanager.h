@@ -6,6 +6,7 @@
 
 /**
  * @brief The BlockManager class creates and verifies blocks
+ * Hash of block saved as hex string
  */
 class BlockManager
 {

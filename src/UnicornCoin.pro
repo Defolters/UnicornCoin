@@ -30,7 +30,6 @@ SOURCES += \
     datastructure/blockchain.cpp \
     utils/keygenerator.cpp \
     pages/wallet.cpp \
-    pages/history.cpp \
     network/client.cpp \
     network/connection.cpp \
     unicorncoin.cpp \
@@ -47,10 +46,8 @@ HEADERS += \
     datastructure/blockchain.h \
     utils/keygenerator.h \
     pages/wallet.h \
-    pages/history.h \
     network/client.h \
     network/connection.h \
-    utils/messagetype.h \
     unicorncoin.h \
     datastructure/transactionmanager.h \
     datastructure/blockmanager.h \
@@ -58,7 +55,8 @@ HEADERS += \
     pages/existingaddress.h \
     utils/base32.hpp \
     utils/minermanager.h \
-    datastructure/unconfirmedpool.h
+    datastructure/unconfirmedpool.h \
+    utils/datatype.h
 
 FORMS += \
     qt/forms/mainwindow.ui \

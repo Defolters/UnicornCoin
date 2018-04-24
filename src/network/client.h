@@ -7,7 +7,7 @@
 #include <QTimer>
 
 #include "server.h"
-#include "utils/messagetype.h"
+#include "utils/datatype.h"
 
 /**
  * @brief The Client Class implements functions of network client.
@@ -26,7 +26,7 @@ public:
     //! \param type
     //! \param message
     //!
-    void sendData(const MessageType &type, const QByteArray &data);
+    void sendData(const DataType &type, const QByteArray &data);
 
     //!
     //! \brief Checks that connection is already established
@@ -41,13 +41,23 @@ public:
     //!
     void connectToNodes(const QString &addresses);
 
+    //!
+    //! \brief Method saves addresses of connections into file
+    //!
+    void save();
+
+    //!
+    //! \brief Method loads addresses from file
+    //!
+    void load();
+
 signals:
     //!
     //! \brief Signal is emitted, when we get new data
     //! \param type
     //! \param data
     //!
-    void newData(const MessageType &type, const QByteArray &data);
+    void newData(const DataType &type, const QByteArray &data);
 
     //!
     //! \brief Signal is emitted, when we get request for data
@@ -55,7 +65,7 @@ signals:
     //! \param data
     //! \param connection
     //!
-    void newRequest(const MessageType &type, const QByteArray &data, Connection *connection);
+    void newRequest(const DataType &type, const QByteArray &data, Connection *connection);
 
     //!
     //! \brief Signal is emitted, when we get new connection, for state of network
@@ -81,7 +91,7 @@ public slots:
     //! \param type
     //! \param data
     //!
-    void processData(const MessageType &type, const QByteArray &data);
+    void processData(const DataType &type, const QByteArray &data);
 
     //!
     //! \brief Slot is called when error occured while working with socket

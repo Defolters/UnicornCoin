@@ -6,7 +6,7 @@
 
 #include "pages/wallet.h"
 #include "utils/keygenerator.h"
-#include "utils/messagetype.h"
+#include "utils/datatype.h"
 #include "utils/minermanager.h"
 #include "network/client.h"
 #include "network/server.h"
@@ -18,7 +18,7 @@
 
 /**
  * \brief The UnicornCoin class
- * The brain of system.
+ * The brain of the system.
  *
  * \author Defolter
  */
@@ -45,7 +45,7 @@ public:
     //! \param type
     //! \param data
     //!
-    void sendData(const MessageType &type, const QByteArray &data);
+    void sendData(const DataType &type, const QByteArray &data);
 
     //!
     //! \brief addExistingAddress
@@ -109,6 +109,16 @@ public:
     //! \return
     //!
     QString getAddress();
+
+    //!
+    //! \brief Method saves data into file
+    //!
+    void save();
+
+    //!
+    //! \brief Method loads data from file
+    //!
+    void load();
 
 signals:
     // Wallet
@@ -186,7 +196,7 @@ public slots:
     //! \param type Type of data
     //! \param data Data
     //!
-    void processData(const MessageType &type, const QByteArray &data);
+    void processData(const DataType &type, const QByteArray &data);
 
     //!
     //! \brief Method processes request for data from connection
@@ -195,23 +205,17 @@ public slots:
     //! \param data Data
     //! \param connection ...
     //!
-    void processRequest(const MessageType &type, const QByteArray &data, Connection *connection);
+    void processRequest(const DataType &type, const QByteArray &data, Connection *connection);
 private:
-
-    //!
-    QTcpSocket *tcpsocket;
 
     //!
     Client client;  //!< Network client
 
     //!
-    Wallet* wallet;
+    Wallet *wallet;
 
     //!
-    Connection* con;
-
-    //!
-//    TransactionManager txManager;
+    Connection *con;
 
     //!
     MinerManager *minerManager;
@@ -221,10 +225,6 @@ private:
 
     //!
     UnconfirmedPool *unconfirmed;
-
-    //QMultiHash<address, > unspent; //!< multihash contains unspent money for every address
-    QList<QJsonObject> myUnspent; //!< list contains my unspent transactions
-    //QList unconfirmed; //!< list of unconfirmed tx sorted by fee
 
 };
 

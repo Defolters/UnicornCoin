@@ -23,17 +23,6 @@ QJsonObject BlockManager::createBlock(QString prevBlockHash,
     nonce;
     transaction;
     block;*/
-    QByteArray as;
-    as = QCryptographicHash::hash(minerAddress,
-                                  QCryptographicHash::Sha3_256);
-    qDebug() <<  "Hex: " << as.toHex();
-    qDebug() << "Int: " << as.toHex().toInt();
-    QString MyHexString ="AF5603B4";
-    QByteArray cmd = QByteArray::fromHex(MyHexString.toUtf8());
-    if (as > QByteArray::fromHex(QString("00000000000000000021cee1e8097955acd09dddf9743e66cb0bb4a4de07fff2").toUtf8()))
-    {
-        qDebug() << "Yep";
-    }
 
     // first coinbase tx (block reward)
     QJsonObject coinbase = TransactionManager::createCoinbaseTransaction(minerAddress,
@@ -46,9 +35,9 @@ QJsonObject BlockManager::createBlock(QString prevBlockHash,
     block["prev_block"] = prevBlockHash;
     block["merkle_root"] = QString::fromLatin1(getMerkleRoot(transactions).toBase64());
 
-    QDateTime dt;
-    block["time"] = dt.toMSecsSinceEpoch();
-    qDebug() << dt.toMSecsSinceEpoch();
+    int time = QDateTime::currentDateTimeUtc().toTime_t();
+    block["time"] = time;
+    qDebug() << "currentDateTimeUtc().toTime_t()" << QDateTime::currentDateTimeUtc().toTime_t();
 
     block["height"] = height+1;
     block["difficulty"] = difficulty; // number of zeros (hash should be less, than target) (in miner we create bytearray full of zeros and then put 1 at difficulty position)
@@ -69,8 +58,71 @@ QJsonObject BlockManager::createBlock(QString prevBlockHash,
 
 bool BlockManager::checkBlock(QJsonObject block)
 {
-    // проверить блок (поля)
-    throw std::runtime_error("error");
+    // проверить поля блока
+    /*
+    проверить поля
+    проверить сигнатуру
+    проверить транзакции
+    */
+    // get hash and drop
+
+    // CHECK HASH
+    QString hashFromBlock = block["hash"].toString();
+    block.remove(QString("hash"));
+    qDebug() << "HASH!!!";
+    qDebug() << hashFromBlock;
+    QJsonDocument blockDoc(block);
+
+    QByteArray hash = QCryptographicHash::hash(blockDoc.toJson(), QCryptographicHash::Sha3_256);
+
+    if (hashFromBlock != QString(hash.toHex()))
+    {
+        throw std::runtime_error("Hash is not valid");
+    }
+    else
+    {
+        qDebug() << "Hash is valid";
+    }
+
+    // CHECK MERKLE ROOT
+    QJsonArray array = block["txs"].toArray();
+    QList<QJsonObject> txs;
+    for (auto tx : array){
+        txs.append(tx.toObject());
+    }
+    QByteArray merkleRoot = getMerkleRoot(txs);
+
+
+    qDebug() << "MERKLE!!!";
+    qDebug() << block["merkle_root"].toString();
+    qDebug() << QString::fromLatin1(merkleRoot.toBase64());
+    if (block["merkle_root"].toString() != QString::fromLatin1(merkleRoot.toBase64()))
+    {
+        throw std::runtime_error("Merkle root is not valid");
+    }
+    else
+    {
+        qDebug() << "Merkle root is valid";
+    }
+
+    // CHECK DIFFICULTY
+    int difficulty = block["difficulty"].toInt();
+    QString targetStr = QString(64, QChar('0'));
+    targetStr.replace(difficulty, 1, "1");
+
+    qDebug() << "Difficulty: " << difficulty << " targetStr: " << targetStr;
+
+    QByteArray target = QByteArray::fromHex(targetStr.toUtf8());
+
+    if (hash >= target)
+    {
+        throw std::runtime_error("Hash hasn't needed difficulty");
+    }
+    else
+    {
+        qDebug() << "Hash have needed difficulty";
+    }
+
     return false;
 }
 
@@ -116,26 +168,26 @@ QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
 
 double BlockManager::getCoinbaseReward(int blockchainHeight)
 {
-    // block reward half every 300,000 blocks
-    int interval = 4;//00000;
+    // block reward half every 400,000 blocks
+    int interval = 400000;
     double reward = 0;
-    while (1)
-    {
+    /*while (1)
+    {*/
     int halvings = blockchainHeight / interval;
 
     // ДО ПЯТИ НУЛЕЙ
-    if (halvings >= 19){break;}
-        //return 0;
+    if (halvings >= 19){return 0;}
+
     double subsidy = 50;
 
 //    subsidy >>= halvings;
     for (int i = 0; i < halvings; i++)
         subsidy /= 2;
 
-    blockchainHeight++;
+    //blockchainHeight++;
     //
     qDebug() << (((float)((int)((subsidy) * (100000) ) ) / (100000) ) );
-    }
+//    }
     return reward;
 }
 

@@ -7,6 +7,7 @@
 #include <QHostAddress>
 #include <QTcpSocket>
 #include <QMessageBox>
+#include <QClipboard>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,13 +16,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setFixedSize(width(), height());
 
-    ui->statusBar->showMessage("Out of syns");
+    //ui->statusBar->showMessage("Out of syns");
 
     ui->statusBarIconNetwork->setToolTip(tr("net1"));
     ui->statusBar->addPermanentWidget(ui->statusBarIconNetwork);
     ui->addressRP->setText("Address is not generated yet");
 
+    ui->tableWidget->setColumnWidth(0,65);
+    ui->tableWidget->setColumnWidth(1,300);
+    ui->tableWidget->setColumnWidth(2,310);
+    ui->tableWidget->setColumnWidth(3,65);
+    ui->tableWidget->setColumnWidth(4,55);
+    ui->tableWidget->horizontalHeader()->show();
 
+    load(); // load settings
+    uniCoin.load(); // read the rest data
     /*
     load wallet
     load information from wallet
@@ -56,12 +65,13 @@ void MainWindow::on_pushButton_send_clicked()
 
 }
 
-void MainWindow::newData(const MessageType &type, const QString &data)
+void MainWindow::newData(const DataType &type, const QString &data)
 {
 
 }
 
-void MainWindow::newRequest(const MessageType &type, const QString &data, Connection *connection)
+void MainWindow::newRequest(const DataType &type, const QString &data,
+                            Connection *connection)
 {
 
 }
@@ -122,19 +132,9 @@ void MainWindow::on_actionhistory_triggered()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_actionminer_triggered()
-{
-    ui->stackedWidget->setCurrentIndex(3);
-}
-
-void MainWindow::on_actiondatabase_triggered()
-{
-    ui->stackedWidget->setCurrentIndex(4);
-}
-
 void MainWindow::on_actionnetwork_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -217,11 +217,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     // save necessary data
     // save settings
+    save();
     // save wallet
     // save blockchainstate (refreshwhen new block is added or smt changed)
     // save unconfirmed
     // save unspent
-    //
+    uniCoin.save();
+
+    // close program
     event->accept();
 }
 
@@ -239,12 +242,36 @@ void MainWindow::updateAddress()
 
     // copy to clipboard
     //QMessageBox msgBox;
-    QMessageBox::warning(this, "IMPORTANT", QString("You should save it! Without this information you cannot use your money.\n"
-                                            "Your private key: %1\n"
-                                            "Your address: %2").arg(priv, addr));
+    QMessageBox::warning(this, "IMPORTANT",
+                         QString("You should save it! Without this information "
+                                 "you cannot use your money.\n"
+                                 "Your private key: %1\n"
+                                 "Your address: %2\n"
+                                 "After you click ok, private key will be saved"
+                                 " into clipboard").arg(priv, addr));
     // update information
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(priv);
+
     ui->addressRP->setText(addr);
     ui->balanceAmountWP->setText(QString::number(balance));
     // unconfirmed
     // history
+}
+
+void MainWindow::save()
+{
+    // save settings
+}
+
+void MainWindow::load()
+{
+    // load settings
+}
+
+void MainWindow::on_copyClipboard_clicked()
+{
+    QString addr = uniCoin.getAddress();
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(addr);
 }

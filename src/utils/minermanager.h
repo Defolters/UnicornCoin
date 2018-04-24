@@ -35,6 +35,16 @@ public:
     void stopMining();
 
     //!
+    //! \brief save
+    //!
+    void save();
+
+    //!
+    //! \brief load
+    //!
+    void load();
+
+    //!
     //! \brief Overrided method of QThread
     //!
     virtual void run() override;

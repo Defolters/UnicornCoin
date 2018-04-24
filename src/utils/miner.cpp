@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QString>
 #include <limits>
+#include <QFile>
 
 Miner::Miner(QJsonObject block) : block(block), stopFlag(false)
 {
@@ -34,14 +35,31 @@ void Miner::run()
 
         hash = QCryptographicHash::hash(blockDoc.toJson(), QCryptographicHash::Sha3_256);
 
-//        qDebug() << "Hash: " << hash.toHex();
-        // проверить хэш
 
+        // проверить хэш
         if (hash < target)
         {
             qDebug() << "Nonce found!!! Hash: " << hash.toHex() << "time: " << timer.elapsed()*0.001 << " nonce: " << block["nonce"].toInt();
 
-            block["hash"] = QString::fromLatin1(hash.toBase64());
+            //block["hash"] = QString::fromLatin1(hash.toBase64());
+            block["hash"] = QString(hash.toHex());
+
+            QByteArray hashh = QByteArray::fromHex(block["hash"].toString().toUtf8());
+            if(hash == hashh){qDebug() << "YEEEEE IT WORKS";}
+            // DEBUG
+            qDebug() << block;
+
+            QJsonDocument doc(block);
+            QFile file("block0.dat");
+
+            if(file.open(QIODevice::WriteOnly)){
+                qDebug() << "\nWriting into file..";
+                file.write(doc.toJson());
+                file.close();
+            }
+
+            //DEBUG
+
             emit newBlock(block);
             break;
         }

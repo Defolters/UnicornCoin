@@ -7,7 +7,7 @@
 #include <QTime>
 #include <QTimer>
 
-#include "utils/messagetype.h"
+#include "utils/datatype.h"
 
 //static const int MaxBufferSize = 1024000;  //!<
 
@@ -20,7 +20,7 @@ class Connection : public QTcpSocket
     Q_OBJECT
 
 public:
-    //! An enum MessageType.
+    //! An enum DataType.
     enum class ConnectionState {
         CONNECTED, /*!< Waiting for version message to establish connection */
 //        WAITING,  /*!< Waiting for verack (answer for our version message) */
@@ -35,7 +35,7 @@ public:
     //! \param data
     //! \return
     //!
-    bool sendMessage(const MessageType type, const QByteArray &data);
+    bool sendMessage(const DataType type, const QByteArray &data);
 
 signals:
     //!
@@ -48,7 +48,7 @@ signals:
     //! \param type
     //! \param data
     //!
-    void newMessage(const MessageType type, const QByteArray &data);
+    void newMessage(const DataType type, const QByteArray &data);
 
 protected:
     //! I don't know the purpose of it
@@ -98,7 +98,7 @@ private:
     ConnectionState connectionState;
 
     //! Type of recieved data
-    MessageType currentDataType;
+    DataType currentDataType;
 };
 
 #endif // CONNECTION_H

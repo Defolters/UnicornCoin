@@ -5,25 +5,25 @@
 UnicornCoin::UnicornCoin(QObject *parent) :
     QObject(parent),
     wallet(new Wallet(this)),
-    tcpsocket(nullptr),
     con(nullptr),
     blockchain(new Blockchain()),
     unconfirmed(new UnconfirmedPool())
 {
     wallet->load();
     minerManager = new MinerManager(blockchain, unconfirmed);
-    // CREATE TEST FIRST BLOCK
+    // CREATE FIRST BLOCK BY HAND AND PUT IT INTO BLOCKCHAIN
 
-    QByteArray recipient = QByteArray::fromBase64(QString("YZMFC6IDNEDUH25BGRDFYZXICIHXWZDAIJQ65RA").toLatin1());
+    QByteArray recipient = QByteArray::fromBase64(QString("59ADCRSEDPT6JMRSUI3F6FWNVM63P9P7ZKMGICI").toLatin1());
 
     // first difficulty is equal to 1
     QList<QJsonObject> list;
-    QJsonObject block = BlockManager::createBlock(blockchain->getLastBlockHash(),
+    //59ADCRSEDPT6JMRSUI3F6FWNVM63P9P7ZKMGICI
+    QJsonObject block = BlockManager::createBlock(blockchain->getBlockHash(-1),
                                                   recipient,
                                                   list,
-                                                  0,
+                                                  -1,
                                                   1);
-    processBlock(block);
+    //processBlock(block);
 
     Miner *m_miner = new Miner(block);
 
@@ -41,16 +41,16 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     mineManager->moveToThread(mineManager);
     mineManager->run();
     mineManager->setUnconfirmed(unconfirmed);*/
-    /*connect(&client, SIGNAL(newData(MessageType,QString)),
-            this, SLOT(newData(MessageType,QString)));
-    connect(&client, SIGNAL(newRequest(MessageType,QString,Connection*)),
-            this, SLOT(newRequest(MessageType,QString,Connection*)));
+    /*connect(&client, SIGNAL(newData(DataType,QString)),
+            this, SLOT(newData(DataType,QString)));
+    connect(&client, SIGNAL(newRequest(DataType,QString,Connection*)),
+            this, SLOT(newRequest(DataType,QString,Connection*)));
     connect(&client,     SIGNAL(networkPage(int)),
             this, SLOT(networkPage(int)));*/
-    connect(&client, SIGNAL(newData(MessageType,QByteArray)),
-            this, SLOT(processData(MessageType,QByteArray)));
-    connect(&client, SIGNAL(newRequest(MessageType,QByteArray,Connection*)),
-            this, SLOT(processRequest(MessageType,QByteArray,Connection*)));
+    connect(&client, SIGNAL(newData(DataType,QByteArray)),
+            this, SLOT(processData(DataType,QByteArray)));
+    connect(&client, SIGNAL(newRequest(DataType,QByteArray,Connection*)),
+            this, SLOT(processRequest(DataType,QByteArray,Connection*)));
     connect(minerManager, SIGNAL(newBlock(QJsonObject)),
             this, SLOT(processBlock(QJsonObject)));
     //symbol \ for new line of code
@@ -60,7 +60,7 @@ void UnicornCoin::sendData(const QByteArray &data)
 {
     if (con != nullptr)
     {
-        con->sendMessage(MessageType::TX, data);
+        con->sendMessage(DataType::TX, data);
     }
     else
     {
@@ -68,7 +68,7 @@ void UnicornCoin::sendData(const QByteArray &data)
     }
 }
 
-void UnicornCoin::sendData(const MessageType &type, const QByteArray &data)
+void UnicornCoin::sendData(const DataType &type, const QByteArray &data)
 {
     client.sendData(type, data);
 }
@@ -159,9 +159,11 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
         throw std::runtime_error("Address is wrong, try another");
     }
 
-    QJsonObject tx = txManager.createNewTransaction(listOfOutputs, recipientAddr,
-                                                    wallet->getPrivateKey(), wallet->getPublicKey(),
-                                                    wallet->getAddress(), amount, fee, message);
+    QJsonObject tx = TransactionManager::createNewTransaction(listOfOutputs, recipientAddr,
+                                                    wallet->getPrivateKey(),
+                                                    wallet->getPublicKey(),
+                                                    wallet->getAddress(),
+                                                    amount, fee, message);
 
     qDebug()<<"Size of tx class: "<< sizeof(tx);
 
@@ -202,24 +204,38 @@ QString UnicornCoin::getAddress()
     return base32::toBase32(wallet->getAddress());
 }
 
+void UnicornCoin::save()
+{
+    // save data from unicorn + other classes
+    client.save();
+    wallet->save();
+    minerManager->save();
+    blockchain->save();
+    //unconfirmed->save();
+}
+
+void UnicornCoin::load()
+{
+    // load data to unicorn + other classes
+}
+
 void UnicornCoin::processBlock(QJsonObject block)
 {
     // проверить блок и все транзакции (они валидны и потрачены правильно (с ссылками на правильные оутпуты))
     // если правильно, то добавить в блокчейн, а он сам все транзакции реаспределит как надо
     try
     {
-        BlockManager::checkBlock(block); // провер€ем на правильность пол€
+        // удал€€ хэш, удал€ем ли мы его насовсем?
+        BlockManager::checkBlock(block); // провер€ем на правильность пол€ (деньги непотрачены, все правильно)
         blockchain->addBlock(block); // провер€ем аутпуты и распредел€ем транзкации по контейнерам
-
+        // рассказать другим
+        QJsonDocument blockDoc(block);
+        this->sendData(DataType::BLOCK, blockDoc.toJson());
     }
-    catch(...)
+    catch(std::runtime_error ex)
     {
-
+        qDebug() << ex.what();
     }
-
-    // рассказать другим
-    QJsonDocument blockDoc(block);
-    this->sendData(MessageType::BLOCK, blockDoc.toJson());
 }
 
 void UnicornCoin::processTransaction(QJsonObject tx)
@@ -237,15 +253,15 @@ void UnicornCoin::processTransaction(QJsonObject tx)
 
     // рассказать другим
     QJsonDocument txDoc(tx);
-    this->sendData(MessageType::TX, txDoc.toJson());
+    this->sendData(DataType::TX, txDoc.toJson());
 }
 
-void UnicornCoin::processData(const MessageType &type, const QByteArray &data)
+void UnicornCoin::processData(const DataType &type, const QByteArray &data)
 {
     // process type and data
 }
 
-void UnicornCoin::processRequest(const MessageType &type, const QByteArray &data, Connection *connection)
+void UnicornCoin::processRequest(const DataType &type, const QByteArray &data, Connection *connection)
 {
  //process type and data and then send back
 }

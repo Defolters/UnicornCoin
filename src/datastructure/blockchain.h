@@ -24,6 +24,7 @@ public:
 
     //!
     //! \brief Method save blockchain into file
+    //! Saves blockchain (info+hashes), blocks and unspent into file
     //!
     void save();
 
@@ -57,7 +58,20 @@ public:
     //! \brief Method returns hash of last block in blockchain
     //! \return
     //!
-    QString getLastBlockHash();
+    QString getBlockHash(int block);
+
+    //!
+    //! \brief Checks whether transactions are valid
+    //! Method is working?
+    //! \param block
+    //!
+    void checkBlock(QJsonObject block);
+
+    //!
+    //! \brief Puts outputs into unspent and delete inputs
+    //! \param block
+    //!
+    void processBlock(QJsonObject block);
 
 private:
     //! Blockchain which contains blocks

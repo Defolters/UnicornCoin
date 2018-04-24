@@ -12,7 +12,7 @@ Connection::Connection(QObject *parent)
     : QTcpSocket(parent)
 {
     connectionState = ConnectionState::CONNECTED;
-    currentDataType = MessageType::UNDEFINED;
+    currentDataType = DataType::UNDEFINED;
     isVersionSend = false;
 
 //    transferTimerId = 0;
@@ -24,7 +24,7 @@ Connection::Connection(QObject *parent)
     QObject::connect(this, SIGNAL(connected()),this, SLOT(sendVersion())); // when we connected to new server, send version message
 }
 
-bool Connection::sendMessage(const MessageType type, const QByteArray &data)
+bool Connection::sendMessage(const DataType type, const QByteArray &data)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
@@ -33,7 +33,7 @@ bool Connection::sendMessage(const MessageType type, const QByteArray &data)
         return false;*/
 
     // SIZE#TYPE#SIZEOFDATA#DATA#SIZEOFHASH#HASHOFDATA
-    QByteArray typeM = messageTypeStr.at(static_cast<unsigned int>(type)).toUtf8();
+    QByteArray typeM = dataTypeStr.at(static_cast<unsigned int>(type)).toUtf8();
     //QByteArray dat = data.toUtf8();
     QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
     QByteArray raw = QByteArray::number(typeM.size()) + "#" + typeM + "#" +
@@ -129,7 +129,7 @@ void Connection::sendPing()
         return;
     }
 
-    sendMessage(MessageType::PING, "Are you alive?");
+    sendMessage(DataType::PING, "Are you alive?");
 }
 
 void Connection::readNewData()
@@ -160,8 +160,8 @@ void Connection::readNewData()
 #ifdef DEBUG
     qDebug() << size << " " << md5;
 #endif
-    int indexOfType = messageTypeStr.indexOf(QString::fromUtf8(type));
-    currentDataType = static_cast<MessageType>(indexOfType);
+    int indexOfType = dataTypeStr.indexOf(QString::fromUtf8(type));
+    currentDataType = static_cast<DataType>(indexOfType);
 #ifdef DEBUG
     qDebug() << indexOfType;
 #endif
@@ -214,7 +214,7 @@ void Connection::sendVersion()
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
 #endif
-    MessageType type;
+    DataType type;
 
     if (isVersionSend || (currentDataType == VERSION))
     {

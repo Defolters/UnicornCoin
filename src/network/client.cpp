@@ -40,7 +40,7 @@ Client::Client()
     }
 }
 
-void Client::sendData(const MessageType &type, const QByteArray &data)
+void Client::sendData(const DataType &type, const QByteArray &data)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
@@ -87,6 +87,16 @@ void Client::connectToNodes(const QString &addresses)
     }
 }
 
+void Client::save()
+{
+
+}
+
+void Client::load()
+{
+
+}
+
 void Client::newConnection(Connection *connection)
 {
 #ifdef DEBUG
@@ -112,19 +122,19 @@ void Client::readyForUse()
     if (!connection || hasConnection(connection->peerAddress()))
         return;
 
-    connect(connection, SIGNAL(newMessage(MessageType,QByteArray)),
-            this, SLOT(processData(MessageType,QByteArray)));
+    connect(connection, SIGNAL(newMessage(DataType,QByteArray)),
+            this, SLOT(processData(DataType,QByteArray)));
     peers.insert(connection->peerAddress().toString(), connection);
 
     emit networkPage(peers.size());
 }
 
-void Client::processData(const MessageType &type, const QByteArray &data)
+void Client::processData(const DataType &type, const QByteArray &data)
 {
 #ifdef DEBUG
     qDebug() << Q_FUNC_INFO;
 #endif
-    typedef MessageType MT;
+    typedef DataType MT;
 
     QList<MT> dataType;
     QList<MT> requestType;
@@ -198,7 +208,7 @@ void Client::getAddr()
         file.write(addresses.toUtf8());
     }
 
-    sendMessage(MessageType::GETADDR, "ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю");//"ОНДЕКХЯЭ РЕКЕТНМВХЙЮЛХ ДПСГЪЬЕЙ");
+    sendData(DataType::GETADDR, "ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю ERROR ньхайю");
 }
 
 void Client::removeConnection(Connection *connection)

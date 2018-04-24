@@ -10,6 +10,10 @@ namespace Ui {
 class MainWindow;
 }
 
+/**
+ * \brief The MainWindow class
+ * GUI implementation of program
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -32,7 +36,7 @@ private slots:
     //! \param type
     //! \param data
     //!
-    void newData(const MessageType &type, const QString &data);
+    void newData(const DataType &type, const QString &data);
 
     //!
     //! \brief Slot processes new reqest
@@ -40,7 +44,8 @@ private slots:
     //! \param data
     //! \param connection
     //!
-    void newRequest(const MessageType &type, const QString &data, Connection *connection);
+    void newRequest(const DataType &type, const QString &data,
+                    Connection *connection);
 
     //!
     //! \brief existingPrivate
@@ -52,13 +57,9 @@ private slots:
 
     void on_actionwallet_triggered();
 
-    void on_actionminer_triggered();
-
     void on_actionsend_triggered();
 
     void on_actionhistory_triggered();
-
-    void on_actiondatabase_triggered();
 
     void on_pushButton_2_clicked();
 
@@ -72,6 +73,8 @@ private slots:
 
     void on_addExistingAddressRP_clicked();
 
+    void on_copyClipboard_clicked();
+
 protected:
     //!
     //! \brief closeEvent
@@ -84,6 +87,16 @@ private:
     //! \brief updateAddress
     //!
     void updateAddress();
+
+    //!
+    //! \brief Method saves settings of application
+    //!
+    void save();
+
+    //!
+    //! \brief Method loads settings of application
+    //!
+    void load();
 
     //!
     Ui::MainWindow *ui;

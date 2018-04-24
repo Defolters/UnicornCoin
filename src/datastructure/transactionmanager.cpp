@@ -25,7 +25,8 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
 
     // ¬ј∆Ќјя „ј—“№ (перенести в input дл€ будущего)
     tx["pubkey"] = QString::fromLatin1(publicKey.toBase64());
-
+    qDebug() << "pbkey" << QString::fromLatin1(publicKey.toBase64());
+    qDebug() << "public data key" << publicKey;
 
     QJsonArray in;
 
@@ -71,6 +72,7 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     QJsonDocument txJD(tx);
 
     QByteArray signature = signTransaction(txJD.toJson(), privateKey);
+    qDebug() << "tx dataForSig: " << txJD.toJson();
     qDebug() << "signa: " << signature;
     // in string and reverse
     QString signastr = QString::fromLatin1(signature.toBase64());
@@ -188,8 +190,10 @@ bool TransactionManager::verifyTransaction(QJsonObject tx)
 
     // получаем сигнатуру из транзакции
     QByteArray signature = QByteArray::fromBase64(tx["signature"].toString().toLatin1());
+    qDebug() << "verify signa: " << signature;
     // получаем публичный ключ
     QByteArray pubKey = QByteArray::fromBase64(tx["pubkey"].toString().toLatin1());
+    qDebug() << "verify pub: " << pubKey;
     // копируем транзакцию
     QJsonObject txForVerifying = tx;
     txForVerifying.remove(QString("signature"));
@@ -197,6 +201,10 @@ bool TransactionManager::verifyTransaction(QJsonObject tx)
     // переводим в bytearray
     QJsonDocument txJD(txForVerifying);
     QByteArray dataForSign = txJD.toJson();
+
+    qDebug() << "verify dataForSig: " << dataForSign;
+
+    qDebug() << "pbkey" << pubKey;
 
 
     CryptoPP::AutoSeededRandomPool autoSeededRandomPool;

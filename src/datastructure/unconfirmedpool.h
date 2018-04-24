@@ -52,6 +52,7 @@ public:
 
     //!
     //! \brief Method saves data into file
+    //! Saves unconfirmedPool into file
     //!
     void save();
 

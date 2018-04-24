@@ -47,16 +47,17 @@ void Miner::run()
             QByteArray hashh = QByteArray::fromHex(block["hash"].toString().toUtf8());
             if(hash == hashh){qDebug() << "YEEEEE IT WORKS";}
             // DEBUG
-            qDebug() << block;
+            /*qDebug() << block;
 
             QJsonDocument doc(block);
             QFile file("block0.dat");
 
             if(file.open(QIODevice::WriteOnly)){
                 qDebug() << "\nWriting into file..";
-                file.write(doc.toJson());
+                QString out = doc.toJson();
+                file.write(out.toUtf8());
                 file.close();
-            }
+            }*/
 
             //DEBUG
 

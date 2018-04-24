@@ -22,7 +22,7 @@ void Blockchain::addBlock(QJsonObject block)
 
     qDebug() << "HaSh: "<<hash;
     // if not 0 block
-    if (hash != QString("HEX"))
+    if (hash != QString("002eec295dad93f0c31fb3a0a7b4121128091e8f6824e9a1b45cad1150cd5804"))
     {
         checkBlock(block);
     }

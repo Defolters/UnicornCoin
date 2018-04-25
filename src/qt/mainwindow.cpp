@@ -174,6 +174,7 @@ void MainWindow::on_createTransaction_clicked()
     try
     {
         uniCoin.createNewTransaction(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value(), ui->messageSP->text());
+        QMessageBox::information(this, "INFO", QString("Transanction was created"));
     }
     catch (std::runtime_error ex)
     {
@@ -185,8 +186,9 @@ void MainWindow::on_createTransaction_clicked()
         // save state into file and exit
         exit(1);
     }
+
     ui->tableWidget->insertRow(0);
-    ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(QString::number(wow++)));
+    ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(QString::number(wow++))); // add data
     ui->tableWidget->setItem( 0, 1, new QTableWidgetItem(ui->addressSP->text()));
     ui->tableWidget->setItem( 0, 2, new QTableWidgetItem(ui->messageSP->text()));
     ui->tableWidget->setItem( 0, 3, new QTableWidgetItem(QString::number(ui->amountSP->value())));

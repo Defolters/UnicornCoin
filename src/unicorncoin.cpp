@@ -189,7 +189,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     qDebug()<<"Size of tx class: "<< sizeof(tx);
 
     // добавляем в unconfirmed и рассылаем другим людям
-
+    emit newBalance(wallet->getBalance(),wallet->getUnconfirmed());
     //client.sendMessage();
     processTransaction(tx);
 }
@@ -254,7 +254,7 @@ void UnicornCoin::processBlock(QJsonObject block)
         {
             QString add = base32::toBase32(wallet->getAddress());
             wallet->setUnspent(blockchain->getMyUnspent(add));
-            emit newBalance(wallet->getBalance(),0);
+            emit newBalance(wallet->getBalance(),wallet->getUnconfirmed());
         }
         QList<QJsonObject> confirmed;
         QJsonArray blocks = block["txs"].toArray();

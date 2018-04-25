@@ -78,6 +78,10 @@ void Wallet::setBalance(double balance)
 
 QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удалится ли содержимое?
 {
+    if (amount > balance){
+        throw std::runtime_error("Not enough money in wallet");
+    }
+
     QList<QJsonObject> listOfOutputs;
     double amountFromUnspent = 0;
 
@@ -115,6 +119,9 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
         throw std::runtime_error("Not enough money in wallet");
     }
 
+    this->balance -= amount;
+    this->unconfirmed += amount;
+
     return listOfOutputs;
 }
 
@@ -147,6 +154,7 @@ void Wallet::setUnspent(QHash<QString, QPair<QJsonObject, QList<int>>> unspent)
     }
 
     this->balance = balance;
+    this->unconfirmed=0;
 }
 
 QList<QJsonObject> Wallet::getHistory() const
@@ -157,6 +165,11 @@ QList<QJsonObject> Wallet::getHistory() const
 double Wallet::getBalance() const
 {
     return balance;
+}
+
+double Wallet::getUnconfirmed() const
+{
+    return unconfirmed;
 }
 
 QByteArray Wallet::getPrivateKey() const

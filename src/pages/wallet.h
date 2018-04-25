@@ -86,6 +86,8 @@ public:
     //!
     double getBalance() const;
 
+    double getUnconfirmed() const;
+
     //!
     //! \brief getPrivateKey
     //! \return

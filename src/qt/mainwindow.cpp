@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     load(); // load settings
     uniCoin.load(); // read the rest data
+    connect(&uniCoin, SIGNAL(newBalance(double,double)), this, SLOT(newBalance(double, double)));
+
     /*
     load wallet
     load information from wallet
@@ -274,4 +276,10 @@ void MainWindow::on_copyClipboard_clicked()
     QString addr = uniCoin.getAddress();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(addr);
+}
+
+void MainWindow::newBalance(double balance, double unconfirmed)
+{
+    ui->balanceAmountWP->setText(QString::number(balance));
+    ui->unconfirmedAmountrWP->setText(QString::number(unconfirmed));
 }

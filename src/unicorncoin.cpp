@@ -11,6 +11,7 @@ UnicornCoin::UnicornCoin(QObject *parent) :
 {
     wallet->load();
     minerManager = new MinerManager(blockchain, unconfirmed);
+    minerManager->setMinerAddress(QString("59ADCRSEDPT6JMRSUI3F6FWNVM63P9P7ZKMGICI"));
     // CREATE FIRST BLOCK BY HAND AND PUT IT INTO BLOCKCHAIN
     /*QJsonObject block;
 
@@ -65,6 +66,9 @@ UnicornCoin::UnicornCoin(QObject *parent) :
             this, SLOT(processRequest(DataType,QByteArray,Connection*)));
     connect(minerManager, SIGNAL(newBlock(QJsonObject)),
             this, SLOT(processBlock(QJsonObject)));
+
+    minerManager->moveToThread(minerManager);
+    minerManager->start();
     //symbol \ for new line of code
 }
 
@@ -233,6 +237,7 @@ void UnicornCoin::load()
 
 void UnicornCoin::processBlock(QJsonObject block)
 {
+    qDebug() << Q_FUNC_INFO;
     // проверить блок и все транзакции (они валидны и потрачены правильно (с ссылками на правильные оутпуты))
     // если правильно, то добавить в блокчейн, а он сам все транзакции реаспределит как надо
     try
@@ -240,6 +245,13 @@ void UnicornCoin::processBlock(QJsonObject block)
         // удал€€ хэш, удал€ем ли мы его насовсем?
         BlockManager::checkBlock(block); // провер€ем на правильность пол€ (деньги непотрачены, все правильно)
         blockchain->addBlock(block); // провер€ем аутпуты и распредел€ем транзкации по контейнерам
+        if (wallet->isKeySet())
+        {
+            QString add = base32::toBase32(wallet->getAddress());
+            wallet->setUnspent(blockchain->getMyUnspent(add));
+            emit newBalance(wallet->getBalance(),0);
+        }
+
         // рассказать другим
         QJsonDocument blockDoc(block);
         this->sendData(DataType::BLOCK, blockDoc.toJson());

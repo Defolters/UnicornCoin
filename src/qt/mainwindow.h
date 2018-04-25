@@ -75,6 +75,8 @@ private slots:
 
     void on_copyClipboard_clicked();
 
+    void newBalance(double balance, double unconfirmed);
+
 protected:
     //!
     //! \brief closeEvent

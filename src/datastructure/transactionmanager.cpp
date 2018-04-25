@@ -33,9 +33,11 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     for (int i =0;i<inputs.size();i++)
     {
         QJsonObject input;
-        input["value"] = inputs.at(i)["value"];
-        // hash and number of output
+        input["value"] = inputs.at(i)["value"].toInt();
         input["pubkey"] = QString::fromLatin1(publicKey.toBase64());
+        // hash and number of output
+        input["hash"] = inputs.at(i)["hash"].toString();
+        input["index"] = inputs.at(i)["index"].toInt();
 
         in << input;
     }
@@ -45,7 +47,7 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromLatin1(recipient.toBase64());
+    output["recipient"] = QString::fromLatin1(recipient.toBase64()).remove(QString::fromLatin1(recipient.toBase64()).size()-1,1);
 
     out << output;
     // if sum of inputs > amount + fee
@@ -61,7 +63,7 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     {
         QJsonObject remains;
         remains["value"] = sum - (amount+fee);
-        remains["recipient"] = QString::fromLatin1(address.toBase64());
+        remains["recipient"] = QString::fromLatin1(address.toBase64()).remove(QString::fromLatin1(address.toBase64()).size()-1,1);
 
         out << remains;
     }
@@ -115,10 +117,26 @@ QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromLatin1(recipient.toBase64());
+    output["recipient"] = QString::fromLatin1(recipient.toBase64()).remove(QString::fromLatin1(recipient.toBase64()).size()-1,1);
     out << output;
 
     tx["out"] = out;
+
+    qDebug() << "MINERADDRESS TXMANAGER" << QString::fromLatin1(recipient.toBase64()).remove(QString::fromLatin1(recipient.toBase64()).size()-1,1);
+
+    QJsonDocument txJD(tx);
+
+    QByteArray signature = signTransaction(txJD.toJson(), QByteArray("0",1));
+    qDebug() << "tx dataForSig: " << txJD.toJson();
+    qDebug() << "signa: " << signature;
+    // in string and reverse
+    QString signastr = QString::fromLatin1(signature.toBase64());
+    qDebug() << "signastr: " << signastr;
+    QByteArray fromstring = QByteArray::fromBase64(signastr.toLatin1());
+    qDebug() << "fromstring: " << fromstring;
+
+    tx["signature"] = QString::fromLatin1(signature.toBase64());
+
 
 
     QJsonDocument txret(tx);

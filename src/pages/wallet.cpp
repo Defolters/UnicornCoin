@@ -81,6 +81,7 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
     QList<QJsonObject> listOfOutputs;
     double amountFromUnspent = 0;
 
+    // hash of tx, <tx, outputs>
     QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(myUnspent);
     while (iter.hasNext())
     {
@@ -129,6 +130,23 @@ void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray add
 void Wallet::setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent)
 {
     this->myUnspent = unspent;
+    //count money
+    qDebug() << "UNSPENT" << unspent;
+    balance = 0;
+    QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(unspent);
+    while (iter.hasNext())
+    {
+        iter.next();
+
+        QJsonObject tx = iter.value().first;
+
+        for (int index : iter.value().second)
+        {
+            balance += tx["out"].toArray()[index].toObject()["value"].toDouble();
+        }
+    }
+
+    this->balance = balance;
 }
 
 QList<QJsonObject> Wallet::getHistory() const

@@ -25,6 +25,8 @@ public:
     //!
     void forceStop();
 
+    QJsonObject mineBlock(QJsonObject);
+
 signals:
     //!
     //! \brief Signal is emitted when nonce is found

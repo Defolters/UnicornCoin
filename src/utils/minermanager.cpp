@@ -8,6 +8,14 @@ MinerManager::MinerManager(Blockchain *blockchain, UnconfirmedPool *unconfirmedP
 {
 }
 
+void MinerManager::setMinerAddress(QString address)
+{
+    minerAddress = QByteArray::fromBase64(address.toLatin1());
+    qDebug() << "MINERADDRESS" << address.size();
+    qDebug() << minerAddress;
+    qDebug() << QString::fromLatin1(minerAddress.toBase64()).remove(QString::fromLatin1(minerAddress.toBase64()).size()-1,1);
+}
+
 void MinerManager::startMining()
 {
     qDebug() << Q_FUNC_INFO;
@@ -36,6 +44,7 @@ void MinerManager::load()
 
 void MinerManager::run()
 {
+    Miner *m_miner;
     while(1)
     {
         // create list of txs when we have enough txs ??
@@ -48,12 +57,19 @@ void MinerManager::run()
                                           blockchain->getDifficulty());
         // run miner
         // block to solve, begin, end
-        Miner *m_miner = new Miner(block);
-        m_miner->moveToThread(m_miner);
-        m_miner->start();
+         m_miner = new Miner(block);
+
+        connect(m_miner, SIGNAL(newBlock(QJsonObject)), this, SIGNAL(newBlock(QJsonObject)));
+
+        //m_miner->moveToThread(m_miner);
+        //m_miner->start();
+        QJsonObject blk = m_miner->mineBlock(block);
+        emit newBlock(blk);
+        //m_miner->wait(60000);
+        //m_miner->exec();
         // how miner will emit new block
         // emit newBlock
-
-
+        sleep(60);
     }
 }
+

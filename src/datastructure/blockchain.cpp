@@ -28,30 +28,9 @@ void Blockchain::addBlock(QJsonObject block)
     }
 
     processBlock(block);
-    /*
-    // проверить блок
-    blockchain.append(block);
 
-    // достать из блока транзакции и проверить их
-    QJsonArray array = block["txs"].toArray();
-    //QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent;
-    for (auto jsonval : array)
-    {
-        QJsonObject tx = jsonval.toObject();
-        //myUnspent.append(tx.toObject());
-        QPair<QJsonObject, QList<int>> unspentPair;
-
-        unspentPair.first = tx;
-
-        for (int i =0; i < tx["out"].toArray().size(); i++)
-        {
-            unspentPair.second.append(i);
-        }
-
-        unspent[QByteArray::fromBase64(tx["hash"].toString().toLatin1())] = unspentPair;
-    }
-    */
-
+    qDebug() << "blockchain";
+    qDebug() << blockchain;
 }
 
 void Blockchain::save()
@@ -63,6 +42,7 @@ void Blockchain::save()
 
 QHash<QByteArray, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QString address)
 {
+    // hash of tx, <tx, my outputs>
     QHash<QByteArray, QPair<QJsonObject, QList<int> > > myUnspent;
 
     QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(unspent);
@@ -76,7 +56,7 @@ QHash<QByteArray, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QSt
 
         for (int i = 0; i< outputs.size(); i++)
         {
-            //if in list
+            //if output is unspent
             if (!iter.value().second.contains(i))
                 continue;
 
@@ -98,13 +78,13 @@ QHash<QByteArray, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QSt
         //cout << i.key() << ": " << i.value() << endl;
 
     }
-
+    qDebug() << "MOIUNSPENT" << myUnspent;
     return myUnspent;
 }
 
 int Blockchain::getDifficulty(int currentHeight)
 {
-    if (blockchain.size() == 0)
+    /*if (blockchain.size() == 0)
     {
         throw std::runtime_error("Blockchain is empty");
     }
@@ -119,7 +99,7 @@ int Blockchain::getDifficulty(int currentHeight)
     else
     {
         return blockchain.last()["difficulty"].toInt();
-    }
+    }*/
 
     //return QByteArray::fromHex(QString("0100000000000000000000000090000000000000000000000000000000000000").toUtf8()); 1 difficulty
     return 1;
@@ -178,11 +158,18 @@ void Blockchain::checkBlock(QJsonObject block)
         double outsum = 0;
         QJsonObject tx = txjson.toObject();
 
+        // if block reward, do not verify and check inputs
+        if (tx["type"].toInt() == 0) //block reward
+        {
+            continue;
+        }
+
         // verify tx
         if (!TransactionManager::verifyTransaction(tx))
         {
             throw std::runtime_error("Tx is not valid, so block also");
         }
+        else{qDebug() << "Tx is valid";}
 
         // check inputs
         QJsonArray inputs = tx["in"].toArray();
@@ -220,5 +207,49 @@ void Blockchain::checkBlock(QJsonObject block)
 void Blockchain::processBlock(QJsonObject block)
 {
     // если высота неподходящая, то выйти (чтобы нулевой блок несколько раз не пихать)
-    // delete in from unspent and add out into unspentd
+    if (block["height"].toInt() != height+1)
+    {
+        throw std::runtime_error("Invalid height");
+    }
+
+    // достать из блока транзакции и проверить их
+    QJsonArray array = block["txs"].toArray();
+
+    for (auto jsonval : array)
+    {
+        QJsonObject tx = jsonval.toObject();
+
+        // delete inputs from unspent
+        if (tx["type"].toInt() != 0)
+        {
+            QJsonArray inputs = tx["in"].toArray();
+
+            for (auto inputjson : inputs)
+            {
+                QJsonObject in = inputjson.toObject();
+
+                unspent[QByteArray::fromBase64(in["hash"].toString().toLatin1())].second.removeOne(in["index"].toInt());
+
+                if (unspent.value(QByteArray::fromBase64(in["hash"].toString().toLatin1())).second.isEmpty())
+                {
+                    unspent.remove(QByteArray::fromBase64(in["hash"].toString().toLatin1()));
+                }
+            }
+        }
+
+        // add outputs into unspent
+        QPair<QJsonObject, QList<int>> unspentPair;
+
+        unspentPair.first = tx;
+
+        for (int i =0; i < tx["out"].toArray().size(); i++)
+        {
+            unspentPair.second.append(i);
+        }
+
+        unspent[QByteArray::fromBase64(tx["hash"].toString().toLatin1())] = unspentPair;
+    }
+    /////
+    blockchain.append(block);
+    height++;
 }

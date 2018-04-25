@@ -109,8 +109,13 @@ void UnicornCoin::generateNewAddress(QByteArray privateKey)
     wallet->setKeys(privateKey, pubk, ad);
 
     QString add = base32::toBase32(wallet->getAddress());
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>> unsp = blockchain->getMyUnspent(add);
+    QHash<QString, QPair<QJsonObject, QList<int>>> unsp = blockchain->getMyUnspent(add);
     wallet->setUnspent(unsp);
+
+    //clear history
+
+    // set miner
+    minerManager->setMinerAddress(add);
 
     // analyze blockchain and search for amount/ouputs !!!!
 
@@ -165,7 +170,7 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
 
     //создать транзанкцию, добавить ее в unconfirmed и рассказать о ней всем
 
-    QByteArray recipientAddr;
+    /*QByteArray recipientAddr;
     try
     {
         recipientAddr = base32::fromBase32(recipient);
@@ -173,12 +178,12 @@ void UnicornCoin::createNewTransaction(QString recipient, double amount, double 
     catch(std::runtime_error ex)
     {
         throw std::runtime_error("Address is wrong, try another");
-    }
-
-    QJsonObject tx = TransactionManager::createNewTransaction(listOfOutputs, recipientAddr,
+    }*/
+    QString add = base32::toBase32(wallet->getAddress());
+    QJsonObject tx = TransactionManager::createNewTransaction(listOfOutputs, recipient,
                                                     wallet->getPrivateKey(),
                                                     wallet->getPublicKey(),
-                                                    wallet->getAddress(),
+                                                    add,
                                                     amount, fee, message);
 
     qDebug()<<"Size of tx class: "<< sizeof(tx);
@@ -251,6 +256,13 @@ void UnicornCoin::processBlock(QJsonObject block)
             wallet->setUnspent(blockchain->getMyUnspent(add));
             emit newBalance(wallet->getBalance(),0);
         }
+        QList<QJsonObject> confirmed;
+        QJsonArray blocks = block["txs"].toArray();
+        for (auto txjson : blocks)
+        {
+            confirmed.append(txjson.toObject());
+        }
+        unconfirmed->removeTransactions(confirmed);
 
         // рассказать другим
         QJsonDocument blockDoc(block);

@@ -72,7 +72,7 @@ public:
     //! \brief setUnspent
     //! \param unspent
     //!
-    void setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int> > > unspent);
+    void setUnspent(QHash<QString, QPair<QJsonObject, QList<int> > > unspent);
 
     //!
     //! \brief getHistory
@@ -142,7 +142,7 @@ private:
     QList<QJsonObject> history;
 
     //!
-    QHash<QByteArray, QPair<QJsonObject, QList<int> > > myUnspent;
+    QHash<QString, QPair<QJsonObject, QList<int> > > myUnspent;
 };
 
 #endif // WALLET_H

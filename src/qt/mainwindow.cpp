@@ -188,8 +188,9 @@ void MainWindow::on_createTransaction_clicked()
     ui->tableWidget->insertRow(0);
     ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(QString::number(wow++)));
     ui->tableWidget->setItem( 0, 1, new QTableWidgetItem(ui->addressSP->text()));
-    ui->tableWidget->setItem( 0, 2, new QTableWidgetItem(QString::number(ui->amountSP->value())));
-    ui->tableWidget->setItem( 0, 3, new QTableWidgetItem(QString::number(ui->feeSP->value())));
+    ui->tableWidget->setItem( 0, 2, new QTableWidgetItem(ui->messageSP->text()));
+    ui->tableWidget->setItem( 0, 3, new QTableWidgetItem(QString::number(ui->amountSP->value())));
+    ui->tableWidget->setItem( 0, 4, new QTableWidgetItem(QString::number(ui->feeSP->value())));
 }
 
 void MainWindow::on_addExistingAddressRP_clicked()
@@ -259,6 +260,7 @@ void MainWindow::updateAddress()
     ui->balanceAmountWP->setText(QString::number(balance));
     // unconfirmed
     // history
+    ui->tableWidget->clearContents();
 }
 
 void MainWindow::save()

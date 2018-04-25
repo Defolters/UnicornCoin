@@ -22,7 +22,7 @@ public:
     //! \return
     //!
     static QJsonObject createBlock(QString prevBlockHash,
-                                   QByteArray &minerAddress,
+                                   QString minerAddress,
                                    QList<QJsonObject> transactions,
                                    int height, int difficulty);
 
@@ -38,7 +38,7 @@ public:
     //! \param transactions List of transactions
     //! \return
     //!
-    static QByteArray getMerkleRoot(QList<QJsonObject> &transactions);
+    static QString getMerkleRoot(QList<QJsonObject> &transactions);
 
     //!
     //! \brief Method count coinbase reward for mining new block

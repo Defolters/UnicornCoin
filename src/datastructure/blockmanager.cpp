@@ -11,7 +11,7 @@
 
 
 QJsonObject BlockManager::createBlock(QString prevBlockHash,
-                                      QByteArray &minerAddress,
+                                      QString minerAddress,
                                       QList<QJsonObject> transactions,
                                       int height, int difficulty)
 {
@@ -33,8 +33,7 @@ QJsonObject BlockManager::createBlock(QString prevBlockHash,
 
     QJsonObject block;
     block["prev_block"] = prevBlockHash;
-    block["merkle_root"] = QString::fromLatin1(getMerkleRoot(transactions).toBase64());
-
+    block["merkle_root"] = getMerkleRoot(transactions);
     int time = QDateTime::currentDateTimeUtc().toTime_t();
     block["time"] = time;
     qDebug() << "currentDateTimeUtc().toTime_t()" << QDateTime::currentDateTimeUtc().toTime_t();
@@ -90,13 +89,13 @@ bool BlockManager::checkBlock(QJsonObject block)
     for (auto tx : array){
         txs.append(tx.toObject());
     }
-    QByteArray merkleRoot = getMerkleRoot(txs);
+    QString merkleRoot = getMerkleRoot(txs);
 
 
     qDebug() << "MERKLE!!!";
     qDebug() << block["merkle_root"].toString();
-    qDebug() << QString::fromLatin1(merkleRoot.toBase64());
-    if (block["merkle_root"].toString() != QString::fromLatin1(merkleRoot.toBase64()))
+    qDebug() << merkleRoot;
+    if (block["merkle_root"].toString() != merkleRoot)
     {
         throw std::runtime_error("Merkle root is not valid");
     }
@@ -126,12 +125,12 @@ bool BlockManager::checkBlock(QJsonObject block)
     return false;
 }
 
-QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
+QString BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
 {
     // check if empty
     if (transactions.isEmpty())
     {
-        return QByteArray();
+        return QString();
     }
 
     QList<QByteArray> *hashes = new QList<QByteArray>();
@@ -162,8 +161,8 @@ QByteArray BlockManager::getMerkleRoot(QList<QJsonObject> &transactions)
         hashes = temp;
     }
 
-    qDebug() << QString::fromLocal8Bit(hashes->first());
-    return hashes->first();
+    qDebug() << QString(hashes->first().toHex());
+    return QString(hashes->first().toHex());
 }
 
 double BlockManager::getCoinbaseReward(int blockchainHeight)

@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include <QPair>
 #include <QHash>
-#include <QList>
+#include <QString>
 
 /**
  * @brief The Blockchain class
@@ -38,7 +38,7 @@ public:
     //! \param address
     //! \return
     //!
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>> getMyUnspent(QString address);
+    QHash<QString, QPair<QJsonObject, QList<int>>> getMyUnspent(QString address);
 
     //!
     //! \brief Method analyses blockchain for time spent on mining and every
@@ -84,7 +84,7 @@ private:
     //QHash<QByteArray, QPair<QJsonObject, QList<int>>> myUnspent;
 
     //! <hash of tx, (tx, list of numbers of outputs)> weird thing
-    QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent;
+    QHash<QString, QPair<QJsonObject, QList<int>>> unspent;
 };
 
 #endif // BLOCKCHAIN_H

@@ -10,10 +10,9 @@ MinerManager::MinerManager(Blockchain *blockchain, UnconfirmedPool *unconfirmedP
 
 void MinerManager::setMinerAddress(QString address)
 {
-    minerAddress = QByteArray::fromBase64(address.toLatin1());
+    this->minerAddress = address;
     qDebug() << "MINERADDRESS" << address.size();
     qDebug() << minerAddress;
-    qDebug() << QString::fromLatin1(minerAddress.toBase64()).remove(QString::fromLatin1(minerAddress.toBase64()).size()-1,1);
 }
 
 void MinerManager::startMining()

@@ -42,7 +42,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="walletPage">
      <widget class="QLabel" name="walletLabel">
@@ -106,7 +106,7 @@
        <rect>
         <x>420</x>
         <y>30</y>
-        <width>351</width>
+        <width>361</width>
         <height>101</height>
        </rect>
       </property>
@@ -225,7 +225,7 @@
        <rect>
         <x>51</x>
         <y>70</y>
-        <width>79</width>
+        <width>151</width>
         <height>27</height>
        </rect>
       </property>
@@ -277,7 +277,7 @@
        <rect>
         <x>51</x>
         <y>101</y>
-        <width>114</width>
+        <width>151</width>
         <height>27</height>
        </rect>
       </property>

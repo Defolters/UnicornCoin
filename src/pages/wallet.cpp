@@ -82,7 +82,7 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
     double amountFromUnspent = 0;
 
     // hash of tx, <tx, outputs>
-    QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(myUnspent);
+    QHashIterator<QString, QPair<QJsonObject, QList<int> > > iter(myUnspent);
     while (iter.hasNext())
     {
         iter.next();
@@ -94,9 +94,10 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
             QJsonObject out;
             out["hash"] = tx["hash"];
             out["index"] = numbOfOut.at(i);
+            out["value"] = tx["out"].toArray().at(numbOfOut.at(i)).toObject()["value"].toDouble();
 //            out["script"] = ""
 
-            amountFromUnspent += tx["out"].toArray().at(numbOfOut.at(i)).toDouble();
+            amountFromUnspent += tx["out"].toArray().at(numbOfOut.at(i)).toObject()["value"].toDouble();
             listOfOutputs.append(out);
 
             if (amountFromUnspent >= amount)
@@ -111,7 +112,7 @@ QList<QJsonObject> Wallet::checkMoney(double amount) // возвращать ссылку? Удали
 
     if (amountFromUnspent < amount)
     {
-        //throw std::runtime_error("Not enough money in wallet");
+        throw std::runtime_error("Not enough money in wallet");
     }
 
     return listOfOutputs;
@@ -127,13 +128,12 @@ void Wallet::setKeys(QByteArray privateKey, QByteArray publicKey, QByteArray add
     balance = 0;
 }
 
-void Wallet::setUnspent(QHash<QByteArray, QPair<QJsonObject, QList<int>>> unspent)
+void Wallet::setUnspent(QHash<QString, QPair<QJsonObject, QList<int>>> unspent)
 {
     this->myUnspent = unspent;
     //count money
-    qDebug() << "UNSPENT" << unspent;
     balance = 0;
-    QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(unspent);
+    QHashIterator<QString, QPair<QJsonObject, QList<int> > > iter(unspent);
     while (iter.hasNext())
     {
         iter.next();

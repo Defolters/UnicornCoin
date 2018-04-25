@@ -67,7 +67,7 @@ private:
     Miner *miner;
 
     //! Address of miner
-    QByteArray minerAddress;
+    QString minerAddress;
 };
 
 #endif // MINERMANAGER_H

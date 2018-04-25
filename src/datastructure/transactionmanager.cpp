@@ -11,10 +11,10 @@
 
 
 QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
-                                                     QByteArray recipient,
+                                                     QString recipient,
                                                      QByteArray privateKey,
                                                      QByteArray publicKey,
-                                                     QByteArray address,
+                                                     QString address,
                                                      double amount, double fee,
                                                      QString message)
 {
@@ -24,8 +24,8 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     tx["message"] = message; // no more 39 char
 
     // ¬ј∆Ќјя „ј—“№ (перенести в input дл€ будущего)
-    tx["pubkey"] = QString::fromLatin1(publicKey.toBase64());
-    qDebug() << "pbkey" << QString::fromLatin1(publicKey.toBase64());
+    tx["pubkey"] = QString(publicKey.toHex());
+    qDebug() << "pbkey" << QString(publicKey.toHex());
     qDebug() << "public data key" << publicKey;
 
     QJsonArray in;
@@ -34,7 +34,8 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     {
         QJsonObject input;
         input["value"] = inputs.at(i)["value"].toInt();
-        input["pubkey"] = QString::fromLatin1(publicKey.toBase64());
+        // ничего нет
+        input["pubkey"] = QString(publicKey.toHex());
         // hash and number of output
         input["hash"] = inputs.at(i)["hash"].toString();
         input["index"] = inputs.at(i)["index"].toInt();
@@ -47,7 +48,7 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromLatin1(recipient.toBase64()).remove(QString::fromLatin1(recipient.toBase64()).size()-1,1);
+    output["recipient"] = recipient;
 
     out << output;
     // if sum of inputs > amount + fee
@@ -59,12 +60,13 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     }
 
     // остаток вернуть себе
+    QJsonObject remains;
     if (sum > (amount + fee))
     {
-        QJsonObject remains;
-        remains["value"] = sum - (amount+fee);
-        remains["recipient"] = QString::fromLatin1(address.toBase64()).remove(QString::fromLatin1(address.toBase64()).size()-1,1);
 
+        remains["value"] = sum - (amount+fee);
+        remains["recipient"] = address;
+        qDebug() << "RECIPPIENT" << address;
         out << remains;
     }
     // add in output
@@ -77,12 +79,12 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
     qDebug() << "tx dataForSig: " << txJD.toJson();
     qDebug() << "signa: " << signature;
     // in string and reverse
-    QString signastr = QString::fromLatin1(signature.toBase64());
+    QString signastr = QString(signature.toHex());
     qDebug() << "signastr: " << signastr;
-    QByteArray fromstring = QByteArray::fromBase64(signastr.toLatin1());
+    QByteArray fromstring = QByteArray::fromHex(signastr.toUtf8());
     qDebug() << "fromstring: " << fromstring;
 
-    tx["signature"] = QString::fromLatin1(signature.toBase64());
+    tx["signature"] = QString(signature.toHex());
 
 
     qDebug() << tx;
@@ -95,13 +97,13 @@ QJsonObject TransactionManager::createNewTransaction(QList<QJsonObject> inputs,
 
     QJsonDocument txret(tx);
     QByteArray hash = QCryptographicHash::hash(txret.toJson(), QCryptographicHash::Sha3_256);
-    qDebug() << QString::fromLatin1(hash.toBase64());
-    tx["hash"] = QString::fromLatin1(hash.toBase64());
+    qDebug() << "HASHOFTX!!!!!!"<<QString(hash.toHex());
+    tx["hash"] = QString(hash.toHex());
 
     return tx;
 }
 
-QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient, double amount)
+QJsonObject TransactionManager::createCoinbaseTransaction(QString recipient, double amount)
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -117,12 +119,12 @@ QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient,
     QJsonArray out;
     QJsonObject output;
     output["value"] = amount;
-    output["recipient"] = QString::fromLatin1(recipient.toBase64()).remove(QString::fromLatin1(recipient.toBase64()).size()-1,1);
+    output["recipient"] = recipient;
     out << output;
 
     tx["out"] = out;
 
-    qDebug() << "MINERADDRESS TXMANAGER" << QString::fromLatin1(recipient.toBase64()).remove(QString::fromLatin1(recipient.toBase64()).size()-1,1);
+    qDebug() << "MINERADDRESS TXMANAGER" << recipient;
 
     QJsonDocument txJD(tx);
 
@@ -130,19 +132,19 @@ QJsonObject TransactionManager::createCoinbaseTransaction(QByteArray &recipient,
     qDebug() << "tx dataForSig: " << txJD.toJson();
     qDebug() << "signa: " << signature;
     // in string and reverse
-    QString signastr = QString::fromLatin1(signature.toBase64());
+    QString signastr = QString(signature.toHex());
     qDebug() << "signastr: " << signastr;
-    QByteArray fromstring = QByteArray::fromBase64(signastr.toLatin1());
+    QByteArray fromstring = QByteArray::fromHex(signastr.toUtf8());
     qDebug() << "fromstring: " << fromstring;
 
-    tx["signature"] = QString::fromLatin1(signature.toBase64());
+    tx["signature"] = QString(signature.toHex());
 
 
 
     QJsonDocument txret(tx);
     QByteArray hash = QCryptographicHash::hash(txret.toJson(), QCryptographicHash::Sha3_256);
-    qDebug() << QString::fromLatin1(hash.toBase64());
-    tx["hash"] = QString::fromLatin1(hash.toBase64());
+    qDebug() << QString(hash.toHex());
+    tx["hash"] = QString(hash.toHex());
 
     return tx;
 }
@@ -207,10 +209,10 @@ bool TransactionManager::verifyTransaction(QJsonObject tx)
     //QJsonDocument txJD(txForVerifying);
 
     // получаем сигнатуру из транзакции
-    QByteArray signature = QByteArray::fromBase64(tx["signature"].toString().toLatin1());
+    QByteArray signature = QByteArray::fromHex(tx["signature"].toString().toUtf8());
     qDebug() << "verify signa: " << signature;
     // получаем публичный ключ
-    QByteArray pubKey = QByteArray::fromBase64(tx["pubkey"].toString().toLatin1());
+    QByteArray pubKey = QByteArray::fromHex(tx["pubkey"].toString().toUtf8());
     qDebug() << "verify pub: " << pubKey;
     // копируем транзакцию
     QJsonObject txForVerifying = tx;

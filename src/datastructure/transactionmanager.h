@@ -24,10 +24,10 @@ public:
     //! \return QJsonObject with 6-7 fields
     //!
     static QJsonObject createNewTransaction(QList<QJsonObject> inputs,
-                                            QByteArray recipient,
+                                            QString recipient,
                                             QByteArray privateKey,
                                             QByteArray publicKey,
-                                            QByteArray address,
+                                            QString address,
                                             double amount, double fee,
                                             QString message);
 
@@ -37,7 +37,7 @@ public:
     //! \param amount
     //! \return
     //!
-    static QJsonObject createCoinbaseTransaction(QByteArray &recipient,
+    static QJsonObject createCoinbaseTransaction(QString recipient,
                                                  double amount);
 
     //! \brief Method signs the transaction

@@ -40,12 +40,12 @@ void Blockchain::save()
     //! Saves blockchain (info+hashes), blocks and unspent into file
 }
 
-QHash<QByteArray, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QString address)
+QHash<QString, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QString address)
 {
     // hash of tx, <tx, my outputs>
-    QHash<QByteArray, QPair<QJsonObject, QList<int> > > myUnspent;
+    QHash<QString, QPair<QJsonObject, QList<int> > > myUnspent;
 
-    QHashIterator<QByteArray, QPair<QJsonObject, QList<int> > > iter(unspent);
+    QHashIterator<QString, QPair<QJsonObject, QList<int> > > iter(unspent);
     while (iter.hasNext())
     {
         iter.next();
@@ -177,7 +177,9 @@ void Blockchain::checkBlock(QJsonObject block)
         for (auto injson : inputs)
         {
             QJsonObject in = injson.toObject();
-            QByteArray hash = QByteArray::fromBase64(in["hash"].toString().toLatin1());
+//            QByteArray hash = QByteArray::fromBase64(in["hash"].toString().toLatin1());
+            QString hash = in["hash"].toString();
+
             int index = in["index"].toInt();
 
             // есть ли вообще такой хэш
@@ -228,11 +230,11 @@ void Blockchain::processBlock(QJsonObject block)
             {
                 QJsonObject in = inputjson.toObject();
 
-                unspent[QByteArray::fromBase64(in["hash"].toString().toLatin1())].second.removeOne(in["index"].toInt());
+                unspent[in["hash"].toString()].second.removeOne(in["index"].toInt());
 
-                if (unspent.value(QByteArray::fromBase64(in["hash"].toString().toLatin1())).second.isEmpty())
+                if (unspent.value(in["hash"].toString()).second.isEmpty())
                 {
-                    unspent.remove(QByteArray::fromBase64(in["hash"].toString().toLatin1()));
+                    unspent.remove(in["hash"].toString());
                 }
             }
         }
@@ -247,7 +249,8 @@ void Blockchain::processBlock(QJsonObject block)
             unspentPair.second.append(i);
         }
 
-        unspent[QByteArray::fromBase64(tx["hash"].toString().toLatin1())] = unspentPair;
+        unspent[tx["hash"].toString()] = unspentPair;
+        qDebug() << "HASH of tx" << tx["hash"].toString();
     }
     /////
     blockchain.append(block);

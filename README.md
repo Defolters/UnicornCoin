@@ -46,4 +46,11 @@ Coursework. Simple implementation of peer-to-peer payment system.
 - [x] Write network part
 - [x] Write miner part
 ## Screenshots
--*
+### Wallet page
+![image](https://github.com/Defolters/UnicornCoin/blob/master/screenshots/wallet.png "Wallet")
+### Send page
+![image](https://github.com/Defolters/UnicornCoin/blob/master/screenshots/send.png "Wallet")
+### History page
+![image](https://github.com/Defolters/UnicornCoin/blob/master/screenshots/history.png "Wallet")
+### Network page
+![image](https://github.com/Defolters/UnicornCoin/blob/master/screenshots/network.png "Wallet")

@@ -4,12 +4,14 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 
 
 ## Content
-- [What is it](#%D0%A7%D1%82%D0%BE-%D1%8D%D1%82%D0%BE)
-- [Tools](#%D0%A7%D1%82%D0%BE-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B5%D1%82%D1%81%D1%8F)
-- [What should I do](#%D0%A7%D1%82%D0%BE-%D0%BD%D1%83%D0%B6%D0%BD%D0%BE-%D1%81%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C)
+- [What is it](#what-is-it)
+- [What I've learnt](#what-ive-learnt)
+- [Dependencies](#dependencies)
+- [What should I do](#what-should-i-do)
+- [Screenshots](#screenshots)
 
 ## What is it
-## Tools
+Coursework. Simple implementation of peer-to-peer payment system. 
 ## What I've learnt
 * Look at markdown
 * Learn git from console
@@ -32,8 +34,6 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 - git merge branch origin/branch
 * Break hands with the help of C++
 * Build bicycle
-
-## Installing
 ## Dependencies
 - Cryptop
 - Qt
@@ -41,7 +41,9 @@ NEW LOVELY CRYPTOCURRENCY WHICH WILL REPLACE OTHER CRYPTOCOINS (actually not)
 - [x] Create repository
 - [x] Start working
 - [x] Create main window and some design for GUI 
-- [ ] Write crypto part
-- [ ] Write data part
+- [x] Write crypto part
+- [x] Write data part
 - [x] Write network part
-- [ ] Write miner part
+- [x] Write miner part
+## Screenshots
+-*

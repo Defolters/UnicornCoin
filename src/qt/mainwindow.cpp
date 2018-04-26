@@ -8,6 +8,7 @@
 #include <QTcpSocket>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -175,6 +176,15 @@ void MainWindow::on_createTransaction_clicked()
     {
         uniCoin.createNewTransaction(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value(), ui->messageSP->text());
         QMessageBox::information(this, "INFO", QString("Transanction was created"));
+
+        QDateTime dt = QDateTime::currentDateTime();
+        qDebug() << "DATA"<< dt.toString(QString("dd.MM.yyyy"));
+        ui->tableWidget->insertRow(0);
+        ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(dt.toString("dd.MM.yyyy"))); // add data
+        ui->tableWidget->setItem( 0, 1, new QTableWidgetItem(ui->addressSP->text()));
+        ui->tableWidget->setItem( 0, 2, new QTableWidgetItem(ui->messageSP->text()));
+        ui->tableWidget->setItem( 0, 3, new QTableWidgetItem(QString::number(ui->amountSP->value())));
+        ui->tableWidget->setItem( 0, 4, new QTableWidgetItem(QString::number(ui->feeSP->value())));
     }
     catch (std::runtime_error ex)
     {
@@ -187,12 +197,7 @@ void MainWindow::on_createTransaction_clicked()
         exit(1);
     }
 
-    ui->tableWidget->insertRow(0);
-    ui->tableWidget->setItem( 0, 0, new QTableWidgetItem(QString::number(wow++))); // add data
-    ui->tableWidget->setItem( 0, 1, new QTableWidgetItem(ui->addressSP->text()));
-    ui->tableWidget->setItem( 0, 2, new QTableWidgetItem(ui->messageSP->text()));
-    ui->tableWidget->setItem( 0, 3, new QTableWidgetItem(QString::number(ui->amountSP->value())));
-    ui->tableWidget->setItem( 0, 4, new QTableWidgetItem(QString::number(ui->feeSP->value())));
+
 }
 
 void MainWindow::on_addExistingAddressRP_clicked()

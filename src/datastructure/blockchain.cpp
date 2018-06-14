@@ -6,14 +6,7 @@
 #include <QJsonObject>
 #include <QDebug>
 
-Blockchain::Blockchain() : height (-1)
-{
-
-   /*QJsonObject debugBlock;
-   debugBlock["hash"] = "00000000000000000021cee1e8097955acd09dddf9743e66cb0bb4a4de07fff2";
-
-   blockchain.append(debugBlock);*/
-}
+Blockchain::Blockchain() : height (-1) {}
 
 void Blockchain::addBlock(QJsonObject block)
 {
@@ -75,10 +68,7 @@ QHash<QString, QPair<QJsonObject, QList<int> > > Blockchain::getMyUnspent(QStrin
             pair.second = numberOfOutputs;
             myUnspent[iter.key()] = pair;
         }
-        //cout << i.key() << ": " << i.value() << endl;
-
     }
-    qDebug() << "MOIUNSPENT" << myUnspent;
     return myUnspent;
 }
 

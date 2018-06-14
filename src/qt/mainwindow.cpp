@@ -170,8 +170,6 @@ void MainWindow::on_generateNewAddressRP_clicked()
 
 void MainWindow::on_createTransaction_clicked()
 {
-    //Transaction tx(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value());
-
     try
     {
         uniCoin.createNewTransaction(ui->addressSP->text(), ui->amountSP->value(), ui->feeSP->value(), ui->messageSP->text());

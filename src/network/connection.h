@@ -9,8 +9,6 @@
 
 #include "utils/datatype.h"
 
-//static const int MaxBufferSize = 1024000;  //!<
-
 /**
  * \brief The Connection class connects to ports and sends/recieves data
  *

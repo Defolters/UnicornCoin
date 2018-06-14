@@ -121,7 +121,6 @@ public:
     void load();
 
 signals:
-    // Wallet
     //!
     //! \brief newBalance
     //! \param balance
@@ -129,53 +128,26 @@ signals:
     //!
     void newBalance(double balance, double unconfirmed);
 
-    // Recieve
     //!
     //! \brief newAddress
     //!
     void newAddress();
 
-    // history
     //!
     //! \brief newHistory
     //!
     void newHistory();
 
-    //miner
-    // database
     //!
     //! \brief newBlock
     //!
     void newBlock(); // it also contains txs
 
-    // network
     //!
     //! \brief newState
     //!
     void newState();
 
-/*
-Wallet:
-    Balance
-    Unconfirmed
-Send:
-    Create tx
-    (if error)
-Recieve:
-    My address
-    add new address
-    generate new address
-History:
-    list of txs with my address
-Miner:
-    ...
-Database:
-    list of txs and blocks
-Network:
-    state of network
-    connect to new Node
-    (for testing ) send message
-*/
 public slots:
     //!
     //! \brief Slot processes block
@@ -229,21 +201,3 @@ private:
 };
 
 #endif // UNICORNCOIN_H
-
-/*
-ЗАДАЧИ:
-дописать транзакции
-сделать транзакции как у людей, с ссылкой на хэш и output, а то подтвреждать неудобно будет !!!
-проверять ключи с помощью from32, когда вводят адрес или приватный ключ
-кнопка сохранения адресов в clipboard
-окно add existing key
-*/
-
-/*
- * https://royalforkblog.github.io/2014/08/11/graphical-address-generator/#hello
- * privateKey = ''.join(['%x' % random.randrange(16) for x in range(0, 64)]) or hash256(passphrase)
- * secretKey = ecdsa.SigningKey.from_string(privateKey.decode('hex'), curve=ecdsa.SECP256k1)
- * verifyingKey = secretKey.VerifyingKey.toString().encode('hex')
- * publicKey = verifyingKey
- * address = BASE58(RIPEMD160(SHA256(publicKey)))
-*/

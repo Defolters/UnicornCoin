@@ -12,42 +12,18 @@ UnicornCoin::UnicornCoin(QObject *parent) :
     wallet->load();
     minerManager = new MinerManager(blockchain, unconfirmed);
     minerManager->setMinerAddress(QString("59ADCRSEDPT6JMRSUI3F6FWNVM63P9P7ZKMGICI"));
-    // CREATE FIRST BLOCK BY HAND AND PUT IT INTO BLOCKCHAIN
-    /*QJsonObject block;
 
-    QByteArray recipient = QByteArray::fromBase64(QString("59ADCRSEDPT6JMRSUI3F6FWNVM63P9P7ZKMGICI").toLatin1());
-    QList<QJsonObject> list;
-
-    block = BlockManager::createBlock(blockchain->getBlockHash(-1),
-                                                  recipient,
-                                                  list,
-                                                  -1,
-                                                  1);
-
-    block["time"] = 1500000000;
-
-    Miner *m_miner = new Miner(block);
-
-    connect(m_miner, SIGNAL(newBlock(QJsonObject)),
-            this, SLOT(processBlock(QJsonObject)));
-
-    m_miner->moveToThread(m_miner);
-    m_miner->start();
-*/
     QJsonObject block;
     QJsonDocument blockdoc;
 
     QFile file("block0.dat");
     if(file.open(QIODevice::ReadOnly)){
         qDebug() << "\nReading from file..";
-        //qDebug() << file.readAll();
-//        QByteArray json = file.readAll();
-//        qDebug() << json;
+
         QString in = file.readAll();
         QByteArray json = in.toUtf8();
         blockdoc = QJsonDocument::fromJson(json);
-//        blockdoc.fromJson(json);
-//        qDebug() << blockdoc.toJson();
+
         block = blockdoc.object();
         qDebug() << block;
         processBlock(block);

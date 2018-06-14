@@ -148,34 +148,3 @@ private:
 };
 
 #endif // WALLET_H
-//https://en.bitcoin.it/wiki/Wallet_encryption
-// encrypt wallet (file/data)
-/*
-std::string EncryptString(const char *instr, const char *passPhrase)
-{
-    std::string outstr;
-
-    DefaultEncryptorWithMAC encryptor(passPhrase, new HexEncoder(new StringSink(outstr)));
-    encryptor.Put((byte *)instr, strlen(instr));
-    encryptor.MessageEnd();
-
-    return outstr;
-}
-
-std::string DecryptString(const char *instr, const char *passPhrase)
-{
-    std::string outstr;
-
-    HexDecoder decryptor(new DefaultDecryptorWithMAC(passPhrase, new StringSink(outstr)));
-    decryptor.Put((byte *)instr, strlen(instr));
-    decryptor.MessageEnd();
-
-    return outstr;
-}
-https://stackoverflow.com/questions/5415752/how-to-save-string-username-password-in-encrypted-form-in-database-and-decryp
-https://gist.github.com/VaTz88/750007588adf8c26a98ad428249351ba
-https://stackoverflow.com/questions/2570679/serialization-with-qt
-http://doc.qt.io/qt-5/qdatastream.html
-http://doc.qt.io/archives/qt-4.8/datastreamformat.html
-*/
-
